@@ -1,10 +1,13 @@
 import { resolve } from 'path';
 import Fastify from 'fastify';
 import FastifySwagger from 'fastify-swagger';
+import FastifySensible from 'fastify-sensible';
 import { userRouter } from './resources/users/user.router.js';
 import { ROOT_PATH } from '../root.js';
 
 export const app = Fastify({ logger: true });
+
+app.register(FastifySensible);
 
 app.get('/', async () => 'Service is running on Fastify!');
 
