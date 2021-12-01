@@ -23,6 +23,8 @@
     "prettier"
   ],
   "rules": {
+    "no-console": "off",
+    "no-bitwise": "off",
     "linebreak-style": "off",
     "no-underscore-dangle": "off",
     "no-use-before-define": ["error", { "functions": false }],
