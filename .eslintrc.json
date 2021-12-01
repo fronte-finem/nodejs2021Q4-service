@@ -23,10 +23,11 @@
     "prettier"
   ],
   "rules": {
-    "import/extensions": "off",
     "linebreak-style": "off",
-    "node/no-unsupported-features/es-syntax": "off",
     "no-underscore-dangle": "off",
-    "import/prefer-default-export": "off"
+    "no-use-before-define": ["error", { "functions": false }],
+    "import/extensions": "off",
+    "import/prefer-default-export": "off",
+    "node/no-unsupported-features/es-syntax": "off"
   }
 }
