@@ -1,12 +1,12 @@
 {
-  "name": "rs-rest-service-starter",
+  "name": "nodejs-2021q4-service",
   "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": ""
   },
-  "type": "commonjs",
-  "description": "REST service starter for RS School",
+  "type": "module",
+  "description": "REST service — education project from RS School for course Nodejs 2021Q4",
   "main": "src/server.js",
   "scripts": {
     "start": "nodemon src/server.js",
@@ -46,10 +46,9 @@
   "dependencies": {
     "cross-env": "7.0.3",
     "dotenv": "10.0.0",
-    "express": "4.17.1",
-    "swagger-ui-express": "4.1.6",
-    "uuid": "8.3.2",
-    "yamljs": "0.3.0"
+    "fastify": "^3.24.1",
+    "fastify-swagger": "^4.12.6",
+    "uuid": "8.3.2"
   },
   "devDependencies": {
     "chai": "4.3.4",

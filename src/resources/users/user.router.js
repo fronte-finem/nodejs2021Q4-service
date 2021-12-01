@@ -1,11 +1,14 @@
-const router = require('express').Router();
-const User = require('./user.model');
-const usersService = require('./user.service');
+import { User } from './user.model.js';
 
-router.route('/').get(async (req, res) => {
-  const users = await usersService.getAll();
-  // map user fields to exclude secret fields like "password"
-  res.json(users.map(User.toResponse));
-});
+import { usersService } from './user.service.js';
 
-module.exports = router;
+/**
+ * @type { import('fastify').FastifyPluginAsync }
+ */
+export const userRouter = async (fastify) => {
+  fastify.get('/', async (request, reply) => {
+    const users = await usersService.getAll();
+    // map user fields to exclude secret fields like "password"
+    reply.send(users.map(User.toResponse));
+  });
+};
