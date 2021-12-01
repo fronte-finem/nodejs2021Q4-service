@@ -1,12 +1,12 @@
 {
-  "name": "rs-rest-service-starter",
+  "name": "nodejs-2021q4-service",
   "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": ""
   },
-  "type": "commonjs",
-  "description": "REST service starter for RS School",
+  "type": "module",
+  "description": "REST service — education project from RS School for course Nodejs 2021Q4",
   "main": "src/server.js",
   "scripts": {
     "start": "nodemon src/server.js",
