@@ -1,0 +1,36 @@
+components:
+  schemas:
+
+    Column:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        order:
+          type: integer
+
+    ColumnCreate:
+      type: object
+      properties:
+        title:
+          type: string
+        order:
+          type: integer
+      required:
+        - title
+        - order
+
+    ColumnUpdate:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        order:
+          type: integer
+      required:
+        - title
+        - order

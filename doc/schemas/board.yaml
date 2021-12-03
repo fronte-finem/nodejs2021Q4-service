@@ -1,0 +1,41 @@
+components:
+  schemas:
+
+    Board:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        columns:
+          type: array
+          items:
+            description: Column
+            $ref: './column.yaml#components/schemas/Column'
+
+    BoardCreate:
+      type: object
+      properties:
+        title:
+          type: string
+        columns:
+          type: array
+          items:
+            $ref: './column.yaml#components/schemas/ColumnCreate'
+      required:
+        - title
+        - columns
+
+    BoardUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        columns:
+          type: array
+          items:
+            $ref: './column.yaml#components/schemas/ColumnUpdate'
+      required:
+        - title
+        - columns

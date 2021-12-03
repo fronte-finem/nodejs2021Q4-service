@@ -10,45 +10,31 @@ servers:
 components:
   schemas:
     User:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        login:
-          type: string
+      $ref: "./schemas/user.yaml#/components/schemas/User"
+    UserCreate:
+      $ref: "./schemas/user.yaml#/components/schemas/UserCreate"
+    UserUpdate:
+      $ref: "./schemas/user.yaml#/components/schemas/UserUpdate"
+    UserLogin:
+      $ref: "./schemas/user.yaml#/components/schemas/UserLogin"
     Board:
-      properties:
-        id:
-          type: string
-        title:
-          type: string
-        columns:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-              title:
-                type: string
-              order:
-                type: integer
+      $ref: "./schemas/board.yaml#/components/schemas/Board"
+    BoardCreate:
+      $ref: "./schemas/board.yaml#/components/schemas/BoardCreate"
+    BoardUpdate:
+      $ref: "./schemas/board.yaml#/components/schemas/BoardUpdate"
+    Column:
+      $ref: "./schemas/column.yaml#/components/schemas/Column"
+    ColumnCreate:
+      $ref: "./schemas/column.yaml#/components/schemas/ColumnCreate"
+    ColumnUpdate:
+      $ref: "./schemas/column.yaml#/components/schemas/ColumnUpdate"
     Task:
-      required:
-        - title
-      properties:
-        id:
-          type: string
-        title:
-          type: string
-        order:
-          type: number
-        description:
-          type: string
-        userId:
-          type: string
+      $ref: "./schemas/task.yaml#/components/schemas/Task"
+    TaskCreate:
+      $ref: "./schemas/task.yaml#/components/schemas/TaskCreate"
+    TaskUpdate:
+      $ref: "./schemas/task.yaml#/components/schemas/TaskUpdate"
   responses:
     UnauthorizedError:
       description: Access token is missing or invalid
@@ -89,20 +75,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              title: example
-              properties:
-                name:
-                  type: string
-                  description: The user's name
-                login:
-                  type: string
-                  description: The user's login
-                password:
-                  type: string
-                  description: The user's password
-              required:
-                - name
+              $ref: "#/components/schemas/UserCreate"
       responses:
         201:
           description: The user has been created.
@@ -148,20 +121,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              title: example
-              properties:
-                name:
-                  type: string
-                  description: The user's name
-                login:
-                  type: string
-                  description: The user's login
-                password:
-                  type: string
-                  description: The user's password
-              required:
-                - name
+              $ref: "#/components/schemas/UserUpdate"
       responses:
         200:
           description: The user has been updated.
@@ -214,28 +174,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              title: example
-              properties:
-                title:
-                  type: string
-                  description: The board's name
-                columns:
-                  type: array
-                  description: The board's column list
-                  items:
-                    type: object
-                    properties:
-                      title:
-                        type: string
-                      order:
-                        type: integer
-                  required:
-                    - title
-                    - order
-              required:
-                - title
-                - columns
+              $ref: "#/components/schemas/BoardCreate"
       responses:
         201:
           description: The board has been created.
@@ -280,32 +219,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              title: example
-              properties:
-                title:
-                  type: string
-                  description: The board's name
-                columns:
-                  type: array
-                  description: The board's column list
-                  items:
-                    type: object
-                    properties:
-                      id:
-                        type: string
-                        description: column's id
-                      title:
-                        type: string
-                        description: column's title
-                      order:
-                        type: integer
-                  required:
-                    - title
-                    - order
-              required:
-                - title
-                - columns
+              $ref: "#/components/schemas/BoardUpdate"
       responses:
         200:
           description: The board has been updated.
@@ -366,31 +280,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              title: example
-              properties:
-                title:
-                  type: string
-                  description: The task's title
-                order:
-                  type: integer
-                  description: The task's order
-                description:
-                  type: string
-                userId:
-                  type: string
-                  description: The task's Assignee
-                boardId:
-                  type: string
-                  description: Board ID
-                columnId:
-                  type: string
-                  description: Column ID
-              required:
-                - title
-                - order
-                - boardId
-                - columnId
+              $ref: "#/components/schemas/TaskCreate"
       responses:
         201:
           description: The task has been created.
@@ -439,30 +329,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              title: example
-              properties:
-                title:
-                  type: string
-                  description: The task's title
-                order:
-                  type: integer
-                  description: The task's order
-                description:
-                  type: string
-                userId:
-                  type: string
-                  description: The task's Assignee
-                boardId:
-                  type: string
-                  description: Board ID
-                columnId:
-                  type: string
-                  description: Column ID
-              required:
-                - order
-                - boardId
-                - columnId
+              $ref: "#/components/schemas/TaskUpdate"
       responses:
         200:
           description: The task has been updated.
@@ -501,18 +368,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              title: example
-              properties:
-                login:
-                  type: string
-                  description: Username
-                password:
-                  type: string
-                  description: Password
-              required:
-                - user
-                - login
+              $ref: "#/components/schemas/UserLogin"
       responses:
         200:
           description: Successful login.

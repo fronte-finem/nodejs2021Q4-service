@@ -1,0 +1,47 @@
+components:
+  schemas:
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        login:
+          type: string
+
+    UserCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        login:
+          type: string
+        password:
+          type: string
+      required:
+        - name
+
+    UserUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        login:
+          type: string
+        password:
+          type: string
+      required:
+        - name
+
+    UserLogin:
+      type: object
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+      required:
+        - user
+        - login
