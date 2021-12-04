@@ -1,4 +1,5 @@
 import S from 'fluent-json-schema';
+import { makeHttpErrorResponse } from './response.js';
 
 const HttpErrorField = Object.freeze({
   STATUS_CODE: 'statusCode',
@@ -15,19 +16,12 @@ export const HttpErrorSchema = S.object()
   .prop(HttpErrorField.ERROR, S.string().required())
   .prop(HttpErrorField.MESSAGE, S.string().required());
 
-const makeHttpErrorResponse = (statusCode, description) =>
-  Object.freeze({
-    [statusCode]: Object.freeze({
-      description,
-      $ref: HttpErrorSchemaID,
-    }),
-  });
-
 export const HttpErrorResponse = Object.freeze({
-  BAD_REQUEST: makeHttpErrorResponse(400, 'Bad request'),
+  BAD_REQUEST: makeHttpErrorResponse(HttpErrorSchemaID, 400, 'Bad request'),
   UNAUTHORIZED: makeHttpErrorResponse(
+    HttpErrorSchemaID,
     401,
     'Access token is missing or invalid'
   ),
-  NOT_FOUND: makeHttpErrorResponse(404, 'Not found'),
+  NOT_FOUND: makeHttpErrorResponse(HttpErrorSchemaID, 404, 'Not found'),
 });
