@@ -1,23 +1,19 @@
-import { UserSchemaRef } from '../user.schema.js';
+import { UserSchemaID } from '../user.schema.js';
 import { usersService } from '../user.service.js';
-import { User } from '../user.model.js';
 import { HttpErrorResponse } from '../../../common/http-error.schema.js';
+import { makeSuccessfulResponse } from '../../../common/response.js';
+import { makeUuidRequestParams } from '../../../common/request.js';
 
-export const getByIdController = {
+export const readByIdController = ($userId) => ({
   schema: {
     summary: 'Get user by ID',
     description: 'Gets a user by ID',
     tags: ['Users'],
     params: {
-      type: 'object',
-      properties: {
-        id: { type: 'string', format: 'uuid' },
-      },
-      required: ['id'],
-      additionalProperties: false,
+      ...makeUuidRequestParams([$userId]),
     },
     response: {
-      200: UserSchemaRef.READ,
+      ...makeSuccessfulResponse(UserSchemaID.READ),
       ...HttpErrorResponse.BAD_REQUEST,
       ...HttpErrorResponse.UNAUTHORIZED,
       ...HttpErrorResponse.NOT_FOUND,
@@ -29,12 +25,12 @@ export const getByIdController = {
    * @return { Promise<void> }
    */
   async handler(request, reply) {
-    const { id } = request.params;
-    const maybeUser = await usersService.getById(id);
+    const userId = request.params[$userId];
+    const maybeUser = await usersService.getById(userId);
     if (!maybeUser) {
-      reply.notFound(`User with id [${id}] not found!`);
+      reply.notFound(`User with id [${userId}] not found!`);
     } else {
-      reply.send(User.toResponse(maybeUser));
+      reply.send(maybeUser);
     }
   },
-};
+});
