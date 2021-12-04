@@ -2,12 +2,13 @@ import { usersService } from '../user.service.js';
 import { UserSchemaID } from '../user.schema.js';
 import { HttpErrorResponse } from '../../../common/http-error.schema.js';
 import { makeSuccessfulArrayResponse } from '../../../common/response.js';
+import { ApiEndpointTag } from '../../../common/constants.js';
 
 export const readController = () => ({
   schema: {
     summary: 'Get all users',
     description: 'Gets all users (remove password from response)',
-    tags: ['Users'],
+    tags: [ApiEndpointTag.USERS],
     response: {
       ...makeSuccessfulArrayResponse(UserSchemaID.READ),
       ...HttpErrorResponse.UNAUTHORIZED,

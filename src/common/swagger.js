@@ -2,6 +2,7 @@
 import FastifySwagger from 'fastify-swagger';
 // import { ROOT_PATH } from '../../root.js';
 import { addSchemas } from './schemas.js';
+import { ApiEndpointTag } from './constants.js';
 
 export const registerSwagger = (app) => {
   addSchemas(app);
@@ -16,7 +17,7 @@ export const registerSwagger = (app) => {
         version: '1.0.0',
       },
       servers: [{ url: 'http://localhost' }],
-      tags: ['Users', 'Boards', 'Tasks', 'Login'],
+      tags: Object.values(ApiEndpointTag),
       components: {
         responses: {},
       },

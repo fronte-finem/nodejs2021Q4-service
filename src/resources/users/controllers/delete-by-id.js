@@ -3,13 +3,14 @@ import { HttpStatusCode } from '../../../common/http-constants.js';
 import { HttpErrorResponse } from '../../../common/http-error.schema.js';
 import { makeSuccessfulEmptyResponse } from '../../../common/response.js';
 import { makeUuidRequestParams } from '../../../common/request.js';
+import { ApiEndpointTag } from '../../../common/constants.js';
 
 export const deleteByIdController = ($userId) => ({
   schema: {
     summary: 'Delete user',
     description:
       'Deletes user by ID. When somebody\n DELETE User, all Tasks where User is assignee\n should be updated to put userId = null',
-    tags: ['Users'],
+    tags: [ApiEndpointTag.USERS],
     params: { ...makeUuidRequestParams([$userId]) },
     response: {
       ...makeSuccessfulEmptyResponse(

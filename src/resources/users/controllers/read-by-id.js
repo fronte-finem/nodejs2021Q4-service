@@ -3,12 +3,13 @@ import { usersService } from '../user.service.js';
 import { HttpErrorResponse } from '../../../common/http-error.schema.js';
 import { makeSuccessfulResponse } from '../../../common/response.js';
 import { makeUuidRequestParams } from '../../../common/request.js';
+import { ApiEndpointTag } from '../../../common/constants.js';
 
 export const readByIdController = ($userId) => ({
   schema: {
     summary: 'Get user by ID',
     description: 'Gets a user by ID',
-    tags: ['Users'],
+    tags: [ApiEndpointTag.USERS],
     params: {
       ...makeUuidRequestParams([$userId]),
     },

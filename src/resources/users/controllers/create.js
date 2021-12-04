@@ -3,12 +3,13 @@ import { UserSchemaID, UserSchemaRef } from '../user.schema.js';
 import { HttpStatusCode } from '../../../common/http-constants.js';
 import { HttpErrorResponse } from '../../../common/http-error.schema.js';
 import { makeSuccessfulResponse } from '../../../common/response.js';
+import { ApiEndpointTag } from '../../../common/constants.js';
 
 export const createController = () => ({
   schema: {
     summary: 'Create user',
     description: 'Creates a new user (remove password from response)',
-    tags: ['Users'],
+    tags: [ApiEndpointTag.USERS],
     body: UserSchemaRef.CREATE,
     response: {
       ...makeSuccessfulResponse(

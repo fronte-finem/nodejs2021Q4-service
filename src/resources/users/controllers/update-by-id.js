@@ -4,12 +4,13 @@ import { HttpStatusCode } from '../../../common/http-constants.js';
 import { HttpErrorResponse } from '../../../common/http-error.schema.js';
 import { makeSuccessfulResponse } from '../../../common/response.js';
 import { makeUuidRequestParams } from '../../../common/request.js';
+import { ApiEndpointTag } from '../../../common/constants.js';
 
 export const updateByIdController = ($userId) => ({
   schema: {
     summary: 'Update a user',
     description: 'Updates a user by ID',
-    tags: ['Users'],
+    tags: [ApiEndpointTag.USERS],
     params: {
       ...makeUuidRequestParams([$userId]),
     },
