@@ -1,6 +1,3 @@
-// TODO: mock implementation. should be replaced during task development
-import { User } from './user.model.js';
-
 class UserMemoryRepository {
   /**
    * @type { Map<string, User> }
@@ -19,8 +16,7 @@ class UserMemoryRepository {
    * @return { Promise<User | undefined> }
    */
   async getById(id) {
-    const maybeUser = this.#store.get(id);
-    return maybeUser && new User(maybeUser);
+    return this.#store.get(id);
   }
 
   /**
@@ -29,6 +25,25 @@ class UserMemoryRepository {
    */
   async create(user) {
     this.#store.set(user.id, user);
+    return user;
+  }
+
+  /**
+   * @param { string } id
+   * @return { Promise<boolean> }
+   */
+  async delete(id) {
+    return this.#store.delete(id);
+  }
+
+  /**
+   @param { string } id
+   @param { User } user
+   @return { Promise<User | undefined> }
+   */
+  async update(id, user) {
+    if (!this.#store.has(id)) return undefined;
+    this.#store.set(id, user);
     return user;
   }
 }
