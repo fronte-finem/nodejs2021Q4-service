@@ -1,4 +1,5 @@
 import S from 'fluent-json-schema';
+import { foreignKey, uuidKey } from '../../common/schemas.types.js';
 
 const TaskField = Object.freeze({
   ID: 'id',
@@ -15,9 +16,6 @@ export const TaskSchemaID = Object.freeze({
   CREATE: 'TaskCreate',
   UPDATE: 'TaskUpdate',
 });
-
-const uuidKey = S.string().format('uuid');
-const foreignKey = uuidKey.raw({ nullable: true });
 
 const TaskBaseSchema = S.object()
   .id(TaskSchemaID.READ)

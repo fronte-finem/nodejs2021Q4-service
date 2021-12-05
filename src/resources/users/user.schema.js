@@ -1,4 +1,5 @@
 import S from 'fluent-json-schema';
+import { uuidKey } from '../../common/schemas.types.js';
 
 const UserField = Object.freeze({
   ID: 'id',
@@ -14,7 +15,7 @@ const createFields = [UserField.NAME, UserField.LOGIN, UserField.PASSWORD];
 const UserBaseSchema = S.object()
   .id('UserBase')
   .additionalProperties(false)
-  .prop(UserField.ID, S.string().format('uuid'))
+  .prop(UserField.ID, uuidKey)
   .prop(UserField.NAME, S.string())
   .prop(UserField.LOGIN, S.string())
   .prop(UserField.PASSWORD, S.string());

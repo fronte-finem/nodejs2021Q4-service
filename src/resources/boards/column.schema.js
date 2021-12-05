@@ -1,4 +1,5 @@
 import S from 'fluent-json-schema';
+import { uuidKey } from '../../common/schemas.types.js';
 
 const ColumnField = Object.freeze({
   ID: 'id',
@@ -11,7 +12,7 @@ const createFields = [ColumnField.TITLE, ColumnField.ORDER];
 const ColumnBaseSchema = S.object()
   .id('ColumnBase')
   .additionalProperties(false)
-  .prop(ColumnField.ID, S.string().format('uuid'))
+  .prop(ColumnField.ID, uuidKey)
   .prop(ColumnField.TITLE, S.string())
   .prop(ColumnField.ORDER, S.number());
 

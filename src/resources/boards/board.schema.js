@@ -1,4 +1,5 @@
 import S from 'fluent-json-schema';
+import { uuidKey } from '../../common/schemas.types.js';
 import { ColumnSchemaRef } from './column.schema.js';
 
 const BoardField = Object.freeze({
@@ -19,7 +20,7 @@ export const BoardSchema = Object.freeze({
   READ: S.object()
     .id(BoardSchemaID.READ)
     .additionalProperties(false)
-    .prop(BoardField.ID, S.string().format('uuid'))
+    .prop(BoardField.ID, uuidKey)
     .prop(BoardField.TITLE, S.string())
     .prop(BoardField.COLUMNS, S.array().items(ColumnSchemaRef.READ)),
 
@@ -33,7 +34,7 @@ export const BoardSchema = Object.freeze({
   UPDATE: S.object()
     .id(BoardSchemaID.UPDATE)
     .additionalProperties(false)
-    .prop(BoardField.ID, S.string().format('uuid'))
+    .prop(BoardField.ID, uuidKey)
     .prop(BoardField.TITLE, S.string())
     .prop(BoardField.COLUMNS, S.array().items(ColumnSchemaRef.UPDATE))
     .required(createFields),
