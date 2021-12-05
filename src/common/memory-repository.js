@@ -1,33 +1,41 @@
-/**
- * @template { { id:string; [p:string]: string; } } T
- */
 export class MemoryRepository {
   constructor() {
-    /** @type { Map<string, T> } */
+    /**
+     * @type { Map<string, ItemWithId> }
+     */
     this._store = new Map();
   }
 
   /**
-   * @return { Promise<T[]> }
-   */
-  async getAll() {
-    return [...this._store.values()];
-  }
-
-  /**
-   * @param { string } id
-   * @return { Promise<T | undefined> }
-   */
-  async getById(id) {
-    return this._store.get(id);
-  }
-
-  /**
-   * @param { T } item
-   * @return { Promise<T> }
+   * @param { ItemWithId } item
+   * @return { Promise<ItemWithId> }
    */
   async create(item) {
     this._store.set(item.id, item);
+    return item;
+  }
+
+  /**
+   * @param { string } [id]
+   * @return { Promise<Maybe<ItemWithId> | ItemWithId[]> }
+   */
+  async read(id) {
+    switch (typeof id) {
+      case 'string':
+        return this._store.get(id);
+      default:
+        return [...this._store.values()];
+    }
+  }
+
+  /**
+   @param { string } id
+   @param { ItemWithId } item
+   @return { Promise<Maybe<ItemWithId>> }
+   */
+  async update(id, item) {
+    if (!this._store.has(id)) return undefined;
+    this._store.set(id, item);
     return item;
   }
 
@@ -37,16 +45,5 @@ export class MemoryRepository {
    */
   async delete(id) {
     return this._store.delete(id);
-  }
-
-  /**
-   @param { string } id
-   @param { T } item
-   @return { Promise<T | undefined> }
-   */
-  async update(id, item) {
-    if (!this._store.has(id)) return undefined;
-    this._store.set(id, item);
-    return item;
   }
 }
