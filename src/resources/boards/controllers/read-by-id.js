@@ -8,7 +8,7 @@ import { ApiEndpointTag } from '../../../common/constants.js';
 export const readByIdController = ($boardId) => ({
   schema: {
     summary: 'Get board by ID',
-    description: 'Gets a board by ID',
+    description: 'Gets a board by ID (e.g. “/boards/123”)',
     tags: [ApiEndpointTag.BOARDS],
     params: {
       ...makeUuidRequestParams([$boardId]),

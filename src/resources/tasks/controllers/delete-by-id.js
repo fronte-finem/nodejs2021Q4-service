@@ -9,7 +9,7 @@ export const deleteByIdController = ($boardId, $taskId) => ({
   schema: {
     summary: 'Delete task',
     description:
-      'Deletes task by ID. When somebody\n DELETE Task, all Tasks where Task is assignee\n should be updated to put taskId = null',
+      "Deletes Task by the Board's and task ID\n (e.g. “/board/1/tasks/123”)",
     tags: [ApiEndpointTag.TASKS],
     params: { ...makeUuidRequestParams([$boardId, $taskId]) },
     response: {

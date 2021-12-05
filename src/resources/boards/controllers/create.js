@@ -8,7 +8,7 @@ import { ApiEndpointTag } from '../../../common/constants.js';
 export const createController = () => ({
   schema: {
     summary: 'Create board',
-    description: 'Creates a new board (remove password from response)',
+    description: 'Creates a new board',
     tags: [ApiEndpointTag.BOARDS],
     body: BoardSchemaRef.CREATE,
     response: {

@@ -8,7 +8,7 @@ import { ApiEndpointTag } from '../../../common/constants.js';
 
 export const updateByIdController = ($boardId) => ({
   schema: {
-    summary: 'Update a board',
+    summary: 'Update board',
     description: 'Updates a board by ID',
     tags: [ApiEndpointTag.BOARDS],
     params: {

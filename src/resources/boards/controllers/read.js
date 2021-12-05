@@ -7,7 +7,7 @@ import { ApiEndpointTag } from '../../../common/constants.js';
 export const readController = () => ({
   schema: {
     summary: 'Get all boards',
-    description: 'Gets all boards (remove password from response)',
+    description: 'Returns all boards',
     tags: [ApiEndpointTag.BOARDS],
     response: {
       ...makeSuccessfulArrayResponse(BoardSchemaID.READ),

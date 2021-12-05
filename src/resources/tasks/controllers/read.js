@@ -15,6 +15,7 @@ export const readController = ($boardId) => ({
     },
     response: {
       ...makeSuccessfulArrayResponse(TaskSchemaID.READ),
+      ...HttpErrorResponse.BAD_REQUEST,
       ...HttpErrorResponse.UNAUTHORIZED,
     },
   },

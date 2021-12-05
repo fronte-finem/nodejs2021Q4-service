@@ -9,7 +9,8 @@ import { ApiEndpointTag } from '../../../common/constants.js';
 export const updateByIdController = ($boardId, $taskId) => ({
   schema: {
     summary: 'Update a task',
-    description: 'Updates a task by ID',
+    description:
+      "Updates a task by the Board's and task ID\n (e.g. “/board/1/tasks/123”)",
     tags: [ApiEndpointTag.TASKS],
     params: {
       ...makeUuidRequestParams([$boardId, $taskId]),

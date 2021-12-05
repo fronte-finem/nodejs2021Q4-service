@@ -8,7 +8,8 @@ import { ApiEndpointTag } from '../../../common/constants.js';
 export const readByIdController = ($userId) => ({
   schema: {
     summary: 'Get user by ID',
-    description: 'Gets a user by ID',
+    description:
+      'Gets a user by ID\n e.g. “/users/123” (remove password from response)',
     tags: [ApiEndpointTag.USERS],
     params: {
       ...makeUuidRequestParams([$userId]),
