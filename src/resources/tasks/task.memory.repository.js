@@ -1,15 +1,15 @@
 export class MemoryRepository {
-  /**
-   * @type { Map<string, Task> }
-   */
-  #store = new Map();
+  constructor() {
+    /** @type { Map<string, Task> } */
+    this._store = new Map();
+  }
 
   /**
    * @param { {$boardId?:string, $userId?:string} } options
    * @return { Promise<Task[]> }
    */
   async getAll({ $boardId, $userId }) {
-    const tasks = [...this.#store.values()];
+    const tasks = [...this._store.values()];
     if (!$boardId && !$userId) return tasks;
     return $boardId
       ? tasks.filter(({ boardId }) => boardId === $boardId)
@@ -22,7 +22,7 @@ export class MemoryRepository {
    * @return { Promise<Task | undefined> }
    */
   async getById($boardId, $taskId) {
-    const maybeTask = this.#store.get($taskId);
+    const maybeTask = this._store.get($taskId);
     if (!maybeTask || maybeTask.boardId !== $boardId) {
       return undefined;
     }
@@ -34,7 +34,7 @@ export class MemoryRepository {
    * @return { Promise<Task> }
    */
   async create(task) {
-    this.#store.set(task.id, task);
+    this._store.set(task.id, task);
     return task;
   }
 
@@ -44,11 +44,11 @@ export class MemoryRepository {
    * @return { Promise<boolean> }
    */
   async delete($boardId, $taskId) {
-    const maybeTask = this.#store.get($taskId);
+    const maybeTask = this._store.get($taskId);
     if (!maybeTask || maybeTask.boardId !== $boardId) {
       return false;
     }
-    return this.#store.delete($taskId);
+    return this._store.delete($taskId);
   }
 
   /**
@@ -56,9 +56,9 @@ export class MemoryRepository {
    * @return { Promise<boolean> }
    */
   async deleteByBoard($boardId) {
-    [...this.#store.entries()].forEach(([id, { boardId }]) => {
+    [...this._store.entries()].forEach(([id, { boardId }]) => {
       if (boardId === $boardId) {
-        this.#store.delete(id);
+        this._store.delete(id);
       }
     });
   }
@@ -68,11 +68,11 @@ export class MemoryRepository {
    * @return { Promise<Task | undefined> }
    */
   async update(task) {
-    const maybeTask = this.#store.get(task.id);
+    const maybeTask = this._store.get(task.id);
     if (!maybeTask) {
       return undefined;
     }
-    this.#store.set(task.id, task);
+    this._store.set(task.id, task);
     return task;
   }
 
@@ -83,11 +83,11 @@ export class MemoryRepository {
    * @return { Promise<Task | undefined> }
    */
   async updateByBoardId($boardId, $taskId, task) {
-    const maybeTask = this.#store.get($taskId);
+    const maybeTask = this._store.get($taskId);
     if (!maybeTask || maybeTask.boardId !== $boardId) {
       return undefined;
     }
-    this.#store.set($taskId, task);
+    this._store.set($taskId, task);
     return task;
   }
 }

@@ -2,16 +2,16 @@
  * @template { { id:string; [p:string]: string; } } T
  */
 export class MemoryRepository {
-  /**
-   * @type { Map<string, T> }
-   */
-  #store = new Map();
+  constructor() {
+    /** @type { Map<string, T> } */
+    this._store = new Map();
+  }
 
   /**
    * @return { Promise<T[]> }
    */
   async getAll() {
-    return [...this.#store.values()];
+    return [...this._store.values()];
   }
 
   /**
@@ -19,7 +19,7 @@ export class MemoryRepository {
    * @return { Promise<T | undefined> }
    */
   async getById(id) {
-    return this.#store.get(id);
+    return this._store.get(id);
   }
 
   /**
@@ -27,7 +27,7 @@ export class MemoryRepository {
    * @return { Promise<T> }
    */
   async create(item) {
-    this.#store.set(item.id, item);
+    this._store.set(item.id, item);
     return item;
   }
 
@@ -36,7 +36,7 @@ export class MemoryRepository {
    * @return { Promise<boolean> }
    */
   async delete(id) {
-    return this.#store.delete(id);
+    return this._store.delete(id);
   }
 
   /**
@@ -45,8 +45,8 @@ export class MemoryRepository {
    @return { Promise<T | undefined> }
    */
   async update(id, item) {
-    if (!this.#store.has(id)) return undefined;
-    this.#store.set(id, item);
+    if (!this._store.has(id)) return undefined;
+    this._store.set(id, item);
     return item;
   }
 }
