@@ -14,8 +14,11 @@ export class Task {
     this.title = title;
     this.order = order;
     this.description = description;
+    /** @type { null | string } */
     this.userId = userId;
+    /** @type { null | string } */
     this.boardId = boardId;
+    /** @type { null | string } */
     this.columnId = columnId;
   }
 
