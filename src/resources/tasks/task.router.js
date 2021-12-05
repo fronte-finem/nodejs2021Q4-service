@@ -1,8 +1,8 @@
-import { readController } from './controllers/read.js';
-import { readByIdController } from './controllers/read-by-id.js';
-import { createController } from './controllers/create.js';
-import { deleteByIdController } from './controllers/delete-by-id.js';
-import { updateByIdController } from './controllers/update-by-id.js';
+import { readController } from './controllers/task.read.js';
+import { readByIdController } from './controllers/task.read-by-id.js';
+import { createController } from './controllers/task.create.js';
+import { deleteByIdController } from './controllers/task.delete-by-id.js';
+import { updateByIdController } from './controllers/task.update-by-id.js';
 
 const BOARD_ID = 'boardId';
 const TASK_ID = 'taskId';
