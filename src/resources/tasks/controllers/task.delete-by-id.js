@@ -30,7 +30,7 @@ export const deleteByIdController = ($boardId, $taskId) => ({
   async handler(request, reply) {
     const boardId = request.params[$boardId];
     const taskId = request.params[$taskId];
-    const success = await tasksService.deleteById(boardId, taskId);
+    const success = await tasksService.delete(boardId, taskId);
     if (!success) {
       reply.notFound(`Task with id [${taskId}] not found!`);
     } else {

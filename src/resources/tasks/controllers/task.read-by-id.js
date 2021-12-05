@@ -29,7 +29,7 @@ export const readByIdController = ($boardId, $taskId) => ({
   async handler(request, reply) {
     const boardId = request.params[$boardId];
     const taskId = request.params[$taskId];
-    const maybeTask = await tasksService.getById(boardId, taskId);
+    const maybeTask = await tasksService.read(boardId, taskId);
     if (!maybeTask) {
       reply.notFound(`Task with id [${taskId}] not found!`);
     } else {

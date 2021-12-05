@@ -2,14 +2,16 @@ import { tasksRepo } from './task.memory.repository.js';
 import { Task } from './task.model.js';
 
 export const tasksService = {
-  getAll: async ($boardId) => {
-    const tasks = await tasksRepo.getAll({ $boardId });
+  readAll: async ($boardId) => {
+    let tasks = await tasksRepo.read();
+    tasks = tasks.filter(({ boardId }) => boardId === $boardId);
     return tasks.map(Task.toResponse);
   },
 
-  getById: async ($boardId, $taskId) => {
-    const maybeTask = await tasksRepo.getById($boardId, $taskId);
-    return maybeTask && Task.toResponse(maybeTask);
+  read: async ($boardId, $taskId) => {
+    const maybeTask = await tasksRepo.read($taskId);
+    if (!maybeTask || maybeTask.boardId !== $boardId) return undefined;
+    return Task.toResponse(maybeTask);
   },
 
   create: async ($boardId, dto) => {
@@ -18,22 +20,29 @@ export const tasksService = {
     return Task.toResponse(task);
   },
 
-  deleteById: ($boardId, $taskId) => tasksRepo.delete($boardId, $taskId),
+  delete: async ($boardId, $taskId) => {
+    const maybeTask = await tasksService.read($boardId, $taskId);
+    return maybeTask && tasksRepo.delete($taskId);
+  },
 
-  deleteByBoardId: ($boardId) => tasksRepo.deleteByBoard($boardId),
-
-  updateById: async ($boardId, $taskId, dto) => {
-    const task = new Task({ ...dto, id: $taskId, boardId: $boardId });
-    const maybeTask = await tasksRepo.updateByBoardId($boardId, $taskId, task);
+  update: async ($boardId, $taskId, dto) => {
+    let maybeTask = await tasksRepo.read($taskId);
+    if (!maybeTask || maybeTask.boardId !== $boardId) return undefined;
+    maybeTask = new Task({ ...maybeTask, ...dto });
+    maybeTask = await tasksRepo.update($taskId, maybeTask);
     return maybeTask && Task.toResponse(maybeTask);
   },
 
+  deleteByBoardId: async ($boardId) => {
+    const tasks = await tasksService.readAll($boardId);
+    await Promise.all(tasks.map(({ id }) => tasksRepo.delete(id)));
+  },
+
   unassignUser: async ($userId) => {
-    const tasks = await tasksRepo.getAll({ $userId });
-    await Promise.all(
-      tasks.map(({ userId, ...taskFields }) =>
-        tasksRepo.update(new Task(taskFields))
-      )
-    );
+    let tasks = await tasksRepo.read();
+    tasks = tasks
+      .filter(({ userId }) => userId === $userId)
+      .map(({ userId, ...taskFields }) => new Task(taskFields));
+    await Promise.all(tasks.map((task) => tasksRepo.update(task.id, task)));
   },
 };

@@ -26,7 +26,7 @@ export const readController = ($boardId) => ({
    */
   async handler(request, reply) {
     const boardId = request.params[$boardId];
-    const tasks = await tasksService.getAll(boardId);
+    const tasks = await tasksService.readAll(boardId);
     reply.send(tasks);
   },
 });

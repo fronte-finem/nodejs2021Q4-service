@@ -36,7 +36,7 @@ export const updateByIdController = ($boardId, $taskId) => ({
     const boardId = request.params[$boardId];
     const taskId = request.params[$taskId];
     const taskDto = request.body;
-    const maybeTask = await tasksService.updateById(boardId, taskId, taskDto);
+    const maybeTask = await tasksService.update(boardId, taskId, taskDto);
     if (!maybeTask) {
       reply.notFound(`Task with id [${taskId}] not found!`);
     } else {
