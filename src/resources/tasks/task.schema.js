@@ -42,19 +42,12 @@ export const TaskSchema = Object.freeze({
         TaskField.TITLE,
         TaskField.ORDER,
         TaskField.BOARD_ID,
-        TaskField.COLUMN_ID,
       ])
     ),
 
   UPDATE: S.object()
     .id(TaskSchemaID.UPDATE)
-    .extend(
-      TaskBaseSchema.required([
-        TaskField.ORDER,
-        TaskField.BOARD_ID,
-        TaskField.COLUMN_ID,
-      ])
-    ),
+    .extend(TaskBaseSchema.required([TaskField.ORDER, TaskField.BOARD_ID])),
 });
 
 export const TaskSchemaRef = Object.freeze({
