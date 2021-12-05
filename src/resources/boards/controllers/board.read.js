@@ -20,7 +20,7 @@ export const readController = () => ({
    * @return { Promise<void> }
    */
   async handler(request, reply) {
-    const boards = await boardsService.getAll();
+    const boards = await boardsService.readAll();
     reply.send(boards);
   },
 });

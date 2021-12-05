@@ -34,7 +34,7 @@ export const updateByIdController = ($boardId) => ({
   async handler(request, reply) {
     const boardId = request.params[$boardId];
     const boardDto = request.body;
-    const maybeBoard = await boardsService.updateById(boardId, boardDto);
+    const maybeBoard = await boardsService.update(boardId, boardDto);
     if (!maybeBoard) {
       reply.notFound(`Board with id [${boardId}] not found!`);
     } else {

@@ -27,7 +27,7 @@ export const readByIdController = ($boardId) => ({
    */
   async handler(request, reply) {
     const boardId = request.params[$boardId];
-    const maybeBoard = await boardsService.getById(boardId);
+    const maybeBoard = await boardsService.read(boardId);
     if (!maybeBoard) {
       reply.notFound(`Board with id [${boardId}] not found!`);
     } else {

@@ -29,7 +29,7 @@ export const deleteByIdController = ($boardId) => ({
    */
   async handler(request, reply) {
     const boardId = request.params[$boardId];
-    const success = await boardsService.deleteById(boardId);
+    const success = await boardsService.delete(boardId);
     if (!success) {
       reply.notFound(`Board with id [${boardId}] not found!`);
     } else {

@@ -20,7 +20,7 @@ export const readController = () => ({
    * @return { Promise<void> }
    */
   async handler(request, reply) {
-    const users = await usersService.getAll();
+    const users = await usersService.readAll();
     reply.send(users);
   },
 });

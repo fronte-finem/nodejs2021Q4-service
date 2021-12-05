@@ -3,13 +3,13 @@ import { User } from './user.model.js';
 import { tasksService } from '../tasks/task.service.js';
 
 export const usersService = {
-  getAll: async () => {
-    const users = await usersRepo.getAll();
+  readAll: async () => {
+    const users = await usersRepo.read();
     return users.map(User.toResponse);
   },
 
-  getById: async (id) => {
-    const maybeUser = await usersRepo.getById(id);
+  read: async (id) => {
+    const maybeUser = await usersRepo.read(id);
     return maybeUser && User.toResponse(maybeUser);
   },
 
@@ -19,7 +19,7 @@ export const usersService = {
     return User.toResponse(user);
   },
 
-  deleteById: async (id) => {
+  delete: async (id) => {
     const deleted = await usersRepo.delete(id);
     if (deleted) {
       await tasksService.unassignUser(id);
@@ -27,7 +27,7 @@ export const usersService = {
     return deleted;
   },
 
-  updateById: async (id, dto) => {
+  update: async (id, dto) => {
     const user = new User({ id, ...dto });
     const maybeUser = await usersRepo.update(id, user);
     return maybeUser && User.toResponse(maybeUser);

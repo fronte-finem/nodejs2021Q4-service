@@ -29,7 +29,7 @@ export const deleteByIdController = ($userId) => ({
    */
   async handler(request, reply) {
     const userId = request.params[$userId];
-    const success = await usersService.deleteById(userId);
+    const success = await usersService.delete(userId);
     if (!success) {
       reply.notFound(`User with id [${userId}] not found!`);
     } else {

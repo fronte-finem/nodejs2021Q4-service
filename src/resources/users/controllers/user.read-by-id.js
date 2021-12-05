@@ -28,7 +28,7 @@ export const readByIdController = ($userId) => ({
    */
   async handler(request, reply) {
     const userId = request.params[$userId];
-    const maybeUser = await usersService.getById(userId);
+    const maybeUser = await usersService.read(userId);
     if (!maybeUser) {
       reply.notFound(`User with id [${userId}] not found!`);
     } else {

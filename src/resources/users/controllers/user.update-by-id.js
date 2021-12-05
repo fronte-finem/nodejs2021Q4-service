@@ -34,7 +34,7 @@ export const updateByIdController = ($userId) => ({
   async handler(request, reply) {
     const userId = request.params[$userId];
     const userDto = request.body;
-    const maybeUser = await usersService.updateById(userId, userDto);
+    const maybeUser = await usersService.update(userId, userDto);
     if (!maybeUser) {
       reply.notFound(`User with id [${userId}] not found!`);
     } else {
