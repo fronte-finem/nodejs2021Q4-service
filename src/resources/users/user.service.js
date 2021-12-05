@@ -1,5 +1,6 @@
 import { usersRepo } from './user.memory.repository.js';
 import { User } from './user.model.js';
+import { tasksService } from '../tasks/task.service.js';
 
 export const usersService = {
   getAll: async () => {
@@ -18,7 +19,13 @@ export const usersService = {
     return User.toResponse(user);
   },
 
-  deleteById: (id) => usersRepo.delete(id),
+  deleteById: async (id) => {
+    const deleted = await usersRepo.delete(id);
+    if (deleted) {
+      await tasksService.unassignUser(id);
+    }
+    return deleted;
+  },
 
   updateById: async (id, dto) => {
     const user = new User({ id, ...dto });

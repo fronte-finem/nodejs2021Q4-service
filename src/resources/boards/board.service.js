@@ -1,5 +1,6 @@
 import { boardsRepo } from './board.memory.repository.js';
 import { Board } from './board.model.js';
+import { tasksService } from '../tasks/task.service.js';
 
 export const boardsService = {
   getAll: async () => {
@@ -18,7 +19,13 @@ export const boardsService = {
     return Board.toResponse(board);
   },
 
-  deleteById: (id) => boardsRepo.delete(id),
+  deleteById: async (id) => {
+    const deleted = await boardsRepo.delete(id);
+    if (deleted) {
+      await tasksService.deleteByBoardId(id);
+    }
+    return deleted;
+  },
 
   updateById: async (id, dto) => {
     const board = new Board({ id, ...dto });

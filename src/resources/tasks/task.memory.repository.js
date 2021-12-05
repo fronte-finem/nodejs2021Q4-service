@@ -5,13 +5,15 @@ export class MemoryRepository {
   #store = new Map();
 
   /**
-   * @param { string } $boardId
+   * @param { {$boardId?:string, $userId?:string} } options
    * @return { Promise<Task[]> }
    */
-  async getAll($boardId) {
-    return [...this.#store.values()].filter(
-      ({ boardId }) => boardId === $boardId
-    );
+  async getAll({ $boardId, $userId }) {
+    const tasks = [...this.#store.values()];
+    if (!$boardId && !$userId) return tasks;
+    return $boardId
+      ? tasks.filter(({ boardId }) => boardId === $boardId)
+      : tasks.filter(({ userId }) => userId === $userId);
   }
 
   /**
@@ -51,11 +53,36 @@ export class MemoryRepository {
 
   /**
    * @param { string } $boardId
+   * @return { Promise<boolean> }
+   */
+  async deleteByBoard($boardId) {
+    [...this.#store.entries()].forEach(([id, { boardId }]) => {
+      if (boardId === $boardId) {
+        this.#store.delete(id);
+      }
+    });
+  }
+
+  /**
+   * @param { Task } task
+   * @return { Promise<Task | undefined> }
+   */
+  async update(task) {
+    const maybeTask = this.#store.get(task.id);
+    if (!maybeTask) {
+      return undefined;
+    }
+    this.#store.set(task.id, task);
+    return task;
+  }
+
+  /**
+   * @param { string } $boardId
    * @param { string } $taskId
    * @param { Task } task
    * @return { Promise<Task | undefined> }
    */
-  async update($boardId, $taskId, task) {
+  async updateByBoardId($boardId, $taskId, task) {
     const maybeTask = this.#store.get($taskId);
     if (!maybeTask || maybeTask.boardId !== $boardId) {
       return undefined;
@@ -64,7 +91,6 @@ export class MemoryRepository {
     return task;
   }
 }
-
 /**
  * @type { MemoryRepository<Task> }
  */
