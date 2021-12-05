@@ -1,8 +1,8 @@
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 
 export class Task {
   constructor({
-    id = uuidv4(),
+    id = randomUUID(),
     title = 'Test Task',
     order = 1,
     description = 'Lorem ipsum',

@@ -1,8 +1,8 @@
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 import { Column } from './column.model.js';
 
 export class Board {
-  constructor({ id = uuidv4(), title = 'Autotest', columns = [] } = {}) {
+  constructor({ id = randomUUID(), title = 'Autotest', columns = [] } = {}) {
     this.id = id;
     this.title = title;
     this.columns = columns;

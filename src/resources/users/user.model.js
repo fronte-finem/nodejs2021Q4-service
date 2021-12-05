@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 
 /**
  * @typedef { {name:string; login: string} } UserBase
@@ -17,7 +17,7 @@ export class User {
    * @param { NewUserDTO | User } user
    */
   constructor({
-    id = uuidv4(),
+    id = randomUUID(),
     name = 'USER',
     login = 'user',
     password = 'P@55w0rd',
