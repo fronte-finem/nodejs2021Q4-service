@@ -2,6 +2,7 @@ import { UserSchema } from '../resources/users/user.schema.js';
 import { HttpErrorSchema } from './http-error.schema.js';
 import { ColumnSchema } from '../resources/boards/column.schema.js';
 import { BoardSchema } from '../resources/boards/board.schema.js';
+import { TaskSchema } from '../resources/tasks/task.schema.js';
 
 export const addSchemas = (app) => {
   app
@@ -16,5 +17,8 @@ export const addSchemas = (app) => {
     .addSchema(ColumnSchema.UPDATE)
     .addSchema(BoardSchema.READ)
     .addSchema(BoardSchema.CREATE)
-    .addSchema(BoardSchema.UPDATE);
+    .addSchema(BoardSchema.UPDATE)
+    .addSchema(TaskSchema.READ)
+    .addSchema(TaskSchema.CREATE)
+    .addSchema(TaskSchema.UPDATE);
 };
