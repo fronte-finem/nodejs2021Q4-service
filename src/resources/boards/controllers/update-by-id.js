@@ -10,7 +10,7 @@ export const updateByIdController = ($boardId) => ({
   schema: {
     summary: 'Update a board',
     description: 'Updates a board by ID',
-    tags: [ApiEndpointTag.USERS],
+    tags: [ApiEndpointTag.BOARDS],
     params: {
       ...makeUuidRequestParams([$boardId]),
     },
