@@ -1,0 +1,33 @@
+{
+  "include": ["src/**/*"],
+  "compilerOptions": {
+    /* Projects */
+    "incremental": true,
+
+    /* Language and Environment */
+    "target": "ES2021",
+    "lib": ["ES2021"],
+
+    /* Modules */
+    "module": "ES2020",
+    "moduleResolution": "Node",
+    "baseUrl": "./src",
+    "resolveJsonModule": true,
+
+    /* JavaScript Support */
+    "allowJs": true,
+    "checkJs": true,
+
+    /* Emit */
+    "outDir": "./dist",
+    "inlineSourceMap": true,
+    "inlineSources": true,
+
+    /* Type Checking */
+    "strict": true,
+    "noImplicitAny": true,
+
+    /* Completeness */
+    "skipLibCheck": true
+  }
+}
