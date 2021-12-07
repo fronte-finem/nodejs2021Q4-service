@@ -4,7 +4,7 @@ import { RecordWithId, Maybe } from '../types/common';
  * Interface for repository that declare CRUD operations
  */
 export interface IDBRepository<T extends RecordWithId> {
-  create(item: T): Promise<T>;
+  create(item: T): Promise<Maybe<T>>;
   read(id: string): Promise<Maybe<T>>;
   read(): Promise<T[]>;
   update(id: string, item: T): Promise<Maybe<T>>;
@@ -22,9 +22,9 @@ export class MemoryRepository<T extends RecordWithId>
   /**
    * Create record in memory DB
    * @param record - object with field `id`
-   * @returns Promise with created record
+   * @returns Promise with {@link Maybe} created record
    */
-  public async create(record: T) {
+  public async create(record: T): Promise<Maybe<T>> {
     this._store.set(record.id, record);
     return record;
   }
