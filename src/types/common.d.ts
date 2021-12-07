@@ -1,3 +1,5 @@
+import { randomUUID } from 'crypto';
+
 /**
  * Type that present result which may or may not contain value
  * @typeParam Value - generic type for possible value
@@ -6,6 +8,16 @@
 export declare type Maybe<Value> = Value | undefined | null;
 
 /**
- * Type that declare a record with string id
+ * Interface that declare a record with string id
  */
-export declare type RecordWithId = { id: string } & Record<string, unknown>;
+export declare interface RecordWithId {
+  readonly id: string;
+}
+
+export declare class BaseModel implements RecordWithId {
+  public readonly id: string;
+
+  constructor(id?: string) {
+    this.id = id ?? randomUUID();
+  }
+}
