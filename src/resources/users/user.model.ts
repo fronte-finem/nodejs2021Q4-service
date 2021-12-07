@@ -6,6 +6,8 @@ export interface UserDTO extends RecordWithId {
   readonly password: string;
 }
 
+export type UserDTOResponse = Omit<UserDTO, 'password'>;
+
 export class User extends BaseModel implements UserDTO {
   public readonly name: string;
   public readonly login: string;
@@ -18,7 +20,7 @@ export class User extends BaseModel implements UserDTO {
     this.password = password ?? 'P@55w0rd';
   }
 
-  public static toResponse(user: User): Omit<UserDTO, 'password'> {
+  public static toResponse(user: User): UserDTOResponse {
     const { id, name, login } = user;
     return { id, name, login };
   }
