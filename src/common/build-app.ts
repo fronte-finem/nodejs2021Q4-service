@@ -4,7 +4,7 @@ import { Maybe } from 'types/common';
 import { Prettifier } from './logger';
 
 /**
- * Return fastify instance with configured pretty-logger
+ * Build fastify instance with configured pretty-logger
  * @param options - Fastify options object
  * @param prettifier - pretty-logger configurator or falsy value
  * @returns fastify app instance

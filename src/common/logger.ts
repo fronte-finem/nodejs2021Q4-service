@@ -6,6 +6,11 @@ export type Logger = (object: LogObject) => string;
 
 export type Prettifier = (options?: PrettyOptions) => Logger;
 
+/**
+ * Replacing symbols "→", "←" in log message
+ * @param msg - input log message
+ * @returns fixed message
+ */
 const fixMessage = (msg: string) => msg.replace('→', '->').replace('←', '<-');
 
 /**
