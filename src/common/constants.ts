@@ -1,9 +1,11 @@
+import { OpenAPIV3 } from 'openapi-types';
+
 /**
- * Schema API endpoint tags
+ * {@link https://swagger.io/specification/ | OpenAPI} schema endpoint tags
  */
-export const enum ApiEndpointTag {
-  USERS = 'Users',
-  BOARDS = 'Boards',
-  TASKS = 'Tasks',
-  LOGIN = 'Login',
-}
+export const ApiEndpointTag: Readonly<Record<string, OpenAPIV3.TagObject>> = {
+  USERS: { name: 'Users' },
+  BOARDS: { name: 'Boards' },
+  TASKS: { name: 'Tasks' },
+  LOGIN: { name: 'Login' },
+};
