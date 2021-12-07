@@ -1,3 +1,10 @@
-export declare type Maybe<T> = T | undefined;
+/**
+ * Type that present result which may or may not contain value
+ * @see https://en.wikipedia.org/wiki/Option_type
+ */
+export declare type Maybe<Value> = Value | undefined | null;
 
-export declare type ItemWithId = { id: string } & Record<string, unknown>;
+/**
+ * Type that declare a record with string id
+ */
+export declare type RecordWithId = { id: string } & Record<string, unknown>;
