@@ -33,7 +33,7 @@ const docOptions: FastifyDynamicSwaggerOptions = {
  * Setup {@link https://swagger.io/specification/ | OpenAPI} documentation
  * @param app - fastify instance
  */
-export const registerSwagger = (app: FastifyInstance): void => {
+export const setupOpenApiDoc = (app: FastifyInstance): void => {
   app
     .addSchema(ResponseHttpError)
     .addSchema(UserSchema.MODEL)
