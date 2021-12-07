@@ -6,14 +6,12 @@ export interface UserDTO extends RecordWithId {
   readonly password: string;
 }
 
-export type UserOptions = UserDTO | Record<string, never>;
-
 export class User extends BaseModel implements UserDTO {
   public readonly name: string;
   public readonly login: string;
   public readonly password: string;
 
-  constructor({ id, name, login, password }: UserOptions = {}) {
+  constructor({ id, name, login, password }: Partial<UserDTO> = {}) {
     super(id);
     this.name = name ?? 'User';
     this.login = login ?? 'user';

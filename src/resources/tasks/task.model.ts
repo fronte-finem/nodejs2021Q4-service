@@ -9,8 +9,6 @@ export interface TaskDTO extends RecordWithId {
   readonly columnId: null | string;
 }
 
-export type TaskOptions = TaskDTO | Record<string, never>;
-
 export class Task extends BaseModel implements TaskDTO {
   public readonly boardId: string | null;
   public readonly columnId: string | null;
@@ -19,7 +17,7 @@ export class Task extends BaseModel implements TaskDTO {
   public readonly title: string;
   public readonly userId: string | null;
 
-  constructor(options: TaskOptions = {}) {
+  constructor(options: Partial<TaskDTO> = {}) {
     super(options.id);
     this.title = options.title ?? 'Test Task';
     this.order = options.order ?? 1;
