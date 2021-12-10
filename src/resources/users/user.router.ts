@@ -9,10 +9,15 @@ import { updateByIdController } from './controllers/user.update-by-id';
 const ROOT_URL = '/';
 const ID_URL = `/:${PARAM_USER_ID}`;
 
-export const userRouter: FastifyPluginAsync = async (fastify) => {
-  fastify.post(ROOT_URL, createController);
-  fastify.get(ROOT_URL, readController);
-  fastify.get(ID_URL, readByIdController);
-  fastify.put(ID_URL, updateByIdController);
-  fastify.delete(ID_URL, deleteByIdController);
+/**
+ * Router (fastify plugin) for endpoint "users"
+ * @param app - instance of fastify
+ * @returns empty promise
+ */
+export const userRouter: FastifyPluginAsync = async (app) => {
+  app.post(ROOT_URL, createController);
+  app.get(ROOT_URL, readController);
+  app.get(ID_URL, readByIdController);
+  app.put(ID_URL, updateByIdController);
+  app.delete(ID_URL, deleteByIdController);
 };

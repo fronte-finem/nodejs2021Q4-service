@@ -9,10 +9,15 @@ import { updateByIdController } from './controllers/board.update-by-id';
 const ROOT_URL = '/';
 const ID_URL = `/:${PARAM_BOARD_ID}`;
 
-export const boardRouter: FastifyPluginAsync = async (fastify) => {
-  fastify.post(ROOT_URL, createController);
-  fastify.get(ROOT_URL, readController);
-  fastify.get(ID_URL, readByIdController);
-  fastify.delete(ID_URL, deleteByIdController);
-  fastify.put(ID_URL, updateByIdController);
+/**
+ * Router (fastify plugin) for endpoint "boards"
+ * @param app - instance of fastify
+ * @returns empty promise
+ */
+export const boardRouter: FastifyPluginAsync = async (app) => {
+  app.post(ROOT_URL, createController);
+  app.get(ROOT_URL, readController);
+  app.get(ID_URL, readByIdController);
+  app.delete(ID_URL, deleteByIdController);
+  app.put(ID_URL, updateByIdController);
 };
