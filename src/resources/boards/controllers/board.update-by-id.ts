@@ -29,6 +29,12 @@ const schema: FastifySchema = {
   },
 };
 
+/**
+ * Handler for http-method PUT on route "/boards/:boardId"
+ * @param request - instance of {@link FastifyRequest}
+ * @param reply - instance of {@link FastifyReply}
+ * @returns empty promise
+ */
 const handler: RouteHandler<IBoardRequest> = async (request, reply) => {
   const boardId = request.params[PARAM_BOARD_ID];
   const boardDto = request.body;

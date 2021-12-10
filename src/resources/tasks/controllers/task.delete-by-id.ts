@@ -24,6 +24,12 @@ const schema: FastifySchema = {
   },
 };
 
+/**
+ * Handler for http-method DELETE on route "/boards/:boardId/tasks/:taskId"
+ * @param request - instance of {@link FastifyRequest}
+ * @param reply - instance of {@link FastifyReply}
+ * @returns empty promise
+ */
 const handler: RouteHandler<Omit<ITaskRequest, 'Body'>> = async (
   request,
   reply

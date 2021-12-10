@@ -28,6 +28,12 @@ const schema: FastifySchema = {
   },
 };
 
+/**
+ * Handler for http-method POST on route "/boards/:boardId/tasks"
+ * @param request - instance of {@link FastifyRequest}
+ * @param reply - instance of {@link FastifyReply}
+ * @returns empty promise
+ */
 const handler: RouteHandler<ITaskRootRequest> = async (request, reply) => {
   const boardId = request.params[PARAM_BOARD_ID];
   const taskDto = request.body;

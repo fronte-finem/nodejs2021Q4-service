@@ -29,6 +29,12 @@ const schema: FastifySchema = {
   },
 };
 
+/**
+ * Handler for http-method PUT on route "/users/:userId"
+ * @param request - instance of {@link FastifyRequest}
+ * @param reply - instance of {@link FastifyReply}
+ * @returns empty promise
+ */
 const handler: RouteHandler<IUserRequest> = async (request, reply) => {
   const userId = request.params[PARAM_USER_ID];
   const userDto = request.body;

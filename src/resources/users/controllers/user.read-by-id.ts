@@ -23,6 +23,12 @@ const schema: FastifySchema = {
   },
 };
 
+/**
+ * Handler for http-method GET on route "/users/:userId"
+ * @param request - instance of {@link FastifyRequest}
+ * @param reply - instance of {@link FastifyReply}
+ * @returns empty promise
+ */
 const handler: RouteHandler<Omit<IUserRequest, 'Body'>> = async (
   request,
   reply

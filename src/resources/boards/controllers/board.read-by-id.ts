@@ -22,6 +22,12 @@ const schema: FastifySchema = {
   },
 };
 
+/**
+ * Handler for http-method GET on route "/boards/:boardId"
+ * @param request - instance of {@link FastifyRequest}
+ * @param reply - instance of {@link FastifyReply}
+ * @returns empty promise
+ */
 const handler: RouteHandler<Omit<IBoardRequest, 'Body'>> = async (
   request,
   reply

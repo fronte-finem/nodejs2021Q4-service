@@ -15,6 +15,12 @@ const schema: FastifySchema = {
   },
 };
 
+/**
+ * Handler for http-method GET on route "/boards"
+ * @param request - instance of {@link FastifyRequest}
+ * @param reply - instance of {@link FastifyReply}
+ * @returns empty promise
+ */
 const handler: RouteHandler = async (request, reply) => {
   const boards = await boardsService.readAll();
   reply.send(boards);
