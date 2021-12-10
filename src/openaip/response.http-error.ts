@@ -17,6 +17,9 @@ export const ResponseHttpError: ObjectSchema = S.object()
   .prop(HttpErrorField.ERROR, S.string().required())
   .prop(HttpErrorField.MESSAGE, S.string().required());
 
+/**
+ * Set of JSON-Schemas for predefined http errors
+ */
 export const HttpErrorResponse: Readonly<Record<string, HttpResponseType>> = {
   BAD_REQUEST: makeHttpResponse(
     HttpErrorSchemaID,
