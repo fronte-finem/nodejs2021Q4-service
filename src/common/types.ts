@@ -14,6 +14,9 @@ export interface RecordWithId {
   readonly id: string;
 }
 
+/**
+ * Base class for models with string id field
+ */
 export abstract class BaseModel implements RecordWithId {
   protected constructor(public readonly id: string = randomUUID()) {}
 }
