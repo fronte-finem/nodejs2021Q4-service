@@ -30,15 +30,23 @@ export class MemoryRepository<T extends RecordWithId>
   }
 
   /**
-   * Overloaded Read operation (works in 2 modes)
+   * Overloaded Read operation
    * @param id - string identifier for record
-   * @returns
-   *   - Promise with {@link Maybe} found record (if id passed)
-   *   - Promise with array of records (if id not passed)
+   * @returns Promise with {@link Maybe} found record (if id passed)
    */
   public async read(id: string): Promise<Maybe<T>>;
+  /**
+   * Overloaded Read operation
+   * @returns Promise with array of records (if id not passed)
+   */
   public async read(): Promise<T[]>;
-  public async read(id?: string): Promise<unknown> {
+  /**
+   * Overloaded Read operation
+   * @param id - optional string identifier
+   * @returns Promise with array of records or Promise with {@link Maybe} found record
+   * @see https://www.typescriptlang.org/docs/handbook/2/functions.html#function-overloads
+   */
+  public async read(id?: string): Promise<Maybe<T> | T[]> {
     switch (typeof id) {
       case 'string':
         return this._store.get(id);
