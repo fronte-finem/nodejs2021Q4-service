@@ -1,4 +1,4 @@
-import { BaseModel, RecordWithId } from '~src/types/common';
+import { BaseModel, RecordWithId } from '~src/common/types';
 
 export interface TaskDTO extends RecordWithId {
   readonly title: string;

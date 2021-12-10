@@ -5,19 +5,15 @@ import { randomUUID } from 'crypto';
  * @typeParam Value - generic type for possible value
  * @see https://en.wikipedia.org/wiki/Option_type
  */
-export declare type Maybe<Value> = Value | undefined | null;
+export type Maybe<Value> = Value | undefined | null;
 
 /**
  * Interface that declare a record with string id
  */
-export declare interface RecordWithId {
+export interface RecordWithId {
   readonly id: string;
 }
 
-export declare class BaseModel implements RecordWithId {
-  public readonly id: string;
-
-  constructor(id?: string) {
-    this.id = id ?? randomUUID();
-  }
+export abstract class BaseModel implements RecordWithId {
+  protected constructor(public readonly id: string = randomUUID()) {}
 }

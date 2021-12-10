@@ -1,6 +1,6 @@
 import fastifyRequestLogger from '@mgcrea/fastify-request-logger';
 import buildFastify, { FastifyInstance, FastifyServerOptions } from 'fastify';
-import { Maybe } from '~src/types/common';
+import { Maybe } from '~src/common/types';
 import { Prettifier } from './logger';
 
 /**

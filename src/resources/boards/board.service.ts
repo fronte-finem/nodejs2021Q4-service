@@ -1,6 +1,6 @@
 import { IDBRepository } from '~src/common/memory-repository';
 import { tasksService } from '~src/resources/tasks/task.service';
-import { Maybe } from '~src/types/common';
+import { Maybe } from '~src/common/types';
 import { boardsRepo } from './board.memory-repository';
 import { Board, BoardDTO } from './board.model';
 

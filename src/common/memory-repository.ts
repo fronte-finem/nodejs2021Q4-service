@@ -1,4 +1,4 @@
-import { Maybe, RecordWithId } from '~src/types/common';
+import { Maybe, RecordWithId } from '~src/common/types';
 
 /**
  * Interface for repository that declare CRUD operations
