@@ -3,12 +3,15 @@
   "description": "REST service — education project from RS School for course Nodejs 2021Q4",
   "private": true,
   "type": "module",
-  "main": "dist/server.js",
   "scripts": {
-    "build": "tsc",
-    "build:watch": "tsc --watch",
-    "start:dev": "cross-env NODE_ENV=development nodemon",
-    "start:js": "cross-env NODE_ENV=development nodemon dist/server.js",
+    "start": "npm run watch:build",
+    "watch:build": "nodemon --watch src --exec npm run start:dev:build",
+    "watch:loader": "nodemon --watch src --exec npm run start:dev:loader",
+    "start:dev:build": "npm run build:dev && node -r dotenv/config ./dist/bundle.js",
+    "start:dev:loader": "node -r dotenv/config --experimental-loader esbuild-node-loader ./src/server.ts",
+    "build:dev": "cross-env NODE_ENV=development node esbuild.config.mjs",
+    "start:prod": "npm run lint && tsc && npm run build:prod",
+    "build:prod": "cross-env NODE_ENV=production node esbuild.config.mjs",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace"
@@ -22,13 +25,12 @@
     "autotest",
     "starter"
   ],
-  "license": "ISC",
   "engines": {
     "node": ">=16.0.0 <17"
   },
   "nodemonConfig": {
     "ext": "*.ts",
-    "exec": "tsc"
+    "exec": "npx ts-node --experimental-specifier-resolution=node src/server.ts"
   },
   "jest": {
     "testEnvironment": "node",
@@ -66,6 +68,8 @@
     "chai": "4.3.4",
     "debug": "4.3.2",
     "dirty-chai": "2.0.1",
+    "esbuild": "^0.14.2",
+    "esbuild-node-loader": "^0.6.3",
     "eslint": "8.2.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-config-airbnb-typescript": "^16.1.0",
