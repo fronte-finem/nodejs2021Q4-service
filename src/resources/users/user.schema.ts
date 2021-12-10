@@ -1,9 +1,5 @@
-import S, {
-  ExtendedSchema,
-  JSONSchema,
-  ObjectSchema,
-} from 'fluent-json-schema';
-import { uuidKey } from 'openaip/keys';
+import S, { ExtendedSchema, ObjectSchema } from 'fluent-json-schema';
+import { uuidKey } from '~src/openaip/keys';
 
 const enum UserField {
   ID = 'id',
@@ -48,11 +44,4 @@ export const UserSchema: Readonly<Record<string, ExtendedSchema>> = {
   LOGIN: S.object()
     .id(UserSchemaID.LOGIN)
     .extend(UserBaseSchema.only(loginFields).required(loginFields)),
-};
-
-export const UserSchemaRef: Readonly<Record<string, JSONSchema>> = {
-  READ: S.ref(UserSchemaID.READ),
-  CREATE: S.ref(UserSchemaID.CREATE),
-  UPDATE: S.ref(UserSchemaID.UPDATE),
-  LOGIN: S.ref(UserSchemaID.LOGIN),
 };

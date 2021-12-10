@@ -1,9 +1,5 @@
-import S, {
-  ExtendedSchema,
-  JSONSchema,
-  ObjectSchema,
-} from 'fluent-json-schema';
-import { foreignKey, uuidKey } from 'openaip/keys';
+import S, { ExtendedSchema, ObjectSchema } from 'fluent-json-schema';
+import { foreignKey, uuidKey } from '~src/openaip/keys';
 
 const enum TaskField {
   ID = 'id',
@@ -51,10 +47,4 @@ export const TaskSchema: Readonly<Record<string, ExtendedSchema>> = {
   UPDATE: S.object()
     .id(TaskSchemaID.UPDATE)
     .extend(TaskBaseSchema.required([TaskField.ORDER, TaskField.BOARD_ID])),
-};
-
-export const TaskSchemaRef: Readonly<Record<string, JSONSchema>> = {
-  READ: S.ref(TaskSchemaID.READ),
-  CREATE: S.ref(TaskSchemaID.CREATE),
-  UPDATE: S.ref(TaskSchemaID.UPDATE),
 };

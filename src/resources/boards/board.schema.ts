@@ -1,5 +1,5 @@
-import S, { ExtendedSchema, JSONSchema } from 'fluent-json-schema';
-import { uuidKey } from 'openaip/keys';
+import S, { ExtendedSchema } from 'fluent-json-schema';
+import { uuidKey } from '~src/openaip/keys';
 import { ColumnSchemaRef } from './column.schema';
 
 const enum BoardField {
@@ -38,10 +38,4 @@ export const BoardSchema: Readonly<Record<string, ExtendedSchema>> = {
     .prop(BoardField.COLUMNS, S.array().items(ColumnSchemaRef.UPDATE))
     .additionalProperties(false)
     .required(createFields),
-};
-
-export const BoardSchemaRef: Readonly<Record<string, JSONSchema>> = {
-  READ: S.ref(BoardSchemaID.READ),
-  CREATE: S.ref(BoardSchemaID.CREATE),
-  UPDATE: S.ref(BoardSchemaID.UPDATE),
 };
