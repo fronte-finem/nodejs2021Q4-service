@@ -1,15 +1,10 @@
-import { resolve } from 'path';
-import { fileURLToPath } from 'url';
-import * as dotenv from 'dotenv';
+// import dotenv from 'dotenv';
+// import { resolve } from 'path';
+// import { ROOT_PATH } from '../../.root.config.mjs';
 
-export const ROOT_PATH: string = resolve(
-  fileURLToPath(import.meta.url),
-  '../..'
-);
-
-dotenv.config({
-  path: resolve(ROOT_PATH, '.env'),
-});
+// dotenv.config({
+//   path: resolve(ROOT_PATH, '.env'),
+// });
 
 export const IS_PROD: boolean = process.env.NODE_ENV === 'production';
 export const IS_DEV = !IS_PROD;
