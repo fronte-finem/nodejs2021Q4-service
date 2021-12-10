@@ -1,8 +1,4 @@
-import S, {
-  ExtendedSchema,
-  JSONSchema,
-  ObjectSchema,
-} from 'fluent-json-schema';
+import S, { ExtendedSchema, ObjectSchema } from 'fluent-json-schema';
 import { uuidKey } from '~src/openaip/keys';
 
 const enum ColumnField {
@@ -27,6 +23,9 @@ const ColumnBaseSchema: ObjectSchema = S.object()
   .prop(ColumnField.ORDER, S.number())
   .additionalProperties(false);
 
+/**
+ * Set of JSON-Schemas for partial forms of {@link ColumnDTO} for different API operations
+ */
 export const ColumnSchema: Readonly<Record<string, ExtendedSchema>> = {
   READ: S.object().id(ColumnSchemaID.READ).extend(ColumnBaseSchema),
 
@@ -37,10 +36,4 @@ export const ColumnSchema: Readonly<Record<string, ExtendedSchema>> = {
   UPDATE: S.object()
     .id(ColumnSchemaID.UPDATE)
     .extend(ColumnBaseSchema.required(createFields)),
-};
-
-export const ColumnSchemaRef: Readonly<Record<string, JSONSchema>> = {
-  READ: S.ref(ColumnSchemaID.READ),
-  CREATE: S.ref(ColumnSchemaID.CREATE),
-  UPDATE: S.ref(ColumnSchemaID.UPDATE),
 };

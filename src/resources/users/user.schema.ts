@@ -28,6 +28,9 @@ const UserBaseSchema: ObjectSchema = S.object()
   .prop(UserField.PASSWORD, S.string())
   .additionalProperties(false);
 
+/**
+ * Set of JSON-Schemas for partial forms of {@link UserDTO} for different API operations
+ */
 export const UserSchema: Readonly<Record<string, ExtendedSchema>> = {
   READ: S.object()
     .id(UserSchemaID.READ)

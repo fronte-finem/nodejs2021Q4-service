@@ -29,6 +29,9 @@ const TaskBaseSchema: ObjectSchema = S.object()
   .prop(TaskField.COLUMN_ID, foreignKey)
   .additionalProperties(false);
 
+/**
+ * Set of JSON-Schemas for partial forms of {@link TaskDTO} for different API operations
+ */
 export const TaskSchema: Readonly<Record<string, ExtendedSchema>> = {
   READ: S.object()
     .id(TaskSchemaID.READ)
