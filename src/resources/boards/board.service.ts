@@ -1,4 +1,5 @@
 import { IDBRepository } from '~src/common/memory-repository';
+import { Column } from '~src/resources/boards/column.model';
 import { tasksService } from '~src/resources/tasks/task.service';
 import { Maybe } from '~src/common/types';
 import { boardsRepo } from './board.memory-repository';
@@ -15,8 +16,14 @@ class BoardsService {
     return this.repo.read(id);
   }
 
-  public async create(boardDTO: Partial<BoardDTO>): Promise<Maybe<BoardDTO>> {
-    const board = new Board(boardDTO);
+  public async create({
+    columns = [],
+    ...boardDTO
+  }: Partial<BoardDTO>): Promise<Maybe<BoardDTO>> {
+    const board = new Board({
+      ...boardDTO,
+      columns: columns.map((columnDTO) => new Column(columnDTO)),
+    });
     return this.repo.create(board);
   }
 
@@ -30,9 +37,13 @@ class BoardsService {
 
   public async update(
     id: string,
-    boardDTO: Partial<BoardDTO>
+    { columns = [], ...boardDTO }: Partial<BoardDTO>
   ): Promise<Maybe<BoardDTO>> {
-    const board = new Board({ id, ...boardDTO });
+    const board = new Board({
+      id,
+      ...boardDTO,
+      columns: columns.map((columnDTO) => new Column(columnDTO)),
+    });
     return this.repo.update(id, board);
   }
 }
