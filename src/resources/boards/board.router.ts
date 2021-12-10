@@ -1,16 +1,18 @@
 import { FastifyPluginAsync } from 'fastify';
-import { readController } from './controllers/board.read';
-import { readByIdController } from './controllers/board.read-by-id';
+import { PARAM_BOARD_ID } from './controllers/board-types';
 import { createController } from './controllers/board.create';
 import { deleteByIdController } from './controllers/board.delete-by-id';
+import { readController } from './controllers/board.read';
+import { readByIdController } from './controllers/board.read-by-id';
 import { updateByIdController } from './controllers/board.update-by-id';
 
-const BOARD_ID = 'boardId';
+const ROOT_URL = '/';
+const ID_URL = `/:${PARAM_BOARD_ID}`;
 
 export const boardRouter: FastifyPluginAsync = async (fastify) => {
-  fastify.get('/', readController());
-  fastify.get(`/:${BOARD_ID}`, readByIdController(BOARD_ID));
-  fastify.post('/', createController());
-  fastify.delete(`/:${BOARD_ID}`, deleteByIdController(BOARD_ID));
-  fastify.put(`/:${BOARD_ID}`, updateByIdController(BOARD_ID));
+  fastify.post(ROOT_URL, createController);
+  fastify.get(ROOT_URL, readController);
+  fastify.get(ID_URL, readByIdController);
+  fastify.delete(ID_URL, deleteByIdController);
+  fastify.put(ID_URL, updateByIdController);
 };
