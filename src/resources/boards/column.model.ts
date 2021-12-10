@@ -6,8 +6,8 @@ export interface ColumnDTO extends RecordWithId {
 }
 
 export class Column extends BaseModel implements ColumnDTO {
-  public readonly order: number;
   public readonly title: string;
+  public readonly order: number;
 
   constructor({ id, title, order }: Partial<ColumnDTO> = {}) {
     super(id);

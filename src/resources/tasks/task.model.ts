@@ -10,12 +10,12 @@ export interface TaskDTO extends RecordWithId {
 }
 
 export class Task extends BaseModel implements TaskDTO {
+  public readonly title: string;
+  public readonly order: number;
+  public readonly description: string;
+  public readonly userId: string | null;
   public readonly boardId: string | null;
   public readonly columnId: string | null;
-  public readonly description: string;
-  public readonly order: number;
-  public readonly title: string;
-  public readonly userId: string | null;
 
   constructor(options: Partial<TaskDTO> = {}) {
     super(options.id);
