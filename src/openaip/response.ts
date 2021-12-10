@@ -1,4 +1,4 @@
-import { HttpStatusCode } from 'common/http-constants';
+import { HttpStatusCode } from '~src/common/http-constants';
 
 /**
  * {@link https://swagger.io/specification/ | OpenAPI} fragment for response
@@ -31,6 +31,8 @@ export type HttpResponseEmptyType = Readonly<{
   }>;
 }>;
 
+const SUCCESSFUL_OPERATION = 'Successful operation';
+
 /**
  * Helper that assemble {@link https://swagger.io/specification/ | OpenAPI} fragment for response
  * @param $ref - string reference to schema with response object
@@ -40,10 +42,10 @@ export type HttpResponseEmptyType = Readonly<{
  */
 export const makeHttpResponse = (
   $ref: string,
-  description: string,
-  statusCode?: number
+  description = SUCCESSFUL_OPERATION,
+  statusCode = HttpStatusCode.OK
 ): HttpResponseType => ({
-  [statusCode ?? HttpStatusCode.OK]: { description, $ref },
+  [statusCode]: { description, $ref },
 });
 
 /**
@@ -55,10 +57,10 @@ export const makeHttpResponse = (
  */
 export const makeHttpResponseArray = (
   $ref: string,
-  description: string,
-  statusCode?: number
+  description = SUCCESSFUL_OPERATION,
+  statusCode = HttpStatusCode.OK
 ): HttpResponseArrayType => ({
-  [statusCode ?? HttpStatusCode.OK]: {
+  [statusCode]: {
     description,
     type: 'array',
     items: { $ref },
@@ -72,8 +74,8 @@ export const makeHttpResponseArray = (
  * @returns {@link https://swagger.io/specification/ | OpenAPI} fragment for empty response
  */
 export const makeHttpResponseEmpty = (
-  description: string,
-  statusCode?: number
+  description = SUCCESSFUL_OPERATION,
+  statusCode = HttpStatusCode.NO_CONTENT
 ): HttpResponseEmptyType => ({
-  [statusCode ?? HttpStatusCode.NO_CONTENT]: { description, type: 'null' },
+  [statusCode]: { description, type: 'null' },
 });
