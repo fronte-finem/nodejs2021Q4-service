@@ -9,6 +9,9 @@ export interface TaskDTO extends RecordWithId {
   readonly columnId: null | string;
 }
 
+/**
+ * Model for task record
+ */
 export class Task extends BaseModel implements TaskDTO {
   public readonly title: string;
   public readonly order: number;
@@ -17,13 +20,18 @@ export class Task extends BaseModel implements TaskDTO {
   public readonly boardId: string | null;
   public readonly columnId: string | null;
 
-  constructor(options: Partial<TaskDTO> = {}) {
-    super(options.id);
-    this.title = options.title ?? 'Test Task';
-    this.order = options.order ?? 1;
-    this.description = options.description ?? 'Lorem ipsum';
-    this.userId = options.userId ?? null;
-    this.boardId = options.boardId ?? null;
-    this.columnId = options.columnId ?? null;
+  /**
+   * Create task record
+   * @param taskDTO - partial form of {@link TaskDTO}
+   * @returns instance of {@link Task}
+   */
+  constructor(taskDTO: Partial<TaskDTO> = {}) {
+    super(taskDTO.id);
+    this.title = taskDTO.title ?? 'Test Task';
+    this.order = taskDTO.order ?? 1;
+    this.description = taskDTO.description ?? 'Lorem ipsum';
+    this.userId = taskDTO.userId ?? null;
+    this.boardId = taskDTO.boardId ?? null;
+    this.columnId = taskDTO.columnId ?? null;
   }
 }

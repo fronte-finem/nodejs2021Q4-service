@@ -8,11 +8,19 @@ export interface UserDTO extends RecordWithId {
 
 export type UserDTOResponse = Omit<UserDTO, 'password'>;
 
+/**
+ * Model for user record
+ */
 export class User extends BaseModel implements UserDTO {
   public readonly name: string;
   public readonly login: string;
   public readonly password: string;
 
+  /**
+   * Create user record
+   * @param userDTO - partial form of {@link UserDTO}
+   * @returns instance of {@link User}
+   */
   constructor({ id, name, login, password }: Partial<UserDTO> = {}) {
     super(id);
     this.name = name ?? 'User';
@@ -20,8 +28,12 @@ export class User extends BaseModel implements UserDTO {
     this.password = password ?? 'P@55w0rd';
   }
 
-  public static toResponse(user: User): UserDTOResponse {
-    const { id, name, login } = user;
+  /**
+   * Transform {@link User} record to {@link UserDTO} excluding password field
+   * @param user - instance of {@link User} record
+   * @returns partial form of {@link UserDTO} without password field
+   */
+  public static toResponse({ id, name, login }: User): UserDTOResponse {
     return { id, name, login };
   }
 }
