@@ -1,10 +1,15 @@
-import { PrettyOptions } from 'pino-pretty';
 import pinoPrettyCompact from '@mgcrea/pino-pretty-compact';
 import { LogObject } from '@mgcrea/pino-pretty-compact/lib/prettifier';
+import { PrettyOptions } from 'pino-pretty';
 
 export type Logger = (object: LogObject) => string;
 
 export type Prettifier = (options?: PrettyOptions) => Logger;
+
+const defaultPrettifier: Prettifier =
+  typeof pinoPrettyCompact === 'function'
+    ? pinoPrettyCompact
+    : (pinoPrettyCompact as unknown as { default: Prettifier }).default;
 
 /**
  * Replacing symbols "→", "←" in log message
@@ -14,13 +19,13 @@ export type Prettifier = (options?: PrettyOptions) => Logger;
 const fixMessage = (msg: string) => msg.replace('→', '->').replace('←', '<-');
 
 /**
- * This prettifier configuring pino-pretty-compact logger
+ * Configuring pino-pretty-compact logger
  * @param options - pino-pretty config
  * @returns tuned {@link Logger}
  * @see https://github.com/pinojs/pino-pretty#options
  */
 export const prettifier = (options: PrettyOptions = {}): Logger => {
-  const logger: Logger = pinoPrettyCompact({
+  const logger: Logger = defaultPrettifier({
     ...options,
     ignore: 'pid,hostname,reqId,sessionId,plugin',
   });
