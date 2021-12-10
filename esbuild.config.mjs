@@ -22,8 +22,5 @@ build({
   platform: 'node',
   target: 'ESNext',
   logLevel: 'info',
-  define: {
-    'process.env.STARTUP_MODE': JSON.stringify('bundle'),
-  },
   plugins: [makeAllPackagesExternalPlugin],
 }).catch(() => process.exit(1));
