@@ -3,7 +3,7 @@ import S, {
   JSONSchema,
   ObjectSchema,
 } from 'fluent-json-schema';
-import { uuidKey } from 'openaip/keys';
+import { uuidKey } from '~src/openaip/keys';
 
 const enum ColumnField {
   ID = 'id',

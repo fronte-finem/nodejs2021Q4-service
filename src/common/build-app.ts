@@ -1,6 +1,6 @@
-import buildFastify, { FastifyInstance, FastifyServerOptions } from 'fastify';
 import fastifyRequestLogger from '@mgcrea/fastify-request-logger';
-import { Maybe } from 'types/common';
+import buildFastify, { FastifyInstance, FastifyServerOptions } from 'fastify';
+import { Maybe } from '~src/types/common';
 import { Prettifier } from './logger';
 
 /**
@@ -20,7 +20,11 @@ export const buildApp = (
   const logger = prettifier ? { prettyPrint: true, prettifier } : true;
   const disableRequestLogging = Boolean(prettifier);
 
-  const app = buildFastify({ logger, disableRequestLogging, ...options });
+  const app: FastifyInstance = buildFastify({
+    logger,
+    disableRequestLogging,
+    ...options,
+  });
 
   if (prettifier) {
     app.register(fastifyRequestLogger);

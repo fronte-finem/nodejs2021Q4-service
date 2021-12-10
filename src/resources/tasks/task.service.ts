@@ -1,5 +1,5 @@
-import { IDBRepository } from 'common/memory-repository';
-import { Maybe } from 'types/common';
+import { IDBRepository } from '~src/common/memory-repository';
+import { Maybe } from '~src/types/common';
 import { tasksRepo } from './task.memory.repository';
 import { Task, TaskDTO } from './task.model';
 

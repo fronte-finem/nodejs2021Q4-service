@@ -1,5 +1,5 @@
 import S, { ObjectSchema } from 'fluent-json-schema';
-import { HttpStatusCode } from 'common/http-constants';
+import { HttpStatusCode } from '~src/common/http-constants';
 import { HttpResponseType, makeHttpResponse } from './response';
 
 const enum HttpErrorField {

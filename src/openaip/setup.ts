@@ -1,10 +1,9 @@
 import { FastifyInstance } from 'fastify';
 import FastifySwagger, { FastifyDynamicSwaggerOptions } from 'fastify-swagger';
-import { ApiEndpointTag } from 'common/constants';
-import { UserSchema } from 'resources/users/user.schema';
-import { ColumnSchema } from 'resources/boards/column.schema';
-import { BoardSchema } from 'resources/boards/board.schema';
-import { TaskSchema } from 'resources/tasks/task.schema';
+import { BoardSchema } from '~src/resources/boards/board.schema';
+import { ColumnSchema } from '~src/resources/boards/column.schema';
+import { TaskSchema } from '~src/resources/tasks/task.schema';
+import { UserSchema } from '~src/resources/users/user.schema';
 import { ResponseHttpError } from './response.http-error';
 
 /**
@@ -20,7 +19,6 @@ const docOptions: FastifyDynamicSwaggerOptions = {
       version: '1.0.0',
     },
     servers: [{ url: 'http://localhost' }],
-    tags: Object.values(ApiEndpointTag),
   },
   uiConfig: {
     docExpansion: 'list',
@@ -36,7 +34,6 @@ const docOptions: FastifyDynamicSwaggerOptions = {
 export const setupOpenApiDoc = (app: FastifyInstance): void => {
   app
     .addSchema(ResponseHttpError)
-    .addSchema(UserSchema.MODEL)
     .addSchema(UserSchema.READ)
     .addSchema(UserSchema.CREATE)
     .addSchema(UserSchema.UPDATE)

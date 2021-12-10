@@ -1,4 +1,4 @@
-import { BaseModel, RecordWithId } from 'types/common';
+import { BaseModel, RecordWithId } from '~src/types/common';
 import { ColumnDTO } from './column.model';
 
 export interface BoardDTO extends RecordWithId {
