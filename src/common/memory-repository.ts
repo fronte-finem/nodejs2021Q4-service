@@ -30,16 +30,16 @@ export class MemoryRepository<T extends RecordWithId>
   }
 
   /**
-   * Overloaded Read operation
-   * @param id - string identifier for record
-   * @returns Promise with {@link Maybe} found record (if id passed)
-   */
-  public async read(id: string): Promise<Maybe<T>>;
-  /**
-   * Overloaded Read operation
-   * @returns Promise with array of records (if id not passed)
+   * Read all records
+   * @returns Promise with array of records
    */
   public async read(): Promise<T[]>;
+  /**
+   * Read record by id
+   * @param id - string identifier for record
+   * @returns Promise with {@link Maybe} found record
+   */
+  public async read(id: string): Promise<Maybe<T>>;
   /**
    * Overloaded Read operation
    * @param id - optional string identifier
