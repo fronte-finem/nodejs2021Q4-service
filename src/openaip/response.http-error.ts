@@ -1,6 +1,6 @@
 import S, { ObjectSchema } from 'fluent-json-schema';
 import { HttpStatusCode } from '~src/common/http-constants';
-import { HttpResponseType, makeHttpResponse } from './response';
+import { OpenApiHttpResponse, makeOpenApiHttpResponse } from './response';
 
 const enum HttpErrorField {
   STATUS_CODE = 'statusCode',
@@ -18,22 +18,23 @@ export const ResponseHttpError: ObjectSchema = S.object()
   .prop(HttpErrorField.MESSAGE, S.string().required());
 
 /**
- * Set of JSON-Schemas for predefined http errors
+ * Set of OpenAPI fragments for predefined http errors
  */
-export const HttpErrorResponse: Readonly<Record<string, HttpResponseType>> = {
-  BAD_REQUEST: makeHttpResponse(
-    HttpErrorSchemaID,
-    'Bad request',
-    HttpStatusCode.BAD_REQUEST
-  ),
-  UNAUTHORIZED: makeHttpResponse(
-    HttpErrorSchemaID,
-    'Access token is missing or invalid',
-    HttpStatusCode.UNAUTHORIZED
-  ),
-  NOT_FOUND: makeHttpResponse(
-    HttpErrorSchemaID,
-    'Not found',
-    HttpStatusCode.NOT_FOUND
-  ),
-};
+export const HttpErrorResponse: Readonly<Record<string, OpenApiHttpResponse>> =
+  {
+    BAD_REQUEST: makeOpenApiHttpResponse(
+      HttpErrorSchemaID,
+      'Bad request',
+      HttpStatusCode.BAD_REQUEST
+    ),
+    UNAUTHORIZED: makeOpenApiHttpResponse(
+      HttpErrorSchemaID,
+      'Access token is missing or invalid',
+      HttpStatusCode.UNAUTHORIZED
+    ),
+    NOT_FOUND: makeOpenApiHttpResponse(
+      HttpErrorSchemaID,
+      'Not found',
+      HttpStatusCode.NOT_FOUND
+    ),
+  };

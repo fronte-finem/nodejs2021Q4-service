@@ -1,16 +1,7 @@
 /**
- *  Type for describe url id-parameter
+ *  OpenAPI fragment for set of url id-parameters
  */
-export type UrlParam = {
-  $id: string;
-  format?: string;
-  required?: boolean;
-};
-
-/**
- *  Fastify JSON-Schema fragment for set of url id-parameters
- */
-export type RequestParamProperties = {
+export type OpenApiRequestParamProperties = {
   [$id: string]: {
     type: 'string';
     format?: string;
@@ -18,46 +9,27 @@ export type RequestParamProperties = {
 };
 
 /**
- *  Fastify JSON-Schema fragment for request parameters
+ *  OpenAPI fragment for request parameters
  */
-export type RequestParams = {
+export type OpenApiRequestParams = {
   type: 'object';
-  properties: RequestParamProperties;
+  properties: OpenApiRequestParamProperties;
   required?: string[];
   additionalProperties: false;
 };
 
 /**
- *  Helper for transform array of url parameters to Fastify JSON-Schema fragment for request parameters
- *  @param params - array of url parameters
- *  @returns Fastify JSON-Schema fragment for request parameters
- */
-export const makeRequestParams = (params: UrlParam[]): RequestParams => {
-  const required = params.filter((p) => p.required).map((p) => p.$id);
-
-  const properties = params.reduce((acc, { $id, format }) => {
-    acc[$id] = { type: 'string', format };
-    return acc;
-  }, {} as RequestParamProperties);
-
-  return {
-    type: 'object',
-    properties,
-    required,
-    additionalProperties: false,
-  };
-};
-
-/**
- *  Helper for transform array of ID to Fastify JSON-Schema fragment for request parameters with IDs in UUID format
+ *  Helper for transform array of ID to OpenAPI fragment for request parameters with IDs in UUID format
  *  @param ids - array of string ID
- *  @returns Fastify JSON-Schema fragment for request parameters with IDs in UUID format
+ *  @returns OpenAPI fragment for request parameters with IDs in UUID format
  */
-export const makeUuidRequestParams = (ids: string[]): RequestParams => {
+export const makeOpenAPIUuidRequestParams = (
+  ids: string[]
+): OpenApiRequestParams => {
   const properties = ids.reduce((acc, $id) => {
     acc[$id] = { type: 'string', format: 'uuid' };
     return acc;
-  }, {} as RequestParamProperties);
+  }, {} as OpenApiRequestParamProperties);
 
   return {
     type: 'object',

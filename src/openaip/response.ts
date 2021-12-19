@@ -1,9 +1,9 @@
 import { HttpStatusCode } from '~src/common/http-constants';
 
 /**
- * {@link https://swagger.io/specification/ | OpenAPI} fragment for response
+ * OpenAPI fragment for response
  */
-export type HttpResponseType = Readonly<{
+export type OpenApiHttpResponse = Readonly<{
   [statusCode: number]: Readonly<{
     description: string;
     $ref: string;
@@ -11,9 +11,9 @@ export type HttpResponseType = Readonly<{
 }>;
 
 /**
- * {@link https://swagger.io/specification/ | OpenAPI} fragment for response with array
+ * OpenAPI fragment for response with array
  */
-export type HttpResponseArrayType = Readonly<{
+export type OpenApiHttpResponseArray = Readonly<{
   [statusCode: number]: Readonly<{
     description: string;
     type: 'array';
@@ -22,9 +22,9 @@ export type HttpResponseArrayType = Readonly<{
 }>;
 
 /**
- * {@link https://swagger.io/specification/ | OpenAPI} fragment for empty response
+ * OpenAPI fragment for empty response
  */
-export type HttpResponseEmptyType = Readonly<{
+export type OpenApiHttpResponseEmpty = Readonly<{
   [statusCode: number]: Readonly<{
     description: string;
     type: 'null';
@@ -34,32 +34,32 @@ export type HttpResponseEmptyType = Readonly<{
 const SUCCESSFUL_OPERATION = 'Successful operation';
 
 /**
- * Helper that assemble {@link https://swagger.io/specification/ | OpenAPI} fragment for response
+ * Helper that assemble OpenAPI fragment for response
  * @param $ref - string reference to schema with response object
  * @param description - string representation of response
  * @param statusCode - number for HTTP status code
- * @returns {@link https://swagger.io/specification/ | OpenAPI} fragment for response
+ * @returns OpenAPI fragment for response
  */
-export const makeHttpResponse = (
+export const makeOpenApiHttpResponse = (
   $ref: string,
   description = SUCCESSFUL_OPERATION,
   statusCode = HttpStatusCode.OK
-): HttpResponseType => ({
+): OpenApiHttpResponse => ({
   [statusCode]: { description, $ref },
 });
 
 /**
- * Helper that assemble {@link https://swagger.io/specification/ | OpenAPI} fragment for response with Array
+ * Helper that assemble OpenAPI fragment for response with Array
  * @param $ref - string reference to schema with response object
  * @param description - string representation of response
  * @param statusCode - number for HTTP status code
- * @returns {@link https://swagger.io/specification/ | OpenAPI} fragment for response with Array
+ * @returns OpenAPI fragment for response with Array
  */
-export const makeHttpResponseArray = (
+export const makeOpenApiHttpResponseArray = (
   $ref: string,
   description = SUCCESSFUL_OPERATION,
   statusCode = HttpStatusCode.OK
-): HttpResponseArrayType => ({
+): OpenApiHttpResponseArray => ({
   [statusCode]: {
     description,
     type: 'array',
@@ -68,14 +68,14 @@ export const makeHttpResponseArray = (
 });
 
 /**
- * Helper that assemble {@link https://swagger.io/specification/ | OpenAPI} fragment for empty response
+ * Helper that assemble OpenAPI fragment for empty response
  * @param description - string representation of response
  * @param statusCode - number for HTTP status code
- * @returns {@link https://swagger.io/specification/ | OpenAPI} fragment for empty response
+ * @returns OpenAPI fragment for empty response
  */
-export const makeHttpResponseEmpty = (
+export const makeOpenApiHttpResponseEmpty = (
   description = SUCCESSFUL_OPERATION,
   statusCode = HttpStatusCode.NO_CONTENT
-): HttpResponseEmptyType => ({
+): OpenApiHttpResponseEmpty => ({
   [statusCode]: { description, type: 'null' },
 });

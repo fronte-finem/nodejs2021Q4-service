@@ -1,6 +1,6 @@
 import { FastifySchema, RouteHandler } from 'fastify';
-import { ApiEndpointTag } from '~src/common/constants';
-import { makeHttpResponseArray } from '~src/openaip/response';
+import { OpenApiEndpointTag } from '~src/common/constants';
+import { makeOpenApiHttpResponseArray } from '~src/openaip/response';
 import { HttpErrorResponse } from '~src/openaip/response.http-error';
 import { UserSchemaID } from '../user.schema';
 import { usersService } from '../user.service';
@@ -8,9 +8,9 @@ import { usersService } from '../user.service';
 const schema: FastifySchema = {
   summary: 'Get all users',
   description: 'Gets all users (remove password from response)',
-  tags: [ApiEndpointTag.USERS],
+  tags: [OpenApiEndpointTag.USERS],
   response: {
-    ...makeHttpResponseArray(UserSchemaID.READ),
+    ...makeOpenApiHttpResponseArray(UserSchemaID.READ),
     ...HttpErrorResponse.UNAUTHORIZED,
   },
 };

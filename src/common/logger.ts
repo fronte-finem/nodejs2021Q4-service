@@ -21,7 +21,7 @@ const fixMessage = (msg: string) => msg.replace('→', '->').replace('←', '<-'
 /**
  * Configuring pino-pretty-compact logger
  * @param options - pino-pretty config
- * @returns tuned {@link Logger}
+ * @returns configured {@link Logger}
  * @see https://github.com/pinojs/pino-pretty#options
  */
 export const prettifier = (options: PrettyOptions = {}): Logger => {

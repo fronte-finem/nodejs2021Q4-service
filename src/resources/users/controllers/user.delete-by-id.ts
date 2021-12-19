@@ -1,8 +1,8 @@
 import { FastifySchema, RouteHandler } from 'fastify';
-import { ApiEndpointTag } from '~src/common/constants';
+import { OpenApiEndpointTag } from '~src/common/constants';
 import { HttpStatusCode } from '~src/common/http-constants';
-import { makeUuidRequestParams } from '~src/openaip/request';
-import { makeHttpResponseEmpty } from '~src/openaip/response';
+import { makeOpenAPIUuidRequestParams } from '~src/openaip/request';
+import { makeOpenApiHttpResponseEmpty } from '~src/openaip/response';
 import { HttpErrorResponse } from '~src/openaip/response.http-error';
 import { usersService } from '../user.service';
 import { IUserRequest, PARAM_USER_ID } from './user-types';
@@ -11,10 +11,10 @@ const schema: FastifySchema = {
   summary: 'Delete user',
   description:
     'Deletes user by ID. When somebody\n DELETE User, all Tasks where User is assignee\n should be updated to put userId = null',
-  tags: [ApiEndpointTag.USERS],
-  params: { ...makeUuidRequestParams([PARAM_USER_ID]) },
+  tags: [OpenApiEndpointTag.USERS],
+  params: makeOpenAPIUuidRequestParams([PARAM_USER_ID]),
   response: {
-    ...makeHttpResponseEmpty(
+    ...makeOpenApiHttpResponseEmpty(
       'The user has been deleted',
       HttpStatusCode.NO_CONTENT
     ),

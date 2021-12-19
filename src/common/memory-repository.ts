@@ -2,6 +2,7 @@ import { Maybe, RecordWithId } from '~src/common/types';
 
 /**
  * Interface for repository that declare CRUD operations
+ * @typeParam T - extension of {@link RecordWithId}
  */
 export interface IDBRepository<T extends RecordWithId> {
   create(item: T): Promise<Maybe<T>>;
@@ -13,6 +14,7 @@ export interface IDBRepository<T extends RecordWithId> {
 
 /**
  * CRUD Repository that use Map for mock in-memory DB
+ * @typeParam T - extension of {@link RecordWithId}
  */
 export class MemoryRepository<T extends RecordWithId>
   implements IDBRepository<T>

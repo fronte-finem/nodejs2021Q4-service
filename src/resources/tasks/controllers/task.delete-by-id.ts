@@ -1,8 +1,8 @@
 import { FastifySchema, RouteHandler } from 'fastify';
-import { ApiEndpointTag } from '~src/common/constants';
+import { OpenApiEndpointTag } from '~src/common/constants';
 import { HttpStatusCode } from '~src/common/http-constants';
-import { makeUuidRequestParams } from '~src/openaip/request';
-import { makeHttpResponseEmpty } from '~src/openaip/response';
+import { makeOpenAPIUuidRequestParams } from '~src/openaip/request';
+import { makeOpenApiHttpResponseEmpty } from '~src/openaip/response';
 import { HttpErrorResponse } from '~src/openaip/response.http-error';
 import { tasksService } from '../task.service';
 import { ITaskRequest, PARAM_BOARD_ID, PARAM_TASK_ID } from './task-types';
@@ -11,10 +11,10 @@ const schema: FastifySchema = {
   summary: 'Delete task',
   description:
     "Deletes Task by the Board's and task ID\n (e.g. “/board/1/tasks/123”)",
-  tags: [ApiEndpointTag.TASKS],
-  params: { ...makeUuidRequestParams([PARAM_BOARD_ID, PARAM_TASK_ID]) },
+  tags: [OpenApiEndpointTag.TASKS],
+  params: makeOpenAPIUuidRequestParams([PARAM_BOARD_ID, PARAM_TASK_ID]),
   response: {
-    ...makeHttpResponseEmpty(
+    ...makeOpenApiHttpResponseEmpty(
       'The task has been deleted',
       HttpStatusCode.NO_CONTENT
     ),

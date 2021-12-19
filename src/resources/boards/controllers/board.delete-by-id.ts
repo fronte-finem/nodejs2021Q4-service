@@ -1,8 +1,8 @@
 import { FastifySchema, RouteHandler } from 'fastify';
-import { ApiEndpointTag } from '~src/common/constants';
+import { OpenApiEndpointTag } from '~src/common/constants';
 import { HttpStatusCode } from '~src/common/http-constants';
-import { makeUuidRequestParams } from '~src/openaip/request';
-import { makeHttpResponseEmpty } from '~src/openaip/response';
+import { makeOpenAPIUuidRequestParams } from '~src/openaip/request';
+import { makeOpenApiHttpResponseEmpty } from '~src/openaip/response';
 import { HttpErrorResponse } from '~src/openaip/response.http-error';
 import { boardsService } from '../board.service';
 import { IBoardRequest, PARAM_BOARD_ID } from './board-types';
@@ -11,10 +11,10 @@ const schema: FastifySchema = {
   summary: 'Delete board',
   description:
     'Deletes a board by ID.\n When somebody DELETE Board,\n all its Tasks should be deleted as well',
-  tags: [ApiEndpointTag.BOARDS],
-  params: { ...makeUuidRequestParams([PARAM_BOARD_ID]) },
+  tags: [OpenApiEndpointTag.BOARDS],
+  params: makeOpenAPIUuidRequestParams([PARAM_BOARD_ID]),
   response: {
-    ...makeHttpResponseEmpty(
+    ...makeOpenApiHttpResponseEmpty(
       'The board has been deleted',
       HttpStatusCode.NO_CONTENT
     ),

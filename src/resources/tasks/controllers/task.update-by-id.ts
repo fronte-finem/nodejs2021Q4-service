@@ -1,9 +1,9 @@
 import { FastifySchema, RouteHandler } from 'fastify';
 import S from 'fluent-json-schema';
-import { ApiEndpointTag } from '~src/common/constants';
+import { OpenApiEndpointTag } from '~src/common/constants';
 import { HttpStatusCode } from '~src/common/http-constants';
-import { makeUuidRequestParams } from '~src/openaip/request';
-import { makeHttpResponse } from '~src/openaip/response';
+import { makeOpenAPIUuidRequestParams } from '~src/openaip/request';
+import { makeOpenApiHttpResponse } from '~src/openaip/response';
 import { HttpErrorResponse } from '~src/openaip/response.http-error';
 import { TaskSchemaID } from '../task.schema';
 import { tasksService } from '../task.service';
@@ -13,13 +13,11 @@ const schema: FastifySchema = {
   summary: 'Update a task',
   description:
     "Updates a task by the Board's and task ID\n (e.g. “/board/1/tasks/123”)",
-  tags: [ApiEndpointTag.TASKS],
-  params: {
-    ...makeUuidRequestParams([PARAM_BOARD_ID, PARAM_TASK_ID]),
-  },
+  tags: [OpenApiEndpointTag.TASKS],
+  params: makeOpenAPIUuidRequestParams([PARAM_BOARD_ID, PARAM_TASK_ID]),
   body: S.ref(TaskSchemaID.UPDATE),
   response: {
-    ...makeHttpResponse(
+    ...makeOpenApiHttpResponse(
       TaskSchemaID.READ,
       'The task has been updated.',
       HttpStatusCode.OK

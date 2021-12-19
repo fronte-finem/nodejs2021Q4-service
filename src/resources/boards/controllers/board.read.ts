@@ -1,6 +1,6 @@
 import { FastifySchema, RouteHandler } from 'fastify';
-import { ApiEndpointTag } from '~src/common/constants';
-import { makeHttpResponseArray } from '~src/openaip/response';
+import { OpenApiEndpointTag } from '~src/common/constants';
+import { makeOpenApiHttpResponseArray } from '~src/openaip/response';
 import { HttpErrorResponse } from '~src/openaip/response.http-error';
 import { BoardSchemaID } from '../board.schema';
 import { boardsService } from '../board.service';
@@ -8,9 +8,9 @@ import { boardsService } from '../board.service';
 const schema: FastifySchema = {
   summary: 'Get all boards',
   description: 'Returns all boards',
-  tags: [ApiEndpointTag.BOARDS],
+  tags: [OpenApiEndpointTag.BOARDS],
   response: {
-    ...makeHttpResponseArray(BoardSchemaID.READ),
+    ...makeOpenApiHttpResponseArray(BoardSchemaID.READ),
     ...HttpErrorResponse.UNAUTHORIZED,
   },
 };

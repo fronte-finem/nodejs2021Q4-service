@@ -1,13 +1,5 @@
-// import dotenv from 'dotenv';
-// import { resolve } from 'path';
-// import { ROOT_PATH } from '../../.root.config.mjs';
-
-// dotenv.config({
-//   path: resolve(ROOT_PATH, '.env'),
-// });
-
 export const {
-  PORT = 5000,
+  PORT = '5000',
   NODE_ENV = 'development',
   MONGO_CONNECTION_STRING = 'mongo connection string',
   JWT_SECRET_KEY = 'JWT secret key',

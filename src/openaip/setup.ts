@@ -7,7 +7,7 @@ import { UserSchema } from '~src/resources/users/user.schema';
 import { ResponseHttpError } from './response.http-error';
 
 /**
- * {@link https://swagger.io/specification/ | OpenAPI} documentation options for {@link https://github.com/fastify/fastify-swagger | fastify-swagger}
+ * OpenAPI documentation options for fastify-swagger
  */
 const docOptions: FastifyDynamicSwaggerOptions = {
   routePrefix: '/doc',
@@ -28,7 +28,7 @@ const docOptions: FastifyDynamicSwaggerOptions = {
 };
 
 /**
- * Setup {@link https://swagger.io/specification/ | OpenAPI} documentation
+ * Setup OpenAPI documentation
  * @param app - fastify instance
  */
 export const setupOpenApiDoc = (app: FastifyInstance): void => {

@@ -1,7 +1,7 @@
 import { FastifySchema, RouteHandler } from 'fastify';
-import { ApiEndpointTag } from '~src/common/constants';
-import { makeUuidRequestParams } from '~src/openaip/request';
-import { makeHttpResponse } from '~src/openaip/response';
+import { OpenApiEndpointTag } from '~src/common/constants';
+import { makeOpenAPIUuidRequestParams } from '~src/openaip/request';
+import { makeOpenApiHttpResponse } from '~src/openaip/response';
 import { HttpErrorResponse } from '~src/openaip/response.http-error';
 import { UserSchemaID } from '../user.schema';
 import { usersService } from '../user.service';
@@ -11,12 +11,10 @@ const schema: FastifySchema = {
   summary: 'Get user by ID',
   description:
     'Gets a user by ID\n e.g. “/users/123” (remove password from response)',
-  tags: [ApiEndpointTag.USERS],
-  params: {
-    ...makeUuidRequestParams([PARAM_USER_ID]),
-  },
+  tags: [OpenApiEndpointTag.USERS],
+  params: makeOpenAPIUuidRequestParams([PARAM_USER_ID]),
   response: {
-    ...makeHttpResponse(UserSchemaID.READ),
+    ...makeOpenApiHttpResponse(UserSchemaID.READ),
     ...HttpErrorResponse.BAD_REQUEST,
     ...HttpErrorResponse.UNAUTHORIZED,
     ...HttpErrorResponse.NOT_FOUND,

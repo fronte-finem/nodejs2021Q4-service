@@ -1,7 +1,7 @@
 import { FastifySchema, RouteHandler } from 'fastify';
-import { ApiEndpointTag } from '~src/common/constants';
-import { makeUuidRequestParams } from '~src/openaip/request';
-import { makeHttpResponse } from '~src/openaip/response';
+import { OpenApiEndpointTag } from '~src/common/constants';
+import { makeOpenAPIUuidRequestParams } from '~src/openaip/request';
+import { makeOpenApiHttpResponse } from '~src/openaip/response';
 import { HttpErrorResponse } from '~src/openaip/response.http-error';
 import { TaskSchemaID } from '../task.schema';
 import { tasksService } from '../task.service';
@@ -11,12 +11,10 @@ const schema: FastifySchema = {
   summary: 'Get Task by boardId and taskId',
   description:
     "Gets the Task by the Board's and task ID\n (e.g. “/board/1/tasks/123”)",
-  tags: [ApiEndpointTag.TASKS],
-  params: {
-    ...makeUuidRequestParams([PARAM_BOARD_ID, PARAM_TASK_ID]),
-  },
+  tags: [OpenApiEndpointTag.TASKS],
+  params: makeOpenAPIUuidRequestParams([PARAM_BOARD_ID, PARAM_TASK_ID]),
   response: {
-    ...makeHttpResponse(TaskSchemaID.READ),
+    ...makeOpenApiHttpResponse(TaskSchemaID.READ),
     ...HttpErrorResponse.BAD_REQUEST,
     ...HttpErrorResponse.UNAUTHORIZED,
     ...HttpErrorResponse.NOT_FOUND,

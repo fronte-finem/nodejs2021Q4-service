@@ -1,9 +1,9 @@
 import { FastifySchema, RouteHandler } from 'fastify';
 import S from 'fluent-json-schema';
-import { ApiEndpointTag } from '~src/common/constants';
+import { OpenApiEndpointTag } from '~src/common/constants';
 import { HttpStatusCode } from '~src/common/http-constants';
-import { makeUuidRequestParams } from '~src/openaip/request';
-import { makeHttpResponse } from '~src/openaip/response';
+import { makeOpenAPIUuidRequestParams } from '~src/openaip/request';
+import { makeOpenApiHttpResponse } from '~src/openaip/response';
 import { HttpErrorResponse } from '~src/openaip/response.http-error';
 import { UserSchemaID } from '../user.schema';
 import { usersService } from '../user.service';
@@ -12,13 +12,11 @@ import { IUserRequest, PARAM_USER_ID } from './user-types';
 const schema: FastifySchema = {
   summary: 'Update a user',
   description: 'Updates a user by ID',
-  tags: [ApiEndpointTag.USERS],
-  params: {
-    ...makeUuidRequestParams([PARAM_USER_ID]),
-  },
+  tags: [OpenApiEndpointTag.USERS],
+  params: makeOpenAPIUuidRequestParams([PARAM_USER_ID]),
   body: S.ref(UserSchemaID.UPDATE),
   response: {
-    ...makeHttpResponse(
+    ...makeOpenApiHttpResponse(
       UserSchemaID.READ,
       'The user has been updated.',
       HttpStatusCode.OK

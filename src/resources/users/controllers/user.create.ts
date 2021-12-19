@@ -1,8 +1,8 @@
 import { FastifySchema, RouteHandler } from 'fastify';
 import S from 'fluent-json-schema';
-import { ApiEndpointTag } from '~src/common/constants';
+import { OpenApiEndpointTag } from '~src/common/constants';
 import { HttpStatusCode } from '~src/common/http-constants';
-import { makeHttpResponse } from '~src/openaip/response';
+import { makeOpenApiHttpResponse } from '~src/openaip/response';
 import { HttpErrorResponse } from '~src/openaip/response.http-error';
 import { UserSchemaID } from '../user.schema';
 import { usersService } from '../user.service';
@@ -11,10 +11,10 @@ import { IUserRequest } from './user-types';
 const schema: FastifySchema = {
   summary: 'Create user',
   description: 'Creates a new user (remove password from response)',
-  tags: [ApiEndpointTag.USERS],
+  tags: [OpenApiEndpointTag.USERS],
   body: S.ref(UserSchemaID.CREATE),
   response: {
-    ...makeHttpResponse(
+    ...makeOpenApiHttpResponse(
       UserSchemaID.READ,
       'The user has been created.',
       HttpStatusCode.CREATED

@@ -1,9 +1,9 @@
 import { FastifySchema, RouteHandler } from 'fastify';
 import S from 'fluent-json-schema';
-import { ApiEndpointTag } from '~src/common/constants';
+import { OpenApiEndpointTag } from '~src/common/constants';
 import { HttpStatusCode } from '~src/common/http-constants';
-import { makeUuidRequestParams } from '~src/openaip/request';
-import { makeHttpResponse } from '~src/openaip/response';
+import { makeOpenAPIUuidRequestParams } from '~src/openaip/request';
+import { makeOpenApiHttpResponse } from '~src/openaip/response';
 import { HttpErrorResponse } from '~src/openaip/response.http-error';
 import { TaskSchemaID } from '../task.schema';
 import { tasksService } from '../task.service';
@@ -12,13 +12,11 @@ import { ITaskRootRequest, PARAM_BOARD_ID } from './task-types';
 const schema: FastifySchema = {
   summary: 'Create new task',
   description: 'Creates a new task',
-  tags: [ApiEndpointTag.TASKS],
-  params: {
-    ...makeUuidRequestParams([PARAM_BOARD_ID]),
-  },
+  tags: [OpenApiEndpointTag.TASKS],
+  params: makeOpenAPIUuidRequestParams([PARAM_BOARD_ID]),
   body: S.ref(TaskSchemaID.CREATE),
   response: {
-    ...makeHttpResponse(
+    ...makeOpenApiHttpResponse(
       TaskSchemaID.READ,
       'The task has been created.',
       HttpStatusCode.CREATED
