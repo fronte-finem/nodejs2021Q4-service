@@ -16,7 +16,8 @@ const defaultPrettifier: Prettifier =
  * @param msg - input log message
  * @returns fixed message
  */
-const fixMessage = (msg: string) => msg.replace('→', '->').replace('←', '<-');
+const fixMessage = (msg: string): string =>
+  msg.replace('→', '->').replace('←', '<-');
 
 /**
  * Configuring pino-pretty-compact logger
@@ -30,5 +31,6 @@ export const prettifier = (options: PrettyOptions = {}): Logger => {
     ignore: 'pid,hostname,reqId,sessionId,plugin',
   });
 
-  return ({ msg, ...rest }) => logger({ ...rest, msg: fixMessage(msg) });
+  return ({ msg, ...rest }): string =>
+    logger({ ...rest, msg: fixMessage(msg) });
 };
