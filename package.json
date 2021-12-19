@@ -11,7 +11,7 @@
     "start:prod": "npm run build:prod && npm run start:bundle",
     "start:bundle": "node -r dotenv/config ./dist/bundle.mjs",
     "start:dev:loader": "node -r dotenv/config --experimental-loader esbuild-node-loader ./src/server.ts",
-    "build:dev": "cross-env NODE_ENV=development node esbuild.config.mjs",
+    "build:dev": "tsc && cross-env NODE_ENV=development node esbuild.config.mjs",
     "build:prod": "npm run lint && tsc && cross-env NODE_ENV=production node esbuild.config.mjs",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
