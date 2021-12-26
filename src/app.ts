@@ -18,7 +18,6 @@ process.on('unhandledRejection', uncaughtErrorHandler);
 export const app = Fastify({ logger });
 
 app.addHook('preHandler', logRequestBody);
-
 app.setErrorHandler(fastifyErrorHandler);
 
 app.register(FastifyCORS);

@@ -1,5 +1,4 @@
-import { FastifyLoggerInstance } from 'fastify';
-import pino from 'pino';
+import { Logger, pino } from 'pino';
 import { logLevel } from '../common/config';
 
 const commonPrettyOpts = {
@@ -8,7 +7,7 @@ const commonPrettyOpts = {
   translateTime: 'yyyy-mm-dd HH:MM:ss.l',
 };
 
-export const logger: FastifyLoggerInstance = pino({
+export const logger: Logger = pino({
   level: logLevel,
   transport: {
     targets: [
@@ -40,4 +39,4 @@ export const logger: FastifyLoggerInstance = pino({
       },
     ],
   },
-}) as unknown as FastifyLoggerInstance;
+});
