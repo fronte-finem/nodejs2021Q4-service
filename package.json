@@ -4,34 +4,21 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
-    "start": "npm run watch:dev",
-    "watch:dev": "nodemon --watch src --exec npm run start:dev",
-    "watch:ldev:oader": "nodemon --watch src --exec npm run start:dev:loader",
-    "start:dev": "npm run build:dev && npm run start:bundle",
+    "start": "npm run start:dev",
+    "start:dev": "nodemon --watch src",
     "start:prod": "npm run build:prod && npm run start:bundle",
-    "start:bundle": "node -r dotenv/config ./dist/bundle.mjs",
-    "start:dev:loader": "node -r dotenv/config --experimental-loader esbuild-node-loader ./src/server.ts",
-    "build:dev": "tsc && cross-env NODE_ENV=development node esbuild.config.mjs",
-    "build:prod": "npm run lint && tsc && cross-env NODE_ENV=production node esbuild.config.mjs",
+    "start:bundle": "cross-env NODE_ENV=production node -r dotenv/config ./dist/server.js",
+    "build:prod": "npm run lint && tsc",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace"
   },
-  "keywords": [
-    "rs",
-    "school",
-    "rest",
-    "node",
-    "express",
-    "autotest",
-    "starter"
-  ],
   "engines": {
     "node": ">=16.0.0 <17"
   },
   "nodemonConfig": {
     "ext": "*.ts",
-    "exec": "npx ts-node --experimental-specifier-resolution=node src/server.ts"
+    "exec": "npx ts-node -r dotenv/config src/server.ts"
   },
   "jest": {
     "testEnvironment": "node",
@@ -50,26 +37,22 @@
     ]
   },
   "dependencies": {
-    "@mgcrea/fastify-request-logger": "^0.5.2",
-    "@mgcrea/pino-pretty-compact": "^0.5.0",
     "cross-env": "7.0.3",
     "dotenv": "10.0.0",
-    "fastify": "^3.24.1",
+    "fastify": "^3.25.2",
     "fastify-cors": "^6.0.2",
     "fastify-sensible": "^3.1.2",
-    "fastify-swagger": "^4.12.6",
+    "fastify-swagger": "^4.13.0",
     "fluent-json-schema": "^3.0.1",
     "pino-pretty": "^7.2.0"
   },
   "devDependencies": {
-    "@types/node": "^16.11.11",
-    "@typescript-eslint/eslint-plugin": "^5.5.0",
-    "@typescript-eslint/parser": "^5.5.0",
+    "@types/node": "^16.11.17",
+    "@typescript-eslint/eslint-plugin": "^5.8.0",
+    "@typescript-eslint/parser": "^5.8.0",
     "chai": "4.3.4",
     "debug": "4.3.2",
     "dirty-chai": "2.0.1",
-    "esbuild": "^0.14.2",
-    "esbuild-node-loader": "^0.6.3",
     "eslint": "8.2.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-config-airbnb-typescript": "^16.1.0",
@@ -84,6 +67,7 @@
     "nodemon": "2.0.15",
     "prettier": "2.4.1",
     "supertest": "6.1.6",
-    "typescript": "^4.5.2"
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4"
   }
 }
