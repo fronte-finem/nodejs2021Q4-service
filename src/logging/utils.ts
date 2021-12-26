@@ -27,14 +27,13 @@ export const fastifyErrorHandler = (
   request: FastifyRequest,
   reply: FastifyReply
 ): void => {
-  const statusCode = error.validation
-    ? HttpStatusCode.BAD_REQUEST
-    : HttpStatusCode.INTERNAL_SERVER_ERROR;
+  const statusCode =
+    error.statusCode ?? error.validation
+      ? HttpStatusCode.BAD_REQUEST
+      : HttpStatusCode.INTERNAL_SERVER_ERROR;
   const errorType = error.validation ? 'Validation Error' : '';
   logger.error(`${errorType}: ${getErrorMessage(error)}`);
-  reply
-    .status(error.statusCode ?? statusCode)
-    .send(error.validation ? error : STATUS_CODES[statusCode]);
+  reply.status(statusCode).send(STATUS_CODES[statusCode]);
 };
 
 export const logRequestBody = async (
