@@ -16,6 +16,7 @@ const ID_ROUTE = `/:${PARAM_BOARD_ID}/tasks/:${PARAM_TASK_ID}`;
  * @returns empty promise
  */
 export const taskRouter: FastifyPluginAsync = async (app) => {
+  app.setErrorHandler(fastifyErrorHandler);
   app.post(ROOT_ROUTE, createController);
   app.get(ROOT_ROUTE, readController);
   app.get(ID_ROUTE, readByIdController);

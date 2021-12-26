@@ -16,6 +16,7 @@ const ID_URL = `/:${PARAM_USER_ID}`;
  * @returns empty promise
  */
 export const userRouter: FastifyPluginAsync = async (app) => {
+  app.setErrorHandler(fastifyErrorHandler);
   app.post(ROOT_URL, createController);
   app.get(ROOT_URL, readController);
   app.get(ID_URL, readByIdController);

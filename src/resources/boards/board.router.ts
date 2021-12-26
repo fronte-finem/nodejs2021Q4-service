@@ -16,6 +16,7 @@ const ID_URL = `/:${PARAM_BOARD_ID}`;
  * @returns empty promise
  */
 export const boardRouter: FastifyPluginAsync = async (app) => {
+  app.setErrorHandler(fastifyErrorHandler);
   app.post(ROOT_URL, createController);
   app.get(ROOT_URL, readController);
   app.get(ID_URL, readByIdController);
