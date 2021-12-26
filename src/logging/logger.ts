@@ -1,3 +1,4 @@
+import { FastifyRequest } from 'fastify';
 import { Logger, pino } from 'pino';
 import { logLevel } from '../common/config';
 
@@ -39,4 +40,24 @@ export const logger: Logger = pino({
       },
     ],
   },
+  serializers: {
+    req(request: FastifyRequest) {
+      return {
+        method: request.method,
+        hostname: request.hostname,
+        url: request.url,
+        queries: handleEmpty(request.query as Record<string, string>),
+        params: handleEmpty(request.params as Record<string, string>),
+        remoteAddress: request.ip,
+        remotePort: request.socket.remotePort,
+      };
+    },
+  },
 });
+
+function handleEmpty(
+  record: Record<string, string>
+): Record<string, string> | undefined {
+  if (Object.keys(record).length) return record;
+  return undefined;
+}
