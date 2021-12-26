@@ -14,12 +14,8 @@
     "noEmit": true,
 
     /* Modules */
-    "module": "ESNext",
+    "module": "CommonJS",
     "moduleResolution": "Node",
-    "baseUrl": ".",
-    "paths": {
-      "~src/*": ["src/*"]
-    },
     "resolveJsonModule": true,
 
     /* Interop Constraints */

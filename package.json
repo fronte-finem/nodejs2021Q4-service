@@ -2,7 +2,7 @@
   "name": "nodejs-2021q4-service",
   "description": "REST service — education project from RS School for course Nodejs 2021Q4",
   "private": true,
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "start": "npm run watch:dev",
     "watch:dev": "nodemon --watch src --exec npm run start:dev",
