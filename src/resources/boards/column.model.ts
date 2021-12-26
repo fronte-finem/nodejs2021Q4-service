@@ -1,4 +1,4 @@
-import { BaseModel, RecordWithId } from '~src/common/types';
+import { BaseModel, RecordWithId } from '../../common/types';
 
 export interface ColumnDTO extends RecordWithId {
   readonly title: string;

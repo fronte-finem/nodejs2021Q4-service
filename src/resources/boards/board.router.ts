@@ -1,4 +1,5 @@
 import { FastifyPluginAsync } from 'fastify';
+import { fastifyErrorHandler } from '../../logging/utils';
 import { PARAM_BOARD_ID } from './controllers/board-types';
 import { createController } from './controllers/board.create';
 import { deleteByIdController } from './controllers/board.delete-by-id';

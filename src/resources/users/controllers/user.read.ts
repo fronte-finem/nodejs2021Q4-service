@@ -1,7 +1,7 @@
 import { FastifySchema, RouteHandler } from 'fastify';
-import { OpenApiEndpointTag } from '~src/common/constants';
-import { makeOpenApiHttpResponseArray } from '~src/openaip/response';
-import { HttpErrorResponse } from '~src/openaip/response.http-error';
+import { OpenApiEndpointTag } from '../../../common/constants';
+import { makeOpenApiHttpResponseArray } from '../../../openaip/response';
+import { HttpErrorResponse } from '../../../openaip/response.http-error';
 import { UserSchemaID } from '../user.schema';
 import { usersService } from '../user.service';
 

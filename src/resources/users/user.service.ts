@@ -1,6 +1,6 @@
-import { IDBRepository } from '~src/common/memory-repository';
-import { tasksService } from '~src/resources/tasks/task.service';
-import { Maybe } from '~src/common/types';
+import { IDBRepository } from '../../common/memory-repository';
+import { Maybe } from '../../common/types';
+import { tasksService } from '../tasks/task.service';
 import { usersRepo } from './user.memory-repository';
 import { User, UserDTO, UserDTOResponse } from './user.model';
 

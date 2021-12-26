@@ -1,4 +1,5 @@
 import { FastifyPluginAsync } from 'fastify';
+import { fastifyErrorHandler } from '../../logging/utils';
 import { PARAM_USER_ID } from './controllers/user-types';
 import { createController } from './controllers/user.create';
 import { deleteByIdController } from './controllers/user.delete-by-id';

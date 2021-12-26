@@ -1,4 +1,5 @@
 import { FastifyPluginAsync } from 'fastify';
+import { fastifyErrorHandler } from '../../logging/utils';
 import { PARAM_BOARD_ID, PARAM_TASK_ID } from './controllers/task-types';
 import { createController } from './controllers/task.create';
 import { deleteByIdController } from './controllers/task.delete-by-id';

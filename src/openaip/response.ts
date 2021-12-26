@@ -1,4 +1,4 @@
-import { HttpStatusCode } from '~src/common/http-constants';
+import { HttpStatusCode } from '../common/http-constants';
 
 /**
  * OpenAPI fragment for response

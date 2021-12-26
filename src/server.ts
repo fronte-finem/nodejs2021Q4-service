@@ -1,4 +1,4 @@
-import { PORT } from '~src/common/config';
+import { PORT } from './common/config';
 import { app } from './app';
 
 app.listen(PORT, (err) => {

@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { boardsService } from '~src/resources/boards/board.service';
+import { boardsService } from '../../boards/board.service';
 import {
   ITaskRequest,
   ITaskRootRequest,
