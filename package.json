@@ -5,7 +5,7 @@
   "type": "commonjs",
   "scripts": {
     "start": "npm run start:dev",
-    "start:dev": "nodemon --watch src",
+    "start:dev": "nodemon --watch src --watch .env",
     "start:prod": "npm run build:prod && npm run start:bundle",
     "start:bundle": "cross-env NODE_ENV=production node -r dotenv/config ./dist/server.js",
     "build:prod": "npm run lint && tsc",
