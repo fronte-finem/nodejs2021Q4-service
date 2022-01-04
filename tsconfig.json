@@ -11,15 +11,12 @@
     "noImplicitReturns": true,
 
     /* Emit */
-    "noEmit": true,
+    "noEmit": false,
+    "outDir": "dist",
 
     /* Modules */
-    "module": "ESNext",
+    "module": "CommonJS",
     "moduleResolution": "Node",
-    "baseUrl": ".",
-    "paths": {
-      "~src/*": ["src/*"]
-    },
     "resolveJsonModule": true,
 
     /* Interop Constraints */
@@ -33,5 +30,8 @@
     /* JavaScript Support */
     "allowJs": true,
     "checkJs": true
+  },
+  "ts-node": {
+    "transpileOnly": true
   }
 }

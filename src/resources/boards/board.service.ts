@@ -1,9 +1,9 @@
-import { IDBRepository } from '~src/common/memory-repository';
-import { Column } from '~src/resources/boards/column.model';
-import { tasksService } from '~src/resources/tasks/task.service';
-import { Maybe } from '~src/common/types';
+import { IDBRepository } from '../../common/memory-repository';
+import { Maybe } from '../../common/types';
+import { tasksService } from '../tasks/task.service';
 import { boardsRepo } from './board.memory-repository';
 import { Board, BoardDTO } from './board.model';
+import { Column } from './column.model';
 
 /**
  * Service for work with {@link Board}s repository

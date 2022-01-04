@@ -1,5 +1,5 @@
 import S, { ExtendedSchema, ObjectSchema } from 'fluent-json-schema';
-import { foreignKey, uuidKey } from '~src/openaip/keys';
+import { foreignKey, uuidKey } from '../../openaip/keys';
 
 const enum TaskField {
   ID = 'id',

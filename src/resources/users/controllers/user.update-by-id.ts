@@ -1,10 +1,10 @@
 import { FastifySchema, RouteHandler } from 'fastify';
 import S from 'fluent-json-schema';
-import { OpenApiEndpointTag } from '~src/common/constants';
-import { HttpStatusCode } from '~src/common/http-constants';
-import { makeOpenAPIUuidRequestParams } from '~src/openaip/request';
-import { makeOpenApiHttpResponse } from '~src/openaip/response';
-import { HttpErrorResponse } from '~src/openaip/response.http-error';
+import { OpenApiEndpointTag } from '../../../common/constants';
+import { HttpStatusCode } from '../../../common/http-constants';
+import { makeOpenAPIUuidRequestParams } from '../../../openaip/request';
+import { makeOpenApiHttpResponse } from '../../../openaip/response';
+import { HttpErrorResponse } from '../../../openaip/response.http-error';
 import { UserSchemaID } from '../user.schema';
 import { usersService } from '../user.service';
 import { IUserRequest, PARAM_USER_ID } from './user-types';

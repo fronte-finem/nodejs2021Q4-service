@@ -1,5 +1,5 @@
 import S, { ExtendedSchema, ObjectSchema } from 'fluent-json-schema';
-import { uuidKey } from '~src/openaip/keys';
+import { uuidKey } from '../../openaip/keys';
 
 const enum ColumnField {
   ID = 'id',

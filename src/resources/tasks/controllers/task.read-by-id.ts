@@ -1,8 +1,8 @@
 import { FastifySchema } from 'fastify';
-import { OpenApiEndpointTag } from '~src/common/constants';
-import { makeOpenAPIUuidRequestParams } from '~src/openaip/request';
-import { makeOpenApiHttpResponse } from '~src/openaip/response';
-import { HttpErrorResponse } from '~src/openaip/response.http-error';
+import { OpenApiEndpointTag } from '../../../common/constants';
+import { makeOpenAPIUuidRequestParams } from '../../../openaip/request';
+import { makeOpenApiHttpResponse } from '../../../openaip/response';
+import { HttpErrorResponse } from '../../../openaip/response.http-error';
 import {
   TaskRouteHandler,
   useBoardMiddleware,

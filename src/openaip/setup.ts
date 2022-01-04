@@ -1,9 +1,9 @@
 import { FastifyInstance } from 'fastify';
 import FastifySwagger, { FastifyDynamicSwaggerOptions } from 'fastify-swagger';
-import { BoardSchema } from '~src/resources/boards/board.schema';
-import { ColumnSchema } from '~src/resources/boards/column.schema';
-import { TaskSchema } from '~src/resources/tasks/task.schema';
-import { UserSchema } from '~src/resources/users/user.schema';
+import { BoardSchema } from '../resources/boards/board.schema';
+import { ColumnSchema } from '../resources/boards/column.schema';
+import { TaskSchema } from '../resources/tasks/task.schema';
+import { UserSchema } from '../resources/users/user.schema';
 import { ResponseHttpError } from './response.http-error';
 
 /**

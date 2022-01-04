@@ -1,5 +1,5 @@
 import S, { ExtendedSchema } from 'fluent-json-schema';
-import { uuidKey } from '~src/openaip/keys';
+import { uuidKey } from '../../openaip/keys';
 import { ColumnSchemaID } from './column.schema';
 
 const enum BoardField {

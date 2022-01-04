@@ -1,14 +1,27 @@
+import Fastify from 'fastify';
 import FastifyCORS from 'fastify-cors';
 import FastifySensible from 'fastify-sensible';
-import { buildApp } from '~src/common/build-app';
-import { IS_DEV } from '~src/common/config';
-import { prettifier } from '~src/common/logger';
-import { setupOpenApiDoc } from '~src/openaip/setup';
-import { boardRouter } from '~src/resources/boards/board.router';
-import { taskRouter } from '~src/resources/tasks/task.router';
-import { userRouter } from '~src/resources/users/user.router';
+import { logger } from './logging/logger';
+import {
+  fastifyErrorHandler,
+  logRequestBody,
+  logResponseBody,
+  uncaughtErrorHandler,
+} from './logging/utils';
+import { setupOpenApiDoc } from './openaip/setup';
+import { boardRouter } from './resources/boards/board.router';
+import { taskRouter } from './resources/tasks/task.router';
+import { userRouter } from './resources/users/user.router';
 
-export const app = buildApp({}, IS_DEV && prettifier);
+process.on('uncaughtException', uncaughtErrorHandler);
+process.on('unhandledRejection', uncaughtErrorHandler);
+
+export const app = Fastify({ logger });
+
+app.addHook('preHandler', logRequestBody);
+app.addHook('preSerialization', logResponseBody);
+
+app.setErrorHandler(fastifyErrorHandler);
 
 app.register(FastifyCORS);
 app.register(FastifySensible);
@@ -18,3 +31,7 @@ setupOpenApiDoc(app);
 app.register(userRouter, { prefix: '/users' });
 app.register(boardRouter, { prefix: '/boards' });
 app.register(taskRouter, { prefix: '/boards' });
+
+// Promise.reject(new Error('(-_-) reject Oops!')).then(null);
+
+// throw new Error('(x_x) throw Oops!');
