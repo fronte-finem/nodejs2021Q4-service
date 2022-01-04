@@ -2,12 +2,6 @@ import { FastifyRequest } from 'fastify';
 import { Logger, pino } from 'pino';
 import { logLevel } from '../common/config';
 
-const commonPrettyOpts = {
-  colorize: false,
-  ignore: 'pid,hostname',
-  translateTime: 'yyyy-mm-dd HH:MM:ss.l',
-};
-
 export const logger: Logger = pino({
   level: logLevel,
   transport: {
@@ -16,26 +10,24 @@ export const logger: Logger = pino({
         level: 'trace',
         target: 'pino-pretty',
         options: {
-          ...commonPrettyOpts,
-          colorize: true,
+          ignore: 'pid,hostname',
+          translateTime: 'yyyy-mm-dd HH:MM:ss.l',
         },
       },
       {
         level: 'trace',
-        target: 'pino-pretty',
+        target: 'pino/file',
         options: {
           destination: './logs/all.log',
           mkdir: true,
-          ...commonPrettyOpts,
         },
       },
       {
         level: 'error',
-        target: 'pino-pretty',
+        target: 'pino/file',
         options: {
           destination: './logs/error.log',
           mkdir: true,
-          ...commonPrettyOpts,
         },
       },
     ],
