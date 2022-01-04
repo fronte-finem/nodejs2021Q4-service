@@ -1,6 +1,6 @@
 import { FastifyRequest } from 'fastify';
 import { Logger, pino } from 'pino';
-import { logLevel } from '../common/config';
+import { LOG_FILE_ALL, LOG_FILE_ERROR, logLevel } from '../common/config';
 
 export const logger: Logger = pino({
   level: logLevel,
@@ -18,7 +18,7 @@ export const logger: Logger = pino({
         level: 'trace',
         target: 'pino/file',
         options: {
-          destination: './logs/all.log',
+          destination: LOG_FILE_ALL,
           mkdir: true,
         },
       },
@@ -26,7 +26,7 @@ export const logger: Logger = pino({
         level: 'error',
         target: 'pino/file',
         options: {
-          destination: './logs/error.log',
+          destination: LOG_FILE_ERROR,
           mkdir: true,
         },
       },

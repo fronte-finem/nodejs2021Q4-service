@@ -1,19 +1,8 @@
 import { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
 import { STATUS_CODES } from 'http';
+import { getErrorMessage } from '../common/get-error-message';
 import { HttpStatusCode } from '../common/http-constants';
 import { logger } from './logger';
-
-export function getErrorMessage(error: unknown): string {
-  if (error instanceof Error) return error.message;
-  switch (typeof error) {
-    case 'string':
-      return error;
-    case 'object':
-      return JSON.stringify(error);
-    default:
-      return String(error);
-  }
-}
 
 export const uncaughtErrorHandler = (error: unknown, origin: unknown): void => {
   const prefix =
