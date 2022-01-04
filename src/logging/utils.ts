@@ -40,8 +40,15 @@ export const fastifyErrorHandler = (
 export const logRequestBody = async (
   request: FastifyRequest
 ): Promise<void> => {
-  if (request.body) {
-    const body = JSON.stringify(request.body, null, 2);
-    logger.info(`parsed request body:\n${body}`);
-  }
+  if (!request.body) return;
+  request.log.debug({ body: request.body }, '-> Request Body');
+};
+
+export const logResponseBody = async (
+  request: FastifyRequest,
+  reply: FastifyReply,
+  payload: unknown
+): Promise<unknown> => {
+  request.log.debug({ body: payload }, '<- Response Body');
+  return payload;
 };

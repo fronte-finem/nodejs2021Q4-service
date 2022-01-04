@@ -5,6 +5,7 @@ import { logger } from './logging/logger';
 import {
   fastifyErrorHandler,
   logRequestBody,
+  logResponseBody,
   uncaughtErrorHandler,
 } from './logging/utils';
 import { setupOpenApiDoc } from './openaip/setup';
@@ -18,6 +19,8 @@ process.on('unhandledRejection', uncaughtErrorHandler);
 export const app = Fastify({ logger });
 
 app.addHook('preHandler', logRequestBody);
+app.addHook('preSerialization', logResponseBody);
+
 app.setErrorHandler(fastifyErrorHandler);
 
 app.register(FastifyCORS);
