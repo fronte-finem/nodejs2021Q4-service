@@ -2,23 +2,28 @@
   "name": "nodejs-2021q4-service",
   "description": "REST service — education project from RS School for course Nodejs 2021Q4",
   "private": true,
+  "engines": {
+    "node": ">=16.0.0 <17"
+  },
   "type": "commonjs",
   "scripts": {
-    "start": "npm run start:dev",
-    "start:dev": "nodemon --watch src --watch .env",
-    "start:prod": "npm run build:prod && npm run start:bundle",
-    "start:bundle": "cross-env NODE_ENV=production node -r dotenv/config ./dist/server.js",
-    "build:prod": "npm run lint && tsc",
+    "start": "npm run docker:start",
+    "docker:start": "docker-compose up --build",
+    "dev:watch": "nodemon --exec \"npm run dev:start\"",
+    "dev:start": "npx ts-node -r dotenv/config src/server.ts",
+    "prod": "npm run prod:build && npm run prod:start",
+    "prod:start": "node -r dotenv/config ./dist/server.js",
+    "prod:build": "npm run lint && tsc",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace"
   },
-  "engines": {
-    "node": ">=16.0.0 <17"
-  },
   "nodemonConfig": {
-    "ext": "*.ts",
-    "exec": "npx ts-node -r dotenv/config src/server.ts"
+    "ext": "*",
+    "watch": [
+      "src",
+      ".env"
+    ]
   },
   "jest": {
     "testEnvironment": "node",
