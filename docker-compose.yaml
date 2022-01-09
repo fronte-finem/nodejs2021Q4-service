@@ -8,11 +8,6 @@ networks:
   net[app+db]:
     driver: bridge
 
-# https://docs.docker.com/compose/compose-file/compose-file-v3/#extension-fields
-x-hosts:
-  - &app-host app.host
-  - &db-host db.host
-
 services:
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ App ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   app:
@@ -24,12 +19,12 @@ services:
     env_file:
       - .env
     environment:
-      APP_HOST: *app-host
-      DB_HOST: *db-host
-      FORCE_COLOR: 1  # force colorize output for pino-pretty in docker https://github.com/pinojs/pino-pretty/issues/220
+      APP_HOST: ${DOCKER_APP_HOST}
+      DB_HOST: ${DOCKER_DB_HOST}
+      FORCE_COLOR: ${DOCKER_FORCE_COLOR}  # force colorize output for pino-pretty in docker https://github.com/pinojs/pino-pretty/issues/220
     networks:
       - net[app+db]
-    hostname: *app-host
+    hostname: ${DOCKER_APP_HOST}
     ports:
       - ${APP_PORT}:${APP_PORT}
     volumes:
@@ -48,7 +43,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     networks:
       - net[app+db]
-    hostname: *db-host
+    hostname: ${DOCKER_DB_HOST}
     ports:
       - ${DB_PORT}:${DB_PORT}
     volumes:
