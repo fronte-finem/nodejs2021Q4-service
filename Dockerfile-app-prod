@@ -15,5 +15,5 @@ FROM base AS prod
 RUN npm install dotenv
 COPY .env .env
 COPY --from=build /app/dist/server.js ./server.js
-EXPOSE 4000
+
 CMD ["node", "-r", "dotenv/config", "server.js"]

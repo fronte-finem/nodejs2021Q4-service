@@ -6,6 +6,4 @@ RUN npm install --production \
     && npm cache clean --force
 COPY . .
 
-EXPOSE 4000
-
 CMD ["nodemon", "--legacy-watch", "--exitcrash", "--exec", "ts-node src/server.ts"]
