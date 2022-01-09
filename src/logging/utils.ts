@@ -4,12 +4,25 @@ import { getErrorMessage } from '../common/get-error-message';
 import { HttpStatusCode } from '../common/http-constants';
 import { logger } from './logger';
 
-export const uncaughtErrorHandler = (error: unknown, origin: unknown): void => {
-  const prefix =
-    origin instanceof Promise ? 'Unhandled Rejection' : 'Uncaught Exception';
-  logger.fatal(`${prefix}: ${getErrorMessage(error)}\n\n ~ App exiting! ~`);
-  process.exit(1);
-};
+export class FatalHandler {
+  private static readonly build =
+    (prefix: string) =>
+    (error: unknown): string =>
+      `${prefix}: ${getErrorMessage(error)}\n\n ~ App exiting! ~`;
+
+  private static readonly uncaught = FatalHandler.build('Uncaught Exception');
+  private static readonly unhandled = FatalHandler.build('Unhandled Rejection');
+
+  public static readonly uncaughtException = (exception: unknown): void => {
+    logger.fatal(FatalHandler.uncaught(exception));
+    process.exit(1);
+  };
+
+  public static readonly unhandledRejection = (rejection: unknown): void => {
+    logger.fatal(FatalHandler.unhandled(rejection));
+    setImmediate(() => process.exit(1));
+  };
+}
 
 export const fastifyErrorHandler = (
   error: FastifyError,
