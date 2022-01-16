@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import FastifySwagger, { FastifyDynamicSwaggerOptions } from 'fastify-swagger';
 import { BoardSchema } from '../resources/boards/board.schema';
-import { ColumnSchema } from '../resources/boards/column.schema';
+import { ColumnSchema } from '../resources/column/column.schema';
 import { TaskSchema } from '../resources/tasks/task.schema';
 import { UserSchema } from '../resources/users/user.schema';
 import { ResponseHttpError } from './response.http-error';
