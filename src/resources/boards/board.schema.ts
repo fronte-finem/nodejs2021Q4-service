@@ -1,6 +1,6 @@
 import S, { ExtendedSchema } from 'fluent-json-schema';
 import { uuidKey } from '../../openaip/keys';
-import { ColumnSchemaID } from './column.schema';
+import { ColumnSchemaID } from '../column/column.schema';
 
 const enum BoardField {
   ID = 'id',

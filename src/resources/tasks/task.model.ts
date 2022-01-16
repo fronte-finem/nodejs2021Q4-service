@@ -1,37 +1,51 @@
-import { BaseModel, RecordWithId } from '../../common/types';
+import 'reflect-metadata';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { BoardDTO, ColumnDTO, TaskDTO, UserDTO } from '../dto-types';
 
-export interface TaskDTO extends RecordWithId {
-  readonly title: string;
-  readonly order: number;
-  readonly description: string;
-  readonly userId: null | string;
-  readonly boardId: null | string;
-  readonly columnId: null | string;
-}
+@Entity()
+export class Task implements TaskDTO {
+  @PrimaryGeneratedColumn('uuid')
+  public id?: string;
 
-/**
- * Model for task record
- */
-export class Task extends BaseModel implements TaskDTO {
-  public readonly title: string;
-  public readonly order: number;
-  public readonly description: string;
-  public readonly userId: string | null;
-  public readonly boardId: string | null;
-  public readonly columnId: string | null;
+  @Column()
+  public title: string;
 
-  /**
-   * Create task record
-   * @param taskDTO - partial form of {@link TaskDTO}
-   * @returns instance of {@link Task}
-   */
-  constructor(taskDTO: Partial<TaskDTO> = {}) {
-    super(taskDTO.id);
-    this.title = taskDTO.title ?? 'Test Task';
-    this.order = taskDTO.order ?? 1;
-    this.description = taskDTO.description ?? 'Lorem ipsum';
-    this.userId = taskDTO.userId ?? null;
-    this.boardId = taskDTO.boardId ?? null;
-    this.columnId = taskDTO.columnId ?? null;
+  @Column()
+  public order: number;
+
+  @Column('text')
+  public description: string;
+
+  @Column('uuid', { nullable: true })
+  public userId: string | null = null;
+
+  @ManyToOne('User', 'tasks', { onDelete: 'SET NULL' })
+  @JoinColumn()
+  public user?: UserDTO;
+
+  @Column('uuid', { nullable: true })
+  public boardId: string | null = null;
+
+  @ManyToOne('Board', 'tasks', { onDelete: 'CASCADE' })
+  @JoinColumn()
+  public board?: BoardDTO;
+
+  @Column('uuid', { nullable: true })
+  public columnId: string | null = null;
+
+  @ManyToOne('Column', 'tasks', { onDelete: 'CASCADE' })
+  @JoinColumn()
+  public column?: ColumnDTO;
+
+  constructor({ title, order, description }: Partial<TaskDTO> = {}) {
+    this.title = title ?? 'Test Task';
+    this.order = order ?? 1;
+    this.description = description ?? 'Lorem ipsum';
   }
 }
