@@ -4,7 +4,7 @@ import { makeOpenAPIUuidRequestParams } from '../../../openaip/request';
 import { makeOpenApiHttpResponse } from '../../../openaip/response';
 import { HttpErrorResponse } from '../../../openaip/response.http-error';
 import { BoardSchemaID } from '../board.schema';
-import { boardsService } from '../board.service';
+import { BoardsService } from '../board.service';
 import { IBoardRequest, PARAM_BOARD_ID } from './board-types';
 
 const schema: FastifySchema = {
@@ -31,7 +31,7 @@ const handler: RouteHandler<Omit<IBoardRequest, 'Body'>> = async (
   reply
 ) => {
   const boardId = request.params[PARAM_BOARD_ID];
-  const maybeBoard = await boardsService.read(boardId);
+  const maybeBoard = await BoardsService.read(boardId);
   if (!maybeBoard) {
     reply.notFound(`Board with id [${boardId}] not found!`);
   } else {

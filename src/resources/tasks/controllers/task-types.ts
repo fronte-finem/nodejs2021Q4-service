@@ -1,6 +1,6 @@
 import { RequestGenericInterface } from 'fastify';
 import { PARAM_BOARD_ID } from '../../boards/controllers/board-types';
-import { TaskDTO } from '../task.model';
+import { TaskDTO } from '../../dto-types';
 
 export { PARAM_BOARD_ID } from '../../boards/controllers/board-types';
 

@@ -8,7 +8,7 @@ import {
   useBoardMiddleware,
 } from '../middlewares/board.check';
 import { TaskSchemaID } from '../task.schema';
-import { tasksService } from '../task.service';
+import { TasksService } from '../task.service';
 import { ITaskRequest, PARAM_BOARD_ID, PARAM_TASK_ID } from './task-types';
 
 const schema: FastifySchema = {
@@ -37,7 +37,7 @@ const handler: TaskRouteHandler<Omit<ITaskRequest, 'Body'>> = async (
 ) => {
   const boardId = request.params[PARAM_BOARD_ID];
   const taskId = request.params[PARAM_TASK_ID];
-  const maybeTask = await tasksService.read(boardId, taskId);
+  const maybeTask = await TasksService.read(boardId, taskId);
   if (!maybeTask) {
     reply.notFound(`Task with id [${taskId}] not found!`);
   } else {

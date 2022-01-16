@@ -5,7 +5,7 @@ import { HttpStatusCode } from '../../../common/http-constants';
 import { makeOpenApiHttpResponse } from '../../../openaip/response';
 import { HttpErrorResponse } from '../../../openaip/response.http-error';
 import { UserSchemaID } from '../user.schema';
-import { usersService } from '../user.service';
+import { UsersService } from '../user.service';
 import { IUserRequest } from './user-types';
 
 const schema: FastifySchema = {
@@ -35,7 +35,7 @@ const handler: RouteHandler<Omit<IUserRequest, 'Params'>> = async (
   reply
 ) => {
   const userDto = request.body;
-  const user = await usersService.create(userDto);
+  const user = await UsersService.create(userDto);
   reply.code(HttpStatusCode.CREATED).send(user);
 };
 

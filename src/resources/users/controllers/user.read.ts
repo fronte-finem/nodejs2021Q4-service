@@ -3,7 +3,7 @@ import { OpenApiEndpointTag } from '../../../common/constants';
 import { makeOpenApiHttpResponseArray } from '../../../openaip/response';
 import { HttpErrorResponse } from '../../../openaip/response.http-error';
 import { UserSchemaID } from '../user.schema';
-import { usersService } from '../user.service';
+import { UsersService } from '../user.service';
 
 const schema: FastifySchema = {
   summary: 'Get all users',
@@ -22,7 +22,7 @@ const schema: FastifySchema = {
  * @returns empty promise
  */
 const handler: RouteHandler = async (request, reply) => {
-  const users = await usersService.readAll();
+  const users = await UsersService.readAll();
   reply.send(users);
 };
 

@@ -8,7 +8,7 @@ import {
   TaskRouteHandler,
   useBoardMiddleware,
 } from '../middlewares/board.check';
-import { tasksService } from '../task.service';
+import { TasksService } from '../task.service';
 import { ITaskRequest, PARAM_BOARD_ID, PARAM_TASK_ID } from './task-types';
 
 const schema: FastifySchema = {
@@ -40,7 +40,7 @@ const handler: TaskRouteHandler<Omit<ITaskRequest, 'Body'>> = async (
 ) => {
   const boardId = request.params[PARAM_BOARD_ID];
   const taskId = request.params[PARAM_TASK_ID];
-  const success = await tasksService.delete(boardId, taskId);
+  const success = await TasksService.delete(boardId, taskId);
   if (!success) {
     reply.notFound(`Task with id [${taskId}] not found!`);
   } else {

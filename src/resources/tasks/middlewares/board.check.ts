@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { boardsService } from '../../boards/board.service';
+import { BoardsService } from '../../boards/board.service';
 import {
   ITaskRequest,
   ITaskRootRequest,
@@ -28,7 +28,7 @@ export const useBoardMiddleware =
    */
   async (request: FastifyRequest<T>, reply: FastifyReply): Promise<void> => {
     const boardId = request.params[PARAM_BOARD_ID];
-    const maybeBoard = await boardsService.read(boardId);
+    const maybeBoard = await BoardsService.read(boardId);
     if (!maybeBoard) {
       reply.notFound(`Board with id [${boardId}] not found!`);
     } else {

@@ -5,7 +5,7 @@ import { HttpStatusCode } from '../../../common/http-constants';
 import { makeOpenApiHttpResponse } from '../../../openaip/response';
 import { HttpErrorResponse } from '../../../openaip/response.http-error';
 import { BoardSchemaID } from '../board.schema';
-import { boardsService } from '../board.service';
+import { BoardsService } from '../board.service';
 import { IBoardRequest } from './board-types';
 
 const schema: FastifySchema = {
@@ -35,7 +35,7 @@ const handler: RouteHandler<Omit<IBoardRequest, 'Params'>> = async (
   reply
 ) => {
   const boardDto = request.body;
-  const board = await boardsService.create(boardDto);
+  const board = await BoardsService.create(boardDto);
   reply.code(201).send(board);
 };
 

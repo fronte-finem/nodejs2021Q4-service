@@ -1,5 +1,5 @@
 import { RequestGenericInterface } from 'fastify';
-import { BoardDTO } from '../board.model';
+import { BoardDTO } from '../../dto-types';
 
 export const PARAM_BOARD_ID = 'boardId';
 
