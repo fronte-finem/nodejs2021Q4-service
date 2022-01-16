@@ -1,9 +1,9 @@
 FROM node:16-alpine AS dev
 WORKDIR /app
-COPY package.json ./
+COPY package.json tsconfig.json ./
 RUN npm install --production \
     && npm install --global nodemon ts-node \
     && npm cache clean --force
-COPY . .
+COPY src ./src
 
 CMD ["nodemon", "--legacy-watch", "--exitcrash", "--exec", "ts-node src/server.ts"]

@@ -1,41 +1,47 @@
 version: "3.9"
 
 volumes:
-  app-logs-vol:
+#  app-logs-vol:
   database-vol:
 
 networks:
   net[app+db]:
     driver: bridge
 
+# https://docs.docker.com/compose/compose-file/compose-file-v3/#extension-fields
+x-vars:
+  - &app ${COMPOSE_PROJECT_NAME}_app
+  - &db ${COMPOSE_PROJECT_NAME}_db
+
 services:
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ App ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   app:
     depends_on:
       - db
+    image: *app
     build:
       context: .
-      dockerfile: Dockerfile-app-dev
+      dockerfile: docker/app/dev/Dockerfile
     env_file:
       - .env
     environment:
-      APP_HOST: ${DOCKER_APP_HOST}
-      DB_HOST: ${DOCKER_DB_HOST}
-      FORCE_COLOR: ${DOCKER_FORCE_COLOR}  # force colorize output for pino-pretty in docker https://github.com/pinojs/pino-pretty/issues/220
+      APP_HOST: *app
+      DB_HOST: *db
+      FORCE_COLOR: 1  # force colorize output for pino-pretty in docker https://github.com/pinojs/pino-pretty/issues/220
     networks:
       - net[app+db]
-    hostname: ${DOCKER_APP_HOST}
+    hostname: *app
     ports:
       - ${APP_PORT}:${APP_PORT}
     volumes:
-      - app-logs-vol:/app/logs
+     # - app-logs-vol:/app/logs
+      - ./logs:/app/logs
       - ./src:/app/src
-    restart: on-failure
+    restart: "no"
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Database ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   db:
-    build:
-      context: .
-      dockerfile: Dockerfile-database
+    image: *db
+    build: docker/db
     environment:
       PGPORT: ${DB_PORT}
       POSTGRES_DB: ${DB_NAME}
@@ -43,7 +49,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     networks:
       - net[app+db]
-    hostname: ${DOCKER_DB_HOST}
+    hostname: *db
     ports:
       - ${DB_PORT}:${DB_PORT}
     volumes:
