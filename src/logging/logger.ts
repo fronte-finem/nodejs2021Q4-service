@@ -1,9 +1,9 @@
 import { FastifyRequest } from 'fastify';
 import { Logger, pino } from 'pino';
-import { LOG_FILE_ALL, LOG_FILE_ERROR, logLevel } from '../common/config';
+import { LOG_FILE_ALL, LOG_FILE_ERROR, LOG_LEVEL } from '../common/config';
 
 export const logger: Logger = pino({
-  level: logLevel,
+  level: LOG_LEVEL,
   transport: {
     targets: [
       {

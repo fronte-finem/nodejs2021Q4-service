@@ -1,0 +1,51 @@
+version: "3.9"
+
+volumes:
+  app-logs-vol:
+  database-vol:
+
+networks:
+  net[app+db]:
+    driver: bridge
+
+services:
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ App ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  app:
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: Dockerfile-app-dev
+    env_file:
+      - .env
+    environment:
+      APP_HOST: ${DOCKER_APP_HOST}
+      DB_HOST: ${DOCKER_DB_HOST}
+      FORCE_COLOR: ${DOCKER_FORCE_COLOR}  # force colorize output for pino-pretty in docker https://github.com/pinojs/pino-pretty/issues/220
+    networks:
+      - net[app+db]
+    hostname: ${DOCKER_APP_HOST}
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    volumes:
+      - app-logs-vol:/app/logs
+      - ./src:/app/src
+    restart: on-failure
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Database ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile-database
+    environment:
+      PGPORT: ${DB_PORT}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - net[app+db]
+    hostname: ${DOCKER_DB_HOST}
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    volumes:
+      - database-vol:/var/lib/postgresql/data
+    restart: on-failure

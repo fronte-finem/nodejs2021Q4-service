@@ -4,17 +4,17 @@ import FastifySensible from 'fastify-sensible';
 import { logger } from './logging/logger';
 import {
   fastifyErrorHandler,
+  FatalHandler,
   logRequestBody,
   logResponseBody,
-  uncaughtErrorHandler,
 } from './logging/utils';
 import { setupOpenApiDoc } from './openaip/setup';
 import { boardRouter } from './resources/boards/board.router';
 import { taskRouter } from './resources/tasks/task.router';
 import { userRouter } from './resources/users/user.router';
 
-process.on('uncaughtException', uncaughtErrorHandler);
-process.on('unhandledRejection', uncaughtErrorHandler);
+process.on('uncaughtException', FatalHandler.uncaughtException);
+process.on('unhandledRejection', FatalHandler.unhandledRejection);
 
 export const app = Fastify({ logger });
 
