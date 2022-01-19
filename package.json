@@ -17,7 +17,11 @@
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
-    "typeorm": "node -r ts-node/register -r dotenv/config ./node_modules/typeorm/cli.js --config src/common/ormconfig.ts"
+    "typeorm": "node -r ts-node/register -r dotenv/config ./node_modules/typeorm/cli.js --config src/common/ormconfig.ts",
+    "migration:new": "npm run typeorm migration:create -- -n",
+    "migration:gen": "npm run typeorm migration:generate -- -n",
+    "migration:run": "npm run typeorm migration:run",
+    "migration:revert": "npm run typeorm migration:revert"
   },
   "nodemonConfig": {
     "ext": "*",
