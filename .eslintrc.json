@@ -30,6 +30,7 @@
   "rules": {
     "linebreak-style": "off",
     "no-underscore-dangle": "off",
+    "class-methods-use-this": "off",
     "import/extensions": "off",
     "import/prefer-default-export": "off",
     "node/no-unsupported-features/es-syntax": "off",
