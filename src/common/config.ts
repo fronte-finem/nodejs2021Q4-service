@@ -1,6 +1,6 @@
+import { FastifyInstance } from 'fastify/types/instance';
 import { join } from 'path';
 import { Level as LogLevelPino } from 'pino';
-import { FastifyInstance } from 'fastify/types/instance';
 
 export const LOCALHOST = 'localhost';
 
@@ -28,3 +28,5 @@ export const LOG_LEVEL: LogLevelPino =
 const LOGS_DIR = 'logs';
 export const LOG_FILE_ALL = join('.', LOGS_DIR, 'all.log');
 export const LOG_FILE_ERROR = join('.', LOGS_DIR, 'error.log');
+
+export const SALT_ROUNDS = Number(process.env.APP_SALT_ROUNDS) || 10;
