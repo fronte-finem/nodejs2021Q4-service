@@ -1,5 +1,6 @@
 import { FastifySchema, RouteHandler } from 'fastify';
 import { OpenApiEndpointTag } from '../../../common/constants';
+import { SECURITY_SCHEMA } from '../../../openaip/constants';
 import { makeOpenAPIUuidRequestParams } from '../../../openaip/request';
 import { makeOpenApiHttpResponseArray } from '../../../openaip/response';
 import { HttpErrorResponse } from '../../../openaip/response.http-error';
@@ -17,6 +18,7 @@ const schema: FastifySchema = {
     ...HttpErrorResponse.BAD_REQUEST,
     ...HttpErrorResponse.UNAUTHORIZED,
   },
+  ...SECURITY_SCHEMA,
 };
 
 /**
