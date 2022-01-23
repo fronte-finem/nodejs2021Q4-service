@@ -4,9 +4,8 @@ import { getRepository } from 'typeorm';
 import { APP_JWT_KEY } from '../common/config';
 import { Maybe } from '../common/types';
 import { logger } from '../logging/logger';
-import { LoginDTO } from '../resources/dto-types';
 import { User } from '../resources/users/user.model';
-import { PayloadJWT } from './types';
+import { LoginDTO, PayloadJWT } from './types';
 
 const jwtSignSync = createSigner({ key: APP_JWT_KEY });
 const jwtVerifySync = createVerifier({ key: APP_JWT_KEY });

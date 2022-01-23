@@ -12,6 +12,7 @@ import {
 } from './logging/utils';
 import { setupOpenApiDoc } from './openaip/setup';
 import { boardRouter } from './resources/boards/board.router';
+import { loginRouter } from './auth/login-router';
 import { taskRouter } from './resources/tasks/task.router';
 import { userRouter } from './resources/users/user.router';
 
@@ -28,6 +29,7 @@ export const initApp = async (dbConnection: Connection): Promise<boolean> => {
 
   setupOpenApiDoc(app);
 
+  app.register(loginRouter, { prefix: '/login' });
   app.register(userRouter, { prefix: '/users' });
   app.register(boardRouter, { prefix: '/boards' });
   app.register(taskRouter, { prefix: '/boards' });
