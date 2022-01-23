@@ -19,6 +19,10 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
 
+    /* Extensions */
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+
     /* Interop Constraints */
     "esModuleInterop": true,
     "isolatedModules": true,

@@ -1,27 +1,23 @@
-import { IDBRepository } from '../../common/memory-repository';
+import { DeleteResult, getRepository, Repository } from 'typeorm';
 import { Maybe } from '../../common/types';
-import { tasksService } from '../tasks/task.service';
-import { boardsRepo } from './board.memory-repository';
-import { Board, BoardDTO } from './board.model';
-import { Column } from './column.model';
+import { Column } from '../column/column.model';
+import { BoardDTO } from '../dto-types';
+import { Board } from './board.model';
 
 /**
  * Service for work with {@link Board}s repository
  */
-class BoardsService {
-  /**
-   * Build service with injected repository
-   * @param repo - instance of repository for {@link Board} records
-   * @returns instance of {@link BoardsService}
-   */
-  constructor(private readonly repo: IDBRepository<Board>) {}
+export class BoardsService {
+  private static get repo(): Repository<Board> {
+    return getRepository(Board);
+  }
 
   /**
    * Find all {@link Board} records
    * @returns promise with array of {@link BoardDTO} records
    */
-  public async readAll(): Promise<BoardDTO[]> {
-    return this.repo.read();
+  public static async readAll(): Promise<BoardDTO[]> {
+    return this.repo.find({ relations: ['columns'] });
   }
 
   /**
@@ -29,24 +25,23 @@ class BoardsService {
    * @param id - identification string
    * @returns promise with {@link Maybe} found {@link BoardDTO} record
    */
-  public async read(id: string): Promise<Maybe<BoardDTO>> {
-    return this.repo.read(id);
+  public static async read(id: string): Promise<Maybe<BoardDTO>> {
+    return this.repo.findOne(id, { relations: ['columns'] });
   }
 
   /**
    * Create and save {@link Board} record
-   * @param boardDTO - input partial form of {@link BoardDTO}
-   * @returns promise with {@link Maybe} created {@link BoardDTO} record
+   * @param DTO - input partial form of {@link BoardDTO}
+   * @returns promise with created {@link BoardDTO} record
    */
-  public async create({
+  public static async create({
     columns = [],
-    ...restFields
+    ...boardDTO
   }: Partial<BoardDTO>): Promise<Maybe<BoardDTO>> {
-    const board = new Board({
-      ...restFields,
-      columns: columns.map((columnDTO) => new Column(columnDTO)),
-    });
-    return this.repo.create(board);
+    const board = this.repo.create(boardDTO);
+    board.columns = columns?.map((columnDTO) => new Column(columnDTO));
+    await this.repo.insert(board);
+    return board;
   }
 
   /**
@@ -54,31 +49,33 @@ class BoardsService {
    * @param id - identification string
    * @returns promise with boolean answer about operation status
    */
-  public async delete(id: string): Promise<boolean> {
-    const deleted = await this.repo.delete(id);
-    if (deleted) {
-      await tasksService.deleteByBoardId(id);
-    }
-    return deleted;
+  public static async delete(id: string): Promise<boolean> {
+    const { affected }: DeleteResult = await this.repo.delete(id);
+    return Boolean(affected);
   }
 
   /**
    * Update and save {@link Board} record by string ID
    * @param id - identification string
-   * @param boardDTO - input partial form of {@link BoardDTO}
+   * @param DTO - input partial form of {@link BoardDTO}
    * @returns promise with {@link Maybe} updated {@link BoardDTO} record
    */
-  public async update(
+  public static async update(
     id: string,
-    { columns = [], ...restFields }: Partial<BoardDTO>
+    { columns = [], ...boardDTO }: Partial<BoardDTO>
   ): Promise<Maybe<BoardDTO>> {
-    const board = new Board({
-      id,
-      ...restFields,
-      columns: columns.map((columnDTO) => new Column(columnDTO)),
-    });
-    return this.repo.update(id, board);
+    const board = this.repo.create(boardDTO);
+    board.columns = columns?.map((columnDTO) => new Column(columnDTO));
+
+    // Error: Cannot query across one-to-many for property
+    // https://github.com/typeorm/typeorm/issues/8363
+    // https://github.com/typeorm/typeorm/issues/8404
+    // https://stackoverflow.com/questions/70064149/typeorm-cannot-query-across-one-to-many-for-property-error
+    //
+    // const { affected }: UpdateResult = await this.repo.update(id, board);
+    // return affected ? this.read(id) : undefined;
+
+    await this.repo.save({ ...board, id });
+    return this.read(id);
   }
 }
-
-export const boardsService = new BoardsService(boardsRepo);

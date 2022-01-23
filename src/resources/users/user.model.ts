@@ -1,38 +1,30 @@
-import { BaseModel, RecordWithId } from '../../common/types';
+import 'reflect-metadata';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { TaskDTO, UserDTO, UserDTOResponse } from '../dto-types';
 
-export interface UserDTO extends RecordWithId {
-  readonly name: string;
-  readonly login: string;
-  readonly password: string;
-}
+@Entity()
+export class User implements UserDTO {
+  @PrimaryGeneratedColumn('uuid')
+  public id?: string;
 
-export type UserDTOResponse = Omit<UserDTO, 'password'>;
+  @Column()
+  public name: string;
 
-/**
- * Model for user record
- */
-export class User extends BaseModel implements UserDTO {
-  public readonly name: string;
-  public readonly login: string;
-  public readonly password: string;
+  @Column()
+  public login: string;
 
-  /**
-   * Create user record
-   * @param userDTO - partial form of {@link UserDTO}
-   * @returns instance of {@link User}
-   */
-  constructor({ id, name, login, password }: Partial<UserDTO> = {}) {
-    super(id);
-    this.name = name ?? 'User';
+  @Column()
+  public password: string;
+
+  @OneToMany('Task', 'user', { cascade: true })
+  public tasks?: TaskDTO[];
+
+  constructor({ name, login, password }: Partial<UserDTO> = {}) {
+    this.name = name ?? 'User Name';
     this.login = login ?? 'user';
     this.password = password ?? 'P@55w0rd';
   }
 
-  /**
-   * Transform {@link User} record to {@link UserDTO} excluding password field
-   * @param user - instance of {@link User} record
-   * @returns partial form of {@link UserDTO} without password field
-   */
   public static toResponse({ id, name, login }: User): UserDTOResponse {
     return { id, name, login };
   }

@@ -1,37 +1,23 @@
-import { lookup } from 'dns';
-import { promisify } from 'util';
-import { Client } from 'pg';
-import { appConfig, dbConfig } from './common/config';
-import { getErrorMessage } from './common/get-error-message';
-import { app } from './app';
+import { FatalHandler } from './logging/utils';
+import { initDB } from './init-db';
+import { initApp } from './init-app';
 
-const runApp = async (): Promise<void> => {
-  const dbClient = new Client(dbConfig);
+process.on('uncaughtException', FatalHandler.uncaughtException);
+process.on('unhandledRejection', FatalHandler.unhandledRejection);
 
-  try {
-    app.log.info('Connecting to database... ᓚᘏᗢ');
-    await dbClient.connect();
-    const { address } = await promisify(lookup)(dbConfig.host as string);
-    app.log.info(`Connected to database at ${address}:${dbConfig.port} (^_^)`);
-  } catch (error) {
-    app.log.error("Can't connect to database (T_T)");
-    app.log.error(getErrorMessage(error));
+// Promise.reject(new Error('(-_-) reject Oops!')).then(null);
+// throw new Error('(x_x) throw Oops!');
+
+const main = async (): Promise<void> => {
+  const dbConnection = await initDB();
+  if (!dbConnection) {
+    process.exit(1);
   }
 
-  try {
-    app.log.info('Running app... ᓚᘏᗢ');
-    await app.listen(appConfig);
-    app.log.info('App is running (^_^)');
-  } catch (error) {
-    app.log.fatal(getErrorMessage(error));
-    try {
-      await dbClient.end();
-    } catch (dbDisconnectError) {
-      app.log.error(getErrorMessage(dbDisconnectError));
-    } finally {
-      process.exit(1);
-    }
+  const success = await initApp(dbConnection);
+  if (!success) {
+    process.exit(1);
   }
 };
 
-runApp().then(null);
+main().then(null);

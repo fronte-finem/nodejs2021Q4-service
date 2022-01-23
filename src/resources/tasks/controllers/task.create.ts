@@ -10,7 +10,7 @@ import {
   useBoardMiddleware,
 } from '../middlewares/board.check';
 import { TaskSchemaID } from '../task.schema';
-import { tasksService } from '../task.service';
+import { TasksService } from '../task.service';
 import { ITaskRootRequest, PARAM_BOARD_ID } from './task-types';
 
 const schema: FastifySchema = {
@@ -39,7 +39,7 @@ const schema: FastifySchema = {
 const handler: TaskRouteHandler<ITaskRootRequest> = async (request, reply) => {
   const boardId = request.params[PARAM_BOARD_ID];
   const taskDto = request.body;
-  const task = await tasksService.create(boardId, taskDto);
+  const task = await TasksService.create(boardId, taskDto);
   reply.code(HttpStatusCode.CREATED).send(task);
 };
 

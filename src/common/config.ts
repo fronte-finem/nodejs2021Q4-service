@@ -1,9 +1,8 @@
 import { join } from 'path';
-import { ClientConfig } from 'pg';
 import { Level as LogLevelPino } from 'pino';
 import { FastifyInstance } from 'fastify/types/instance';
 
-const LOCALHOST = 'localhost';
+export const LOCALHOST = 'localhost';
 
 export const appConfig: Parameters<FastifyInstance['listen']>[0] = {
   host: process.env.APP_HOST ?? LOCALHOST,
@@ -29,13 +28,3 @@ export const LOG_LEVEL: LogLevelPino =
 const LOGS_DIR = 'logs';
 export const LOG_FILE_ALL = join('.', LOGS_DIR, 'all.log');
 export const LOG_FILE_ERROR = join('.', LOGS_DIR, 'error.log');
-
-export const dbConfig: ClientConfig = {
-  host: process.env.DB_HOST ?? LOCALHOST,
-  port: Number(process.env.DB_PORT) || 5432,
-  database: process.env.DB_NAME ?? 'app_db',
-  user: process.env.DB_USER ?? 'admin',
-  password: process.env.DB_PASSWORD ?? 'secret password',
-};
-
-// export const DB_CONNECTION_STRING = `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`;

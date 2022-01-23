@@ -1,5 +1,5 @@
 import { RequestGenericInterface } from 'fastify';
-import { UserDTO } from '../user.model';
+import { UserDTO } from '../../dto-types';
 
 export const PARAM_USER_ID = 'userId';
 

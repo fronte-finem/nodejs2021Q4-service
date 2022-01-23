@@ -1,26 +1,22 @@
-import { IDBRepository } from '../../common/memory-repository';
+import { DeleteResult, getRepository, Repository, UpdateResult } from 'typeorm';
 import { Maybe } from '../../common/types';
-import { tasksService } from '../tasks/task.service';
-import { usersRepo } from './user.memory-repository';
-import { User, UserDTO, UserDTOResponse } from './user.model';
+import { UserDTO, UserDTOResponse } from '../dto-types';
+import { User } from './user.model';
 
 /**
  * Service for work with {@link User}s repository
  */
-class UsersService {
-  /**
-   * Build service with injected repository
-   * @param repo - instance of repository for {@link User} records
-   * @returns instance of {@link UsersService}
-   */
-  constructor(private readonly repo: IDBRepository<User>) {}
+export abstract class UsersService {
+  private static get repo(): Repository<User> {
+    return getRepository(User);
+  }
 
   /**
    * Find all {@link User} records
    * @returns promise with array of {@link UserDTOResponse} records
    */
-  public async readAll(): Promise<UserDTOResponse[]> {
-    const users = await this.repo.read();
+  public static async readAll(): Promise<UserDTOResponse[]> {
+    const users = await this.repo.find();
     return users.map(User.toResponse);
   }
 
@@ -29,22 +25,22 @@ class UsersService {
    * @param id - identification string
    * @returns promise with {@link Maybe} found {@link UserDTOResponse} record
    */
-  public async read(id: string): Promise<Maybe<UserDTOResponse>> {
-    const maybeUser = await this.repo.read(id);
+  public static async read(id: string): Promise<Maybe<UserDTOResponse>> {
+    const maybeUser = await this.repo.findOne(id);
     return maybeUser && User.toResponse(maybeUser);
   }
 
   /**
    * Create and save {@link User} record
    * @param userDTO - input partial form of {@link UserDTO}
-   * @returns promise with {@link Maybe} created {@link UserDTOResponse} record
+   * @returns promise with created {@link UserDTOResponse} record
    */
-  public async create(
+  public static async create(
     userDTO: Partial<UserDTO>
   ): Promise<Maybe<UserDTOResponse>> {
-    const user = new User(userDTO);
-    const maybeUser = await this.repo.create(user);
-    return maybeUser && User.toResponse(maybeUser);
+    const user = this.repo.create(userDTO);
+    await this.repo.insert(user);
+    return User.toResponse(user);
   }
 
   /**
@@ -52,12 +48,9 @@ class UsersService {
    * @param id - identification string
    * @returns promise with boolean answer about operation status
    */
-  public async delete(id: string): Promise<boolean> {
-    const deleted = await this.repo.delete(id);
-    if (deleted) {
-      await tasksService.unassignUser(id);
-    }
-    return deleted;
+  public static async delete(id: string): Promise<boolean> {
+    const { affected }: DeleteResult = await this.repo.delete(id);
+    return Boolean(affected);
   }
 
   /**
@@ -66,14 +59,11 @@ class UsersService {
    * @param userDTO - input partial form of {@link UserDTO}
    * @returns promise with {@link Maybe} updated {@link UserDTO} record
    */
-  public async update(
+  public static async update(
     id: string,
     userDTO: Partial<UserDTO>
   ): Promise<Maybe<UserDTOResponse>> {
-    const user = new User({ id, ...userDTO });
-    const maybeUser = await this.repo.update(id, user);
-    return maybeUser && User.toResponse(maybeUser);
+    const { affected }: UpdateResult = await this.repo.update(id, userDTO);
+    return affected ? this.read(id) : undefined;
   }
 }
-
-export const usersService = new UsersService(usersRepo);

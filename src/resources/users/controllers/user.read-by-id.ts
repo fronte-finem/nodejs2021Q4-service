@@ -4,7 +4,7 @@ import { makeOpenAPIUuidRequestParams } from '../../../openaip/request';
 import { makeOpenApiHttpResponse } from '../../../openaip/response';
 import { HttpErrorResponse } from '../../../openaip/response.http-error';
 import { UserSchemaID } from '../user.schema';
-import { usersService } from '../user.service';
+import { UsersService } from '../user.service';
 import { IUserRequest, PARAM_USER_ID } from './user-types';
 
 const schema: FastifySchema = {
@@ -32,7 +32,7 @@ const handler: RouteHandler<Omit<IUserRequest, 'Body'>> = async (
   reply
 ) => {
   const userId = request.params[PARAM_USER_ID];
-  const maybeUser = await usersService.read(userId);
+  const maybeUser = await UsersService.read(userId);
   if (!maybeUser) {
     reply.notFound(`User with id [${userId}] not found!`);
   } else {

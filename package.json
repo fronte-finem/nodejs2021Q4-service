@@ -16,7 +16,8 @@
     "prod:build": "npm run lint && tsc",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
-    "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace"
+    "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
+    "typeorm": "node -r ts-node/register -r dotenv/config ./node_modules/typeorm/cli.js --config src/common/ormconfig.ts"
   },
   "nodemonConfig": {
     "ext": "*",
@@ -51,11 +52,15 @@
     "fluent-json-schema": "^3.0.1",
     "pg": "^8.7.1",
     "pino": "^7.6.1",
-    "pino-pretty": "^7.3.0"
+    "pino-pretty": "^7.3.0",
+    "pretty-data": "^0.40.0",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.41"
   },
   "devDependencies": {
     "@types/node": "^16.11.17",
     "@types/pg": "^8.6.3",
+    "@types/pretty-data": "^0.40.0",
     "@typescript-eslint/eslint-plugin": "^5.8.0",
     "@typescript-eslint/parser": "^5.8.0",
     "chai": "4.3.4",

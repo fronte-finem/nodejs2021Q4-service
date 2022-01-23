@@ -1,26 +1,27 @@
-import { BaseModel, RecordWithId } from '../../common/types';
-import { ColumnDTO } from './column.model';
+import 'reflect-metadata';
+import {
+  Column as ColumnField,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { BoardDTO, ColumnDTO, TaskDTO } from '../dto-types';
 
-export interface BoardDTO extends RecordWithId {
-  readonly title: string;
-  readonly columns: ColumnDTO[];
-}
+@Entity()
+export class Board implements BoardDTO {
+  @PrimaryGeneratedColumn('uuid')
+  public id?: string;
 
-/**
- * Model for board record
- */
-export class Board extends BaseModel implements BoardDTO {
-  public readonly title: string;
-  public readonly columns: ColumnDTO[];
+  @ColumnField()
+  public title: string;
 
-  /**
-   * Create board record
-   * @param boardDTO - partial form of {@link BoardDTO}
-   * @returns instance of {@link Board}
-   */
-  constructor({ id, title, columns }: Partial<BoardDTO> = {}) {
-    super(id);
+  @OneToMany('Column', 'board', { cascade: true })
+  public columns!: ColumnDTO[];
+
+  @OneToMany('Task', 'board', { cascade: true })
+  public tasks?: TaskDTO[];
+
+  constructor({ title }: Partial<BoardDTO> = {}) {
     this.title = title ?? 'Autotest';
-    this.columns = columns ?? [];
   }
 }

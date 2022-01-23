@@ -3,7 +3,7 @@ import { OpenApiEndpointTag } from '../../../common/constants';
 import { makeOpenApiHttpResponseArray } from '../../../openaip/response';
 import { HttpErrorResponse } from '../../../openaip/response.http-error';
 import { BoardSchemaID } from '../board.schema';
-import { boardsService } from '../board.service';
+import { BoardsService } from '../board.service';
 
 const schema: FastifySchema = {
   summary: 'Get all boards',
@@ -22,7 +22,7 @@ const schema: FastifySchema = {
  * @returns empty promise
  */
 const handler: RouteHandler = async (request, reply) => {
-  const boards = await boardsService.readAll();
+  const boards = await BoardsService.readAll();
   reply.send(boards);
 };
 
