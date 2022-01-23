@@ -1,4 +1,5 @@
 import { FastifyPluginAsync } from 'fastify';
+import { onRequestCheckAuth } from '../../auth/hooks/on-request-check-auth';
 import { fastifyErrorHandler } from '../../logging/utils';
 import { PARAM_BOARD_ID } from './controllers/board-types';
 import { createController } from './controllers/board.create';
@@ -17,6 +18,7 @@ const ID_URL = `/:${PARAM_BOARD_ID}`;
  */
 export const boardRouter: FastifyPluginAsync = async (app) => {
   app.setErrorHandler(fastifyErrorHandler);
+  app.addHook('onRequest', onRequestCheckAuth);
   app.post(ROOT_URL, createController);
   app.get(ROOT_URL, readController);
   app.get(ID_URL, readByIdController);
