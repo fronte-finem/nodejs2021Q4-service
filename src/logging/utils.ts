@@ -36,7 +36,11 @@ export const fastifyErrorHandler = (
       : HttpStatusCode.INTERNAL_SERVER_ERROR);
   const errorType = error.name ?? (error.validation ? 'Validation Error' : '');
   logger.error(`${errorType}: ${getErrorMessage(error)}`);
-  reply.status(statusCode).send(STATUS_CODES[statusCode]);
+  if (statusCode === HttpStatusCode.INTERNAL_SERVER_ERROR) {
+    reply.status(statusCode).send(STATUS_CODES[statusCode]);
+  } else {
+    reply.status(statusCode).send(error);
+  }
 };
 
 export const logRequestBody = async (
