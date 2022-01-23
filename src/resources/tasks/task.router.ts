@@ -1,6 +1,4 @@
 import { FastifyPluginAsync } from 'fastify';
-import { onRequestCheckAuth } from '../../auth/hooks/on-request-check-auth';
-import { fastifyErrorHandler } from '../../logging/utils';
 import { PARAM_BOARD_ID, PARAM_TASK_ID } from './controllers/task-types';
 import { createController } from './controllers/task.create';
 import { deleteByIdController } from './controllers/task.delete-by-id';
@@ -18,8 +16,6 @@ const ID_ROUTE = `/:${PARAM_BOARD_ID}/tasks/:${PARAM_TASK_ID}`;
  * @returns empty promise
  */
 export const taskRouter: FastifyPluginAsync = async (app) => {
-  app.setErrorHandler(fastifyErrorHandler);
-  app.addHook('onRequest', onRequestCheckAuth);
   app.addHook('onRequest', onRequestCheckBoardId);
   app.post(ROOT_ROUTE, createController);
   app.get(ROOT_ROUTE, readController);

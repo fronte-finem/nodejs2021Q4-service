@@ -1,6 +1,4 @@
 import { FastifyPluginAsync } from 'fastify';
-import { onRequestCheckAuth } from '../../auth/hooks/on-request-check-auth';
-import { fastifyErrorHandler } from '../../logging/utils';
 import { PARAM_USER_ID } from './controllers/user-types';
 import { createController } from './controllers/user.create';
 import { deleteByIdController } from './controllers/user.delete-by-id';
@@ -17,8 +15,6 @@ const ID_URL = `/:${PARAM_USER_ID}`;
  * @returns empty promise
  */
 export const userRouter: FastifyPluginAsync = async (app) => {
-  app.setErrorHandler(fastifyErrorHandler);
-  app.addHook('onRequest', onRequestCheckAuth);
   app.post(ROOT_URL, createController);
   app.get(ROOT_URL, readController);
   app.get(ID_URL, readByIdController);
