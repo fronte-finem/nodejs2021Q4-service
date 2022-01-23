@@ -6,4 +6,4 @@ RUN npm install --production \
     && npm cache clean --force
 # COPY src ./src
 
-CMD ["nodemon", "--legacy-watch", "--exitcrash", "--exec", "ts-node src/server.ts"]
+CMD ["nodemon", "--legacy-watch", "--exec", "ts-node src/server.ts"]
