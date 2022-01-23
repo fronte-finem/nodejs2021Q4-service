@@ -32,6 +32,11 @@ export const HttpErrorResponse: Readonly<Record<string, OpenApiHttpResponse>> =
       'Access token is missing or invalid',
       HttpStatusCode.UNAUTHORIZED
     ),
+    FORBIDDEN: makeOpenApiHttpResponse(
+      HttpErrorSchemaID,
+      'Incorrect login or password',
+      HttpStatusCode.FORBIDDEN
+    ),
     NOT_FOUND: makeOpenApiHttpResponse(
       HttpErrorSchemaID,
       'Not found',
