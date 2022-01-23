@@ -25,15 +25,14 @@ enum AuthRoutePrefix {
 export const initApp = async (dbConnection: Connection): Promise<boolean> => {
   const app = Fastify({ logger });
 
+  app.addHook('onError', logFastifyError);
   app.addHook('preHandler', logRequestBody);
   app.addHook('preSerialization', logResponseBody);
 
   app.register(FastifyCORS);
   app.register(FastifySensible);
-
   setupOpenApiDoc(app);
 
-  app.addHook('onError', logFastifyError);
   app.register(loginRouter, { prefix: '/login' });
   app.addHook('onRequest', authAccess(Object.values(AuthRoutePrefix)));
   app.register(userRouter, { prefix: AuthRoutePrefix.USERS });
