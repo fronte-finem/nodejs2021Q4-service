@@ -1,7 +1,5 @@
-import { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
-import { STATUS_CODES } from 'http';
+import { FastifyReply, FastifyRequest, onErrorHookHandler } from 'fastify';
 import { getErrorMessage } from '../common/get-error-message';
-import { HttpStatusCode } from '../common/http-constants';
 import { logger } from './logger';
 
 export class FatalHandler {
@@ -24,23 +22,14 @@ export class FatalHandler {
   };
 }
 
-export const fastifyErrorHandler = (
-  error: FastifyError,
-  request: FastifyRequest,
-  reply: FastifyReply
-): void => {
-  const statusCode =
-    error.statusCode ??
-    (error.validation
-      ? HttpStatusCode.BAD_REQUEST
-      : HttpStatusCode.INTERNAL_SERVER_ERROR);
-  const errorType = error.name ?? (error.validation ? 'Validation Error' : '');
-  logger.error(`${errorType}: ${getErrorMessage(error)}`);
-  if (statusCode === HttpStatusCode.INTERNAL_SERVER_ERROR) {
-    reply.status(statusCode).send(STATUS_CODES[statusCode]);
-  } else {
-    reply.status(statusCode).send(error);
-  }
+export const logFastifyError: onErrorHookHandler = async (
+  request,
+  reply,
+  error
+): Promise<void> => {
+  const shortError = error;
+  delete shortError.stack;
+  logger.error(shortError);
 };
 
 export const logRequestBody = async (

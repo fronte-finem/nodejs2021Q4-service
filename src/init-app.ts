@@ -7,7 +7,7 @@ import { appConfig } from './common/config';
 import { getErrorMessage } from './common/get-error-message';
 import { logger } from './logging/logger';
 import {
-  fastifyErrorHandler,
+  logFastifyError,
   logRequestBody,
   logResponseBody,
 } from './logging/utils';
@@ -28,13 +28,12 @@ export const initApp = async (dbConnection: Connection): Promise<boolean> => {
   app.addHook('preHandler', logRequestBody);
   app.addHook('preSerialization', logResponseBody);
 
-  app.setErrorHandler(fastifyErrorHandler);
-
   app.register(FastifyCORS);
   app.register(FastifySensible);
 
   setupOpenApiDoc(app);
 
+  app.addHook('onError', logFastifyError);
   app.register(loginRouter, { prefix: '/login' });
   app.addHook('onRequest', authAccess(Object.values(AuthRoutePrefix)));
   app.register(userRouter, { prefix: AuthRoutePrefix.USERS });

@@ -1,5 +1,4 @@
 import { FastifyPluginAsync } from 'fastify';
-import { fastifyErrorHandler } from '../logging/utils';
 import { loginController } from './login-controller';
 
 const ROOT_ROUTE = '/';
@@ -10,6 +9,5 @@ const ROOT_ROUTE = '/';
  * @returns empty promise
  */
 export const loginRouter: FastifyPluginAsync = async (app) => {
-  app.setErrorHandler(fastifyErrorHandler);
   app.post(ROOT_ROUTE, loginController);
 };
