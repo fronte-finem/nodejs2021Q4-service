@@ -1,13 +1,9 @@
-import { FastifySchema } from 'fastify';
+import { FastifySchema, RouteHandler } from 'fastify';
 import { OpenApiEndpointTag } from '../../../common/constants';
 import { HttpStatusCode } from '../../../common/http-constants';
 import { makeOpenAPIUuidRequestParams } from '../../../openaip/request';
 import { makeOpenApiHttpResponseEmpty } from '../../../openaip/response';
 import { HttpErrorResponse } from '../../../openaip/response.http-error';
-import {
-  TaskRouteHandler,
-  useBoardMiddleware,
-} from '../middlewares/board.check';
 import { TasksService } from '../task.service';
 import { ITaskRequest, PARAM_BOARD_ID, PARAM_TASK_ID } from './task-types';
 
@@ -34,7 +30,7 @@ const schema: FastifySchema = {
  * @param reply - instance of {@link FastifyReply}
  * @returns empty promise
  */
-const handler: TaskRouteHandler<Omit<ITaskRequest, 'Body'>> = async (
+const handler: RouteHandler<Omit<ITaskRequest, 'Body'>> = async (
   request,
   reply
 ) => {
@@ -50,5 +46,5 @@ const handler: TaskRouteHandler<Omit<ITaskRequest, 'Body'>> = async (
 
 export const deleteByIdController = {
   schema,
-  handler: useBoardMiddleware(handler),
+  handler,
 };

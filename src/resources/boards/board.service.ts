@@ -21,12 +21,21 @@ export class BoardsService {
   }
 
   /**
-   * Find {@link Board} record by string ID
+   * Find {@link Board} record by string ID and load array related {@link Column}s
    * @param id - identification string
    * @returns promise with {@link Maybe} found {@link BoardDTO} record
    */
   public static async read(id: string): Promise<Maybe<BoardDTO>> {
     return this.repo.findOne(id, { relations: ['columns'] });
+  }
+
+  /**
+   * Find {@link Board} record by string ID
+   * @param id - identification string
+   * @returns promise with {@link Maybe} found {@link BoardDTO} record
+   */
+  public static async check(id: string): Promise<Maybe<BoardDTO>> {
+    return this.repo.findOne(id);
   }
 
   /**
