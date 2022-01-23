@@ -7,8 +7,11 @@
   },
   "type": "commonjs",
   "scripts": {
-    "start": "npm run docker:start",
-    "docker:start": "docker-compose up --build",
+    "start": "docker-compose up",
+    "docker:up": "docker-compose up",
+    "docker:down": "docker-compose down",
+    "docker:build": "docker-compose build",
+    "local:start": "docker-compose up -d db && npm run dev:watch",
     "dev:watch": "nodemon --exec \"npm run dev:start\"",
     "dev:start": "npx ts-node -r dotenv/config src/server.ts",
     "prod": "npm run prod:build && npm run prod:start",
