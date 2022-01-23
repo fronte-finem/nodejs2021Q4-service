@@ -30,3 +30,5 @@ export const LOG_FILE_ALL = join('.', LOGS_DIR, 'all.log');
 export const LOG_FILE_ERROR = join('.', LOGS_DIR, 'error.log');
 
 export const SALT_ROUNDS = Number(process.env.APP_SALT_ROUNDS) || 10;
+
+export const APP_JWT_KEY = process.env.APP_JWT_KEY || 'APP_JWT_KEY';
