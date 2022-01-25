@@ -1,3 +1,3 @@
 dist/
 test/
-esbuild.config.mjs
+.eslintrc.js

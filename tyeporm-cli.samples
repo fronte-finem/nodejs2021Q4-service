@@ -1,7 +1,0 @@
-npm run typeorm migration:create -- -n MigrationName
-
-npm run typeorm migration:generate -- -n MigrationName
-
-npm run typeorm migration:run
-
-npm run typeorm migration:revert

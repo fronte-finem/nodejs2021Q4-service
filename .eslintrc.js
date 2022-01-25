@@ -1,0 +1,52 @@
+module.exports = {
+  root: true,
+  env: {
+    node: true,
+    es2021: true,
+    jest: true,
+    jasmine: true,
+  },
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: 'tsconfig.json',
+    sourceType: 'module',
+    ecmaVersion: 'latest',
+    ecmaFeatures: {
+      impliedStrict: true,
+    },
+  },
+  plugins: ['@typescript-eslint/eslint-plugin', 'eslint-plugin-tsdoc'],
+  extends: [
+    'plugin:node/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'airbnb-base',
+    'airbnb-typescript/base',
+    'plugin:prettier/recommended',
+    'prettier',
+  ],
+  rules: {
+    'linebreak-style': 'off',
+    'no-underscore-dangle': 'off',
+    'class-methods-use-this': 'off',
+    'import/extensions': 'off',
+    'import/prefer-default-export': 'off',
+    'node/no-unsupported-features/es-syntax': 'off',
+    'node/no-missing-import': 'off',
+    'node/no-unpublished-import': 'off',
+    'tsdoc/syntax': 'warn',
+    '@typescript-eslint/interface-name-prefix': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-use-before-define': ['error', { functions: false }],
+    '@typescript-eslint/explicit-member-accessibility': [
+      'warn',
+      { overrides: { constructors: 'no-public' } },
+    ],
+    '@typescript-eslint/lines-between-class-members': [
+      'warn',
+      'always',
+      { exceptAfterOverload: true, exceptAfterSingleLine: true },
+    ],
+  },
+};
