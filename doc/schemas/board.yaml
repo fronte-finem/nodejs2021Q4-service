@@ -1,6 +1,5 @@
 components:
   schemas:
-
     Board:
       type: object
       properties:

@@ -1,6 +1,5 @@
 components:
   schemas:
-
     Task:
       type: object
       properties:

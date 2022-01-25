@@ -1,6 +1,5 @@
 components:
   schemas:
-
     Column:
       type: object
       properties:

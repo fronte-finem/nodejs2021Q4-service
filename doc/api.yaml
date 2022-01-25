@@ -10,31 +10,31 @@ servers:
 components:
   schemas:
     User:
-      $ref: "./schemas/user.yaml#/components/schemas/User"
+      $ref: './schemas/user.yaml#/components/schemas/User'
     UserCreate:
-      $ref: "./schemas/user.yaml#/components/schemas/UserCreate"
+      $ref: './schemas/user.yaml#/components/schemas/UserCreate'
     UserUpdate:
-      $ref: "./schemas/user.yaml#/components/schemas/UserUpdate"
+      $ref: './schemas/user.yaml#/components/schemas/UserUpdate'
     UserLogin:
-      $ref: "./schemas/user.yaml#/components/schemas/UserLogin"
+      $ref: './schemas/user.yaml#/components/schemas/UserLogin'
     Board:
-      $ref: "./schemas/board.yaml#/components/schemas/Board"
+      $ref: './schemas/board.yaml#/components/schemas/Board'
     BoardCreate:
-      $ref: "./schemas/board.yaml#/components/schemas/BoardCreate"
+      $ref: './schemas/board.yaml#/components/schemas/BoardCreate'
     BoardUpdate:
-      $ref: "./schemas/board.yaml#/components/schemas/BoardUpdate"
+      $ref: './schemas/board.yaml#/components/schemas/BoardUpdate'
     Column:
-      $ref: "./schemas/column.yaml#/components/schemas/Column"
+      $ref: './schemas/column.yaml#/components/schemas/Column'
     ColumnCreate:
-      $ref: "./schemas/column.yaml#/components/schemas/ColumnCreate"
+      $ref: './schemas/column.yaml#/components/schemas/ColumnCreate'
     ColumnUpdate:
-      $ref: "./schemas/column.yaml#/components/schemas/ColumnUpdate"
+      $ref: './schemas/column.yaml#/components/schemas/ColumnUpdate'
     Task:
-      $ref: "./schemas/task.yaml#/components/schemas/Task"
+      $ref: './schemas/task.yaml#/components/schemas/Task'
     TaskCreate:
-      $ref: "./schemas/task.yaml#/components/schemas/TaskCreate"
+      $ref: './schemas/task.yaml#/components/schemas/TaskCreate'
     TaskUpdate:
-      $ref: "./schemas/task.yaml#/components/schemas/TaskUpdate"
+      $ref: './schemas/task.yaml#/components/schemas/TaskUpdate'
   responses:
     UnauthorizedError:
       description: Access token is missing or invalid
@@ -62,7 +62,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/User"
+                  $ref: '#/components/schemas/User'
         401:
           $ref: '#/components/responses/UnauthorizedError'
     post:
@@ -75,14 +75,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserCreate"
+              $ref: '#/components/schemas/UserCreate'
       responses:
         201:
           description: The user has been created.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
+                $ref: '#/components/schemas/User'
         400:
           description: Bad request
         401:
@@ -106,7 +106,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
+                $ref: '#/components/schemas/User'
         401:
           $ref: '#/components/responses/UnauthorizedError'
         404:
@@ -121,14 +121,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserUpdate"
+              $ref: '#/components/schemas/UserUpdate'
       responses:
         200:
           description: The user has been updated.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
+                $ref: '#/components/schemas/User'
         400:
           description: Bad request
         401:
@@ -161,7 +161,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Board"
+                  $ref: '#/components/schemas/Board'
         401:
           $ref: '#/components/responses/UnauthorizedError'
     post:
@@ -174,14 +174,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/BoardCreate"
+              $ref: '#/components/schemas/BoardCreate'
       responses:
         201:
           description: The board has been created.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Board"
+                $ref: '#/components/schemas/Board'
         400:
           description: Bad request
         401:
@@ -204,7 +204,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Board"
+                $ref: '#/components/schemas/Board'
         401:
           $ref: '#/components/responses/UnauthorizedError'
         404:
@@ -219,14 +219,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/BoardUpdate"
+              $ref: '#/components/schemas/BoardUpdate'
       responses:
         200:
           description: The board has been updated.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Board"
+                $ref: '#/components/schemas/Board'
         400:
           description: Bad request
         401:
@@ -266,7 +266,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Task"
+                  $ref: '#/components/schemas/Task'
         401:
           $ref: '#/components/responses/UnauthorizedError'
 
@@ -280,14 +280,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/TaskCreate"
+              $ref: '#/components/schemas/TaskCreate'
       responses:
         201:
           description: The task has been created.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Task"
+                $ref: '#/components/schemas/Task'
         400:
           description: Bad request
         401:
@@ -316,7 +316,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Task"
+                $ref: '#/components/schemas/Task'
         401:
           $ref: '#/components/responses/UnauthorizedError'
     put:
@@ -329,14 +329,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/TaskUpdate"
+              $ref: '#/components/schemas/TaskUpdate'
       responses:
         200:
           description: The task has been updated.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Task"
+                $ref: '#/components/schemas/Task'
         400:
           description: Bad request
         401:
@@ -359,8 +359,7 @@ paths:
     post:
       tags:
         - Login
-      security:
-        []
+      security: []
       summary: Login
       description: Logins a user and returns a JWT-token
       requestBody:
@@ -368,7 +367,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserLogin"
+              $ref: '#/components/schemas/UserLogin'
       responses:
         200:
           description: Successful login.
