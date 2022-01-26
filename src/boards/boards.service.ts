@@ -12,15 +12,15 @@ export class BoardsService {
     return `This action returns all boards`;
   }
 
-  public findOne(id: number) {
+  public findOne(id: string) {
     return `This action returns a #${id} board`;
   }
 
-  public update(id: number, updateBoardDto: UpdateBoardDto) {
+  public update(id: string, updateBoardDto: UpdateBoardDto) {
     return `This action updates a #${id} board`;
   }
 
-  public remove(id: number) {
+  public remove(id: string) {
     return `This action removes a #${id} board`;
   }
 }

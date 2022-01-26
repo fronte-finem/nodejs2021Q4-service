@@ -12,15 +12,15 @@ export class UsersService {
     return `This action returns all users`;
   }
 
-  public findOne(id: number) {
+  public findOne(id: string) {
     return `This action returns a #${id} user`;
   }
 
-  public update(id: number, updateUserDto: UpdateUserDto) {
+  public update(id: string, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
 
-  public remove(id: number) {
+  public remove(id: string) {
     return `This action removes a #${id} user`;
   }
 }
