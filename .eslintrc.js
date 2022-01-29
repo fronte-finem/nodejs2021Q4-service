@@ -28,6 +28,7 @@ module.exports = {
     'linebreak-style': 'off',
     'no-underscore-dangle': 'off',
     'class-methods-use-this': 'off',
+    'no-param-reassign': ['error', { props: false }],
     'import/extensions': 'off',
     'import/prefer-default-export': 'off',
     'node/no-unsupported-features/es-syntax': 'off',
