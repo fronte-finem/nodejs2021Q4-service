@@ -1,11 +1,26 @@
-import { Controller, Get, Post, Put, Delete, Body, UseFilters } from '@nestjs/common';
-import { HttpNoContent } from '../../common/decorators';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  UseFilters,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse } from '../../common/decorators';
 import { AllExceptionsFilter } from '../../filters/all-exceptions.filter';
 import { RoutePrefix, BY_ID, BoardId, Id } from '../routes';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { TaskService } from './task.service';
 
+@ApiTags('Tasks')
+@ApiResponse.Forbidden
+@ApiResponse.BadRequest
+@ApiResponse.NotFound
 @Controller(RoutePrefix.TASKS)
 @UseFilters(AllExceptionsFilter)
 export class TaskController {
@@ -32,7 +47,8 @@ export class TaskController {
   }
 
   @Delete(BY_ID)
-  @HttpNoContent
+  @ApiResponse.NoContent
+  @HttpCode(HttpStatus.NO_CONTENT)
   public remove(@BoardId boardId: string, @Id id: string) {
     return this.taskService.remove(boardId, id);
   }
