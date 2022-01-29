@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { throwExpression } from '../../common/error.helpers';
-import { mapPrismaErrorToNestException } from '../../common/prisma.error';
+import { throwExpression } from '../../errors';
 import { PrismaService } from '../../prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ResponseUserDto } from './dto/response-user.dto';
@@ -13,48 +12,27 @@ export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createUserDto: CreateUserDto): Promise<ResponseUserDto> {
-    try {
-      return await this.prisma.user.create({ data: createUserDto, select: userResponse });
-    } catch (error: unknown) {
-      throw mapPrismaErrorToNestException(error);
-    }
+    return this.prisma.user.create({ data: createUserDto, select: userResponse });
   }
 
   async findAll(): Promise<ResponseUserDto[]> {
-    try {
-      return await this.prisma.user.findMany({ select: userResponse });
-    } catch (error: unknown) {
-      throw mapPrismaErrorToNestException(error);
-    }
+    return this.prisma.user.findMany({ select: userResponse });
   }
 
   async findOne(id: string): Promise<ResponseUserDto> {
-    let result: ResponseUserDto | null = null;
-    try {
-      result = await this.prisma.user.findUnique({ where: { id }, select: userResponse });
-    } catch (error: unknown) {
-      throw mapPrismaErrorToNestException(error);
-    }
+    const result = await this.prisma.user.findUnique({ where: { id }, select: userResponse });
     return result ?? throwExpression(new NotFoundException(`User record #${id} not found!`));
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<ResponseUserDto> {
-    try {
-      return await this.prisma.user.update({
-        where: { id },
-        data: updateUserDto,
-        select: userResponse,
-      });
-    } catch (error: unknown) {
-      throw mapPrismaErrorToNestException(error);
-    }
+    return this.prisma.user.update({
+      where: { id },
+      data: updateUserDto,
+      select: userResponse,
+    });
   }
 
   async remove(id: string): Promise<void> {
-    try {
-      await this.prisma.user.delete({ where: { id } });
-    } catch (error: unknown) {
-      throw mapPrismaErrorToNestException(error);
-    }
+    await this.prisma.user.delete({ where: { id } });
   }
 }

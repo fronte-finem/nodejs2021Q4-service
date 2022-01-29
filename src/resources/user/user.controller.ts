@@ -1,4 +1,6 @@
-import { Controller, Get, Post, Put, Delete, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, UseFilters } from '@nestjs/common';
+import { HttpNoContent } from '../../common/decorators';
+import { AllExceptionsFilter } from '../../filters/all-exceptions.filter';
 import { RoutePrefix, BY_ID, Id } from '../routes';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ResponseUserDto } from './dto/response-user.dto';
@@ -6,6 +8,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
 
 @Controller(RoutePrefix.USERS)
+@UseFilters(AllExceptionsFilter)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -30,7 +33,7 @@ export class UserController {
   }
 
   @Delete(BY_ID)
-  @HttpCode(HttpStatus.NO_CONTENT)
+  @HttpNoContent
   async remove(@Id id: string): Promise<void> {
     return this.userService.remove(id);
   }

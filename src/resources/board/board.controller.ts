@@ -1,4 +1,6 @@
-import { Controller, Get, Post, Put, Delete, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, UseFilters } from '@nestjs/common';
+import { HttpNoContent } from '../../common/decorators';
+import { AllExceptionsFilter } from '../../filters/all-exceptions.filter';
 import { RoutePrefix, BY_ID, Id } from '../routes';
 import { BoardService } from './board.service';
 import { CreateBoardDto } from './dto/create-board.dto';
@@ -6,6 +8,7 @@ import { ResponseBoardDto } from './dto/response-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
 
 @Controller(RoutePrefix.BOARDS)
+@UseFilters(AllExceptionsFilter)
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
@@ -30,7 +33,7 @@ export class BoardController {
   }
 
   @Delete(BY_ID)
-  @HttpCode(HttpStatus.NO_CONTENT)
+  @HttpNoContent
   async remove(@Id id: string): Promise<void> {
     await this.boardService.remove(id);
   }
