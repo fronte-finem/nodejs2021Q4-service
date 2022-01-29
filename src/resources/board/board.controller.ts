@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Body, Delete, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, HttpCode, HttpStatus } from '@nestjs/common';
 import { RoutePrefix, BY_ID, Id } from '../routes';
 import { BoardService } from './board.service';
 import { CreateBoardDto } from './dto/create-board.dto';
