@@ -1,5 +1,6 @@
 {
-  "include": ["src/**/*"],
+  "include": ["src"],
+  "exclude": ["dist"],
   "compilerOptions": {
     /* Language and Environment */
     "target": "ESNext",
