@@ -2,6 +2,7 @@ import { FastifySchema, RouteHandler } from 'fastify';
 import S from 'fluent-json-schema';
 import { OpenApiEndpointTag } from '../../../common/constants';
 import { HttpStatusCode } from '../../../common/http-constants';
+import { SECURITY_SCHEMA } from '../../../openaip/constants';
 import { makeOpenApiHttpResponse } from '../../../openaip/response';
 import { HttpErrorResponse } from '../../../openaip/response.http-error';
 import { BoardSchemaID } from '../board.schema';
@@ -22,6 +23,7 @@ const schema: FastifySchema = {
     ...HttpErrorResponse.BAD_REQUEST,
     ...HttpErrorResponse.UNAUTHORIZED,
   },
+  ...SECURITY_SCHEMA,
 };
 
 /**

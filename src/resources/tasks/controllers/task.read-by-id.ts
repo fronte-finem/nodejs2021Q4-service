@@ -1,12 +1,9 @@
-import { FastifySchema } from 'fastify';
+import { FastifySchema, RouteHandler } from 'fastify';
 import { OpenApiEndpointTag } from '../../../common/constants';
+import { SECURITY_SCHEMA } from '../../../openaip/constants';
 import { makeOpenAPIUuidRequestParams } from '../../../openaip/request';
 import { makeOpenApiHttpResponse } from '../../../openaip/response';
 import { HttpErrorResponse } from '../../../openaip/response.http-error';
-import {
-  TaskRouteHandler,
-  useBoardMiddleware,
-} from '../middlewares/board.check';
 import { TaskSchemaID } from '../task.schema';
 import { TasksService } from '../task.service';
 import { ITaskRequest, PARAM_BOARD_ID, PARAM_TASK_ID } from './task-types';
@@ -23,6 +20,7 @@ const schema: FastifySchema = {
     ...HttpErrorResponse.UNAUTHORIZED,
     ...HttpErrorResponse.NOT_FOUND,
   },
+  ...SECURITY_SCHEMA,
 };
 
 /**
@@ -31,7 +29,7 @@ const schema: FastifySchema = {
  * @param reply - instance of {@link FastifyReply}
  * @returns empty promise
  */
-const handler: TaskRouteHandler<Omit<ITaskRequest, 'Body'>> = async (
+const handler: RouteHandler<Omit<ITaskRequest, 'Body'>> = async (
   request,
   reply
 ) => {
@@ -47,5 +45,5 @@ const handler: TaskRouteHandler<Omit<ITaskRequest, 'Body'>> = async (
 
 export const readByIdController = {
   schema,
-  handler: useBoardMiddleware(handler),
+  handler,
 };

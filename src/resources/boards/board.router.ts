@@ -1,5 +1,4 @@
 import { FastifyPluginAsync } from 'fastify';
-import { fastifyErrorHandler } from '../../logging/utils';
 import { PARAM_BOARD_ID } from './controllers/board-types';
 import { createController } from './controllers/board.create';
 import { deleteByIdController } from './controllers/board.delete-by-id';
@@ -16,7 +15,6 @@ const ID_URL = `/:${PARAM_BOARD_ID}`;
  * @returns empty promise
  */
 export const boardRouter: FastifyPluginAsync = async (app) => {
-  app.setErrorHandler(fastifyErrorHandler);
   app.post(ROOT_URL, createController);
   app.get(ROOT_URL, readController);
   app.get(ID_URL, readByIdController);

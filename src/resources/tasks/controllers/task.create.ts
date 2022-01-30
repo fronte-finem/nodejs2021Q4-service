@@ -1,14 +1,11 @@
-import { FastifySchema } from 'fastify';
+import { FastifySchema, RouteHandler } from 'fastify';
 import S from 'fluent-json-schema';
 import { OpenApiEndpointTag } from '../../../common/constants';
 import { HttpStatusCode } from '../../../common/http-constants';
+import { SECURITY_SCHEMA } from '../../../openaip/constants';
 import { makeOpenAPIUuidRequestParams } from '../../../openaip/request';
 import { makeOpenApiHttpResponse } from '../../../openaip/response';
 import { HttpErrorResponse } from '../../../openaip/response.http-error';
-import {
-  TaskRouteHandler,
-  useBoardMiddleware,
-} from '../middlewares/board.check';
 import { TaskSchemaID } from '../task.schema';
 import { TasksService } from '../task.service';
 import { ITaskRootRequest, PARAM_BOARD_ID } from './task-types';
@@ -28,6 +25,7 @@ const schema: FastifySchema = {
     ...HttpErrorResponse.BAD_REQUEST,
     ...HttpErrorResponse.UNAUTHORIZED,
   },
+  ...SECURITY_SCHEMA,
 };
 
 /**
@@ -36,7 +34,7 @@ const schema: FastifySchema = {
  * @param reply - instance of {@link FastifyReply}
  * @returns empty promise
  */
-const handler: TaskRouteHandler<ITaskRootRequest> = async (request, reply) => {
+const handler: RouteHandler<ITaskRootRequest> = async (request, reply) => {
   const boardId = request.params[PARAM_BOARD_ID];
   const taskDto = request.body;
   const task = await TasksService.create(boardId, taskDto);
@@ -45,5 +43,5 @@ const handler: TaskRouteHandler<ITaskRootRequest> = async (request, reply) => {
 
 export const createController = {
   schema,
-  handler: useBoardMiddleware(handler),
+  handler,
 };

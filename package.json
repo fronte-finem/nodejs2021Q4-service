@@ -7,8 +7,11 @@
   },
   "type": "commonjs",
   "scripts": {
-    "start": "npm run docker:start",
-    "docker:start": "docker-compose up --build",
+    "start": "docker-compose up",
+    "docker:up": "docker-compose up",
+    "docker:down": "docker-compose down",
+    "docker:build": "docker-compose build",
+    "local:start": "docker-compose up -d db && npm run dev:watch",
     "dev:watch": "nodemon --exec \"npm run dev:start\"",
     "dev:start": "npx ts-node -r dotenv/config src/server.ts",
     "prod": "npm run prod:build && npm run prod:start",
@@ -17,7 +20,11 @@
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
-    "typeorm": "node -r ts-node/register -r dotenv/config ./node_modules/typeorm/cli.js --config src/common/ormconfig.ts"
+    "typeorm": "node -r ts-node/register -r dotenv/config ./node_modules/typeorm/cli.js --config src/common/ormconfig.ts",
+    "migration:new": "npm run typeorm migration:create -- -n",
+    "migration:gen": "npm run typeorm migration:generate -- -n",
+    "migration:run": "npm run typeorm migration:run",
+    "migration:revert": "npm run typeorm migration:revert"
   },
   "nodemonConfig": {
     "ext": "*",
@@ -43,8 +50,10 @@
     ]
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "cross-env": "7.0.3",
     "dotenv": "10.0.0",
+    "fast-jwt": "^1.4.1",
     "fastify": "^3.25.2",
     "fastify-cors": "^6.0.2",
     "fastify-sensible": "^3.1.2",
@@ -58,6 +67,7 @@
     "typeorm": "^0.2.41"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/node": "^16.11.17",
     "@types/pg": "^8.6.3",
     "@types/pretty-data": "^0.40.0",

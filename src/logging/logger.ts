@@ -40,6 +40,7 @@ export const logger: Logger = pino({
         url: request.url,
         queries: handleEmpty(request.query as Record<string, string>),
         params: handleEmpty(request.params as Record<string, string>),
+        headers: handleEmpty(request.headers as Record<string, string>),
         remoteAddress: request.ip,
         remotePort: request.socket.remotePort,
       };

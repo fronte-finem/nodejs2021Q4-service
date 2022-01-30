@@ -1,4 +1,6 @@
+import bcrypt from 'bcrypt';
 import { DeleteResult, getRepository, Repository, UpdateResult } from 'typeorm';
+import { SALT_ROUNDS } from '../../common/config';
 import { Maybe } from '../../common/types';
 import { UserDTO, UserDTOResponse } from '../dto-types';
 import { User } from './user.model';
@@ -63,7 +65,13 @@ export abstract class UsersService {
     id: string,
     userDTO: Partial<UserDTO>
   ): Promise<Maybe<UserDTOResponse>> {
-    const { affected }: UpdateResult = await this.repo.update(id, userDTO);
+    const password = userDTO.password
+      ? await bcrypt.hash(userDTO.password, SALT_ROUNDS)
+      : undefined;
+    const { affected }: UpdateResult = await this.repo.update(id, {
+      ...userDTO,
+      password,
+    });
     return affected ? this.read(id) : undefined;
   }
 }
