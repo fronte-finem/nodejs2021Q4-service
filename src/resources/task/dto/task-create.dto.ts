@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsUUID } from 'class-validator';
 
 export class TaskCreateDto {
   @IsNotEmpty()
@@ -12,14 +12,17 @@ export class TaskCreateDto {
   order!: number;
 
   @ApiProperty({ format: 'uuid' })
+  @IsOptional()
   @IsUUID()
   userId?: string | null = null;
 
   @ApiProperty({ format: 'uuid' })
+  @IsOptional()
   @IsUUID()
   boardId?: string | null = null;
 
   @ApiProperty({ format: 'uuid' })
+  @IsOptional()
   @IsUUID()
   columnId?: string | null = null;
 }

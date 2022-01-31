@@ -1,11 +1,11 @@
-import { IsAlphanumeric, IsNotEmpty, MinLength } from 'class-validator';
+import { IsNotEmpty, Matches, MinLength } from 'class-validator';
 
 export class UserCreateDto {
   @IsNotEmpty()
   name!: string;
 
-  @IsAlphanumeric()
   @MinLength(3)
+  @Matches(/\w+/)
   login!: string;
 
   @MinLength(8)

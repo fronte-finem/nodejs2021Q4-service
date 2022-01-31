@@ -1,4 +1,4 @@
-import { IsAlphanumeric, IsNotEmpty, IsOptional, MinLength } from 'class-validator';
+import { IsNotEmpty, IsOptional, Matches, MinLength } from 'class-validator';
 
 export class UserUpdateDto {
   @IsOptional()
@@ -6,8 +6,8 @@ export class UserUpdateDto {
   name?: string;
 
   @IsOptional()
-  @IsAlphanumeric()
   @MinLength(3)
+  @Matches(/\w+/)
   login?: string;
 
   @IsOptional()
