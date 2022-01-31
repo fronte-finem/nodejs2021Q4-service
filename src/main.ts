@@ -1,29 +1,27 @@
-import { NestApplicationOptions } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { IS_FASTIFY } from './common/config';
-
-const nestConfig: NestApplicationOptions = {
-  logger: ['verbose'],
-  // bodyParser: !IS_FASTIFY,
-};
+import { nestAppConfig, nestServerConfig } from './common/config';
+import { setupOpenApi } from './open-api/setup-open-api';
 
 async function bootstrap() {
-  const app = await (IS_FASTIFY
-    ? NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), nestConfig)
-    : NestFactory.create(AppModule, nestConfig));
+  const { host, port, isFastify } = nestServerConfig;
 
-  const openApiConfig = new DocumentBuilder()
-    .setTitle('Trello Service')
-    .setDescription("Let's try to create a competitor for Trello!")
-    .setVersion('1.0.0')
-    .build();
-  const document = SwaggerModule.createDocument(app, openApiConfig);
-  SwaggerModule.setup('doc', app, document);
+  const app = await (isFastify
+    ? NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), nestAppConfig)
+    : NestFactory.create(AppModule, nestAppConfig));
 
-  await app.listen(process.env.APP_PORT || 3000);
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+    })
+  );
+
+  setupOpenApi(app);
+
+  await app.listen(port, host);
 }
 
 // noinspection JSIgnoredPromiseFromCall
