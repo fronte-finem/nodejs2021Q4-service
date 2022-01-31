@@ -1,53 +1,41 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Put,
-  Delete,
-  Body,
-  UseFilters,
-  HttpCode,
-  HttpStatus,
-} from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ApiResponse } from '../../common/decorators';
-import { AllExceptionsFilter } from '../../filters/all-exceptions.filter';
 import { RoutePrefix, BY_ID, Id } from '../routes';
-import { CreateUserDto } from './dto/create-user.dto';
-import { ResponseUserDto } from './dto/response-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UserCreateDto } from './dto/user-create.dto';
+import { UserResponseDto } from './dto/user-response.dto';
+import { UserUpdateDto } from './dto/user-update.dto';
 import { UserService } from './user.service';
 
 @ApiTags('Users')
 @ApiResponse.Forbidden
 @Controller(RoutePrefix.USERS)
-@UseFilters(AllExceptionsFilter)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
   @ApiResponse.BadRequest
-  async create(@Body() createUserDto: CreateUserDto): Promise<ResponseUserDto> {
-    return this.userService.create(createUserDto);
+  async create(@Body() userCreateDto: UserCreateDto): Promise<UserResponseDto> {
+    return this.userService.create(userCreateDto);
   }
 
   @Get()
-  async findAll(): Promise<ResponseUserDto[]> {
+  async findAll(): Promise<UserResponseDto[]> {
     return this.userService.findAll();
   }
 
   @Get(BY_ID)
   @ApiResponse.BadRequest
   @ApiResponse.NotFound
-  async findOne(@Id id: string): Promise<ResponseUserDto> {
+  async findOne(@Id id: string): Promise<UserResponseDto> {
     return this.userService.findOne(id);
   }
 
   @Put(BY_ID)
   @ApiResponse.BadRequest
   @ApiResponse.NotFound
-  async update(@Id id: string, @Body() updateUserDto: UpdateUserDto): Promise<ResponseUserDto> {
-    return this.userService.update(id, updateUserDto);
+  async update(@Id id: string, @Body() userUpdateDto: UserUpdateDto): Promise<UserResponseDto> {
+    return this.userService.update(id, userUpdateDto);
   }
 
   @Delete(BY_ID)

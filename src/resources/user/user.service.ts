@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { throwExpression } from '../../errors';
-import { PrismaService } from '../../prisma.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { ResponseUserDto } from './dto/response-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { PrismaService } from '../../services/prisma.service';
+import { UserCreateDto } from './dto/user-create.dto';
+import { UserResponseDto } from './dto/user-response.dto';
+import { UserUpdateDto } from './dto/user-update.dto';
 
 const userResponse = { id: true, name: true, login: true };
 
@@ -11,23 +11,23 @@ const userResponse = { id: true, name: true, login: true };
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createUserDto: CreateUserDto): Promise<ResponseUserDto> {
-    return this.prisma.user.create({ data: createUserDto, select: userResponse });
+  async create(userCreateDto: UserCreateDto): Promise<UserResponseDto> {
+    return this.prisma.user.create({ data: userCreateDto, select: userResponse });
   }
 
-  async findAll(): Promise<ResponseUserDto[]> {
+  async findAll(): Promise<UserResponseDto[]> {
     return this.prisma.user.findMany({ select: userResponse });
   }
 
-  async findOne(id: string): Promise<ResponseUserDto> {
+  async findOne(id: string): Promise<UserResponseDto> {
     const result = await this.prisma.user.findUnique({ where: { id }, select: userResponse });
     return result ?? throwExpression(new NotFoundException(`User record #${id} not found!`));
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<ResponseUserDto> {
+  async update(id: string, userUpdateDto: UserUpdateDto): Promise<UserResponseDto> {
     return this.prisma.user.update({
       where: { id },
-      data: updateUserDto,
+      data: userUpdateDto,
       select: userResponse,
     });
   }

@@ -1,20 +1,9 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Put,
-  Delete,
-  Body,
-  UseFilters,
-  HttpCode,
-  HttpStatus,
-} from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ApiResponse } from '../../common/decorators';
-import { AllExceptionsFilter } from '../../filters/all-exceptions.filter';
 import { RoutePrefix, BY_ID, BoardId, Id } from '../routes';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
+import { TaskCreateDto } from './dto/task-create.dto';
+import { TaskUpdateDto } from './dto/task-update.dto';
 import { TaskService } from './task.service';
 
 @ApiTags('Tasks')
@@ -22,13 +11,12 @@ import { TaskService } from './task.service';
 @ApiResponse.BadRequest
 @ApiResponse.NotFound
 @Controller(RoutePrefix.TASKS)
-@UseFilters(AllExceptionsFilter)
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @Post()
-  public create(@BoardId boardId: string, @Body() createTaskDto: CreateTaskDto) {
-    return this.taskService.create(boardId, createTaskDto);
+  public create(@BoardId boardId: string, @Body() taskCreateDto: TaskCreateDto) {
+    return this.taskService.create(boardId, taskCreateDto);
   }
 
   @Get()
@@ -42,8 +30,8 @@ export class TaskController {
   }
 
   @Put(BY_ID)
-  public update(@BoardId boardId: string, @Id id: string, @Body() updateTaskDto: UpdateTaskDto) {
-    return this.taskService.update(boardId, id, updateTaskDto);
+  public update(@BoardId boardId: string, @Id id: string, @Body() taskUpdateDto: TaskUpdateDto) {
+    return this.taskService.update(boardId, id, taskUpdateDto);
   }
 
   @Delete(BY_ID)

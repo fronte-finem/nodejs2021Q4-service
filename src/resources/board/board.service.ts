@@ -1,26 +1,29 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { throwExpression } from '../../errors';
-import { PrismaService } from '../../prisma.service';
-import { CreateBoardDto } from './dto/create-board.dto';
-import { ResponseBoardDto } from './dto/response-board.dto';
-import { UpdateBoardDto } from './dto/update-board.dto';
+import { PrismaService } from '../../services/prisma.service';
+import { ColumnResponseDto } from '../column/dto/column-response.dto';
+import { ColumnUpdateDto } from '../column/dto/column-update.dto';
+import { BoardCreateDto } from './dto/board-create.dto';
+import { BoardResponseDto } from './dto/board-response.dto';
+import { BoardUpdateDto } from './dto/board-update.dto';
 
 @Injectable()
 export class BoardService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create({ columns, ...boardDto }: CreateBoardDto): Promise<ResponseBoardDto> {
+  async create({ columns, ...boardDto }: BoardCreateDto): Promise<BoardResponseDto> {
     return this.prisma.board.create({
       data: { ...boardDto, columns: { create: columns } },
       include: { columns: true },
     });
   }
 
-  async findAll(): Promise<ResponseBoardDto[]> {
+  async findAll(): Promise<BoardResponseDto[]> {
     return this.prisma.board.findMany({ include: { columns: true } });
   }
 
-  async findOne(id: string): Promise<ResponseBoardDto> {
+  async findOne(id: string): Promise<BoardResponseDto> {
     const result = await this.prisma.board.findUnique({
       where: { id },
       include: { columns: true },
@@ -30,20 +33,38 @@ export class BoardService {
 
   async update(
     id: string,
-    { columns: inputColumns, ...inputBoard }: UpdateBoardDto
-  ): Promise<ResponseBoardDto> {
-    const updateBoard = this.prisma.board.update({ where: { id }, data: inputBoard });
-    const updateColumns = inputColumns.map(({ id: columnId, ...data }) =>
-      this.prisma.column.upsert({ where: { id: columnId }, create: data, update: data })
-    );
-    const [outputBoard, ...outputColumns] = await this.prisma.$transaction([
-      updateBoard,
-      ...updateColumns,
-    ]);
-    return { ...outputBoard, columns: outputColumns };
+    { columns: inputColumns, ...inputBoard }: BoardUpdateDto
+  ): Promise<BoardResponseDto> {
+    if (!inputColumns) {
+      return this.updateBoard(id, inputBoard, true);
+    }
+    const updateBoard = this.updateBoard(id, inputBoard);
+    const updateColumns = this.updateColumns(inputColumns);
+    const [board, ...columns] = await this.prisma.$transaction([updateBoard, ...updateColumns]);
+    return { ...board, columns };
   }
 
   async remove(id: string): Promise<void> {
     await this.prisma.board.delete({ where: { id } });
+  }
+
+  private updateBoard(
+    id: string,
+    data: BoardUpdateDto,
+    includeColumns = false
+  ): Prisma.Prisma__BoardClient<BoardResponseDto> {
+    return this.prisma.board.update({
+      where: { id },
+      data,
+      include: { columns: includeColumns },
+    });
+  }
+
+  private updateColumns(
+    inputColumns: ColumnUpdateDto[]
+  ): Prisma.Prisma__ColumnClient<ColumnResponseDto>[] {
+    return inputColumns.map(({ id, ...data }) =>
+      this.prisma.column.upsert({ where: { id }, create: data, update: data })
+    );
   }
 }
