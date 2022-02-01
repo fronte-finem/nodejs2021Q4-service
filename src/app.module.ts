@@ -8,6 +8,7 @@ import { LoggingMiddleware } from './middlewares/logging-middleware.service';
 import { BoardModule } from './resources/board/board.module';
 import { TaskModule } from './resources/task/task.module';
 import { UserModule } from './resources/user/user.module';
+import { FormatLoggerService } from './services/format-logger.service';
 import { PrismaService } from './services/prisma.service';
 import { RequestIdService } from './services/request-id.service';
 
@@ -16,13 +17,14 @@ import { RequestIdService } from './services/request-id.service';
   controllers: [AppController],
   providers: [
     Logger,
+    FormatLoggerService,
     AppService,
     PrismaService,
     RequestIdService,
-    { provide: APP_FILTER, useClass: AllExceptionsFilter },
     { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
+    { provide: APP_FILTER, useClass: AllExceptionsFilter },
   ],
-  exports: [Logger, PrismaService, RequestIdService],
+  exports: [Logger, FormatLoggerService, PrismaService, RequestIdService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {
