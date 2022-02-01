@@ -31,10 +31,12 @@
     "dotenv": "^14.3.0",
     "fast-jwt": "^1.4.1",
     "fastify-swagger": "^4.13.1",
+    "nest-winston": "^1.6.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.5.2",
-    "swagger-ui-express": "^4.3.0"
+    "swagger-ui-express": "^4.3.0",
+    "winston": "^3.5.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.2.0",
