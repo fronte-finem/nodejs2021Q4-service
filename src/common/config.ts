@@ -9,6 +9,6 @@ export const nestAppConfig: NestApplicationOptions = {
 export const nestServerConfig = {
   host: process.env.APP_HOST ?? LOCALHOST,
   port: Number(process.env.APP_PORT) || 3000,
-  isFastify: process.env.IS_FASTIFY === String(true),
+  isFastify: process.env.APP_IS_FASTIFY === String(true),
   openApiRoute: process.env.OPEN_API_ROUTE ?? 'doc',
 };
