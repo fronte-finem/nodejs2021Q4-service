@@ -8,13 +8,14 @@ import { loggerConfig } from './logger/logger.config';
 import { LoggerModule } from './logger/logger.module';
 import { LoggingMiddleware } from './middlewares/logging-middleware.service';
 import { BoardModule } from './resources/board/board.module';
+import { ColumnModule } from './resources/column/column.module';
 import { TaskModule } from './resources/task/task.module';
 import { UserModule } from './resources/user/user.module';
 import { PrismaService } from './services/prisma.service';
 import { RequestIdService } from './services/request-id.service';
 
 @Module({
-  imports: [LoggerModule.forRoot(loggerConfig), UserModule, BoardModule, TaskModule],
+  imports: [LoggerModule.forRoot(loggerConfig), UserModule, BoardModule, ColumnModule, TaskModule],
   controllers: [AppController],
   providers: [
     AppService,
