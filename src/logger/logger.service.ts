@@ -1,14 +1,13 @@
-import { Inject, Injectable, LoggerService, LogLevel, Scope } from '@nestjs/common';
+import { Inject, Injectable, LoggerService, Scope } from '@nestjs/common';
 import chalk from 'chalk';
 import { Logger } from 'winston';
-import { WINSTON_LOGGER_PROVIDER } from './logger.constants';
-
-type WinstonLogLevel = Exclude<LogLevel, 'log'> | 'info';
-type WinstonLogInput = string | Record<string, unknown> | Error;
-type WinstonLogMeta = Record<string, unknown> | Omit<Error, 'message'>;
-type WinstonLogOutput = { message: string; meta?: WinstonLogMeta };
-
-type Constructor = new (...args: never[]) => unknown;
+import { Constructor } from '../common/types';
+import {
+  WINSTON_LOGGER_PROVIDER,
+  WinstonLogInput,
+  WinstonLogLevel,
+  WinstonLogOutput,
+} from './logger.types';
 
 const HTTP_PREFIX = chalk.bgGreen.whiteBright('  HTTP  ');
 const HTTP_REQ = `${HTTP_PREFIX}${chalk.bgCyan.blue(' ▶ ▶ ▶ REQUEST ▶ ▶ ▶ ')}`;
