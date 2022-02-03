@@ -1,8 +1,11 @@
-import { LogLevel } from '@nestjs/common';
 import { LoggerOptions, format, transports } from 'winston';
+import { nestServerConfig } from '../common/config';
 import { getConsoleFormat } from './logger.format';
+import { WinstonLogLevel } from './logger.types';
 
-const levels: Record<LogLevel | string, number> = {
+const { logLevel, isProd } = nestServerConfig;
+
+const LOG_LEVELS: Record<WinstonLogLevel, number> = {
   error: 0,
   warn: 1,
   info: 2,
@@ -10,8 +13,12 @@ const levels: Record<LogLevel | string, number> = {
   verbose: 4,
 };
 
+const LOG_LEVEL: WinstonLogLevel =
+  logLevel in LOG_LEVELS ? (logLevel as WinstonLogLevel) : 'verbose';
+
 export const loggerConfig: LoggerOptions = {
-  levels,
+  level: LOG_LEVEL,
+  levels: LOG_LEVELS,
   format: format.combine(
     format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss.SSS' }),
     format.ms(),
@@ -19,8 +26,7 @@ export const loggerConfig: LoggerOptions = {
   ),
   transports: [
     new transports.Console({
-      level: 'verbose',
-      format: getConsoleFormat('App', { prettyPrint: true }),
+      format: isProd ? undefined : getConsoleFormat('App', { prettyPrint: true }),
     }),
     new transports.File({
       dirname: 'logs',
