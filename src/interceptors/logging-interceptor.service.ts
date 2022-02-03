@@ -1,23 +1,24 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { Observable, tap } from 'rxjs';
-import { getIds, RequestExtension } from '../common/http-helpers';
-import { FormatLoggerService } from '../services/format-logger.service';
+import { getRequestId, RequestExtension } from '../common/http-helpers';
+import { WinstonLogger } from '../logger/logger.service';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
-  constructor(private readonly logger: FormatLoggerService) {}
+  constructor(private readonly logger: WinstonLogger) {
+    logger.setContext(LoggingInterceptor);
+  }
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     const request = context.switchToHttp().getRequest<RequestExtension>();
-    const id = getIds(request);
+    const id = getRequestId(request);
     const { params, query, body } = request;
-
-    this.logger.logRequest(id, { params, query, body }, LoggingInterceptor);
+    this.logger.httpRequest(id, { params, query, body });
 
     return next.handle().pipe(
       tap({
-        next: (payload) => this.logger.logResponse(id, { payload }, LoggingInterceptor),
-        // error: (error) => this.logger.logError(id, error, LoggingInterceptor),
+        next: (payload) => this.logger.httpResponse(id, { payload }),
+        // error: (error) => this.logger.httpError(id, error),
       })
     );
   }

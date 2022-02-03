@@ -1,6 +1,6 @@
 import { LogLevel } from '@nestjs/common';
 import { LoggerOptions, format, transports } from 'winston';
-import { utilities as nestWinstonModuleUtilities } from 'nest-winston';
+import { getConsoleFormat } from './logger.format';
 
 const levels: Record<LogLevel | string, number> = {
   error: 0,
@@ -20,7 +20,7 @@ export const loggerConfig: LoggerOptions = {
   transports: [
     new transports.Console({
       level: 'verbose',
-      format: nestWinstonModuleUtilities.format.nestLike('App', { prettyPrint: true }),
+      format: getConsoleFormat('App', { prettyPrint: true }),
     }),
     new transports.File({
       dirname: 'logs',

@@ -1,29 +1,33 @@
 import { Catch, ArgumentsHost, ExceptionFilter, HttpException } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
-import { getIds, RequestExtension } from '../common/http-helpers';
+import { Response } from 'express';
+import { getRequestId, RequestExtension } from '../common/http-helpers';
 import { mapAllErrors, mapPrismaErrors } from '../errors';
-import { FormatLoggerService } from '../services/format-logger.service';
+import { WinstonLogger } from '../logger/logger.service';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
   constructor(
-    private readonly logger: FormatLoggerService,
+    private readonly logger: WinstonLogger,
     private readonly httpAdapterHost: HttpAdapterHost
-  ) {}
+  ) {
+    logger.setContext(AllExceptionsFilter);
+  }
 
   catch(error: unknown, host: ArgumentsHost): void {
     const { httpAdapter } = this.httpAdapterHost;
     const ctx = host.switchToHttp();
     const request = ctx.getRequest<RequestExtension>();
-    const id = getIds(request);
+    const response = ctx.getResponse<Response>();
+    const id = getRequestId(request);
     const isHttpException = error instanceof HttpException;
     if (!isHttpException) {
-      this.logger.logError(id, error, AllExceptionsFilter);
+      this.logger.httpError(id, error);
     }
     const httpException = isHttpException ? error : mapAllErrors(mapPrismaErrors(error));
     const responseBody = httpException.getResponse();
     const statusCode = httpException.getStatus();
-    this.logger.logError(id, httpException, AllExceptionsFilter);
-    httpAdapter.reply(ctx.getResponse(), responseBody, statusCode);
+    this.logger.httpError(id, httpException);
+    httpAdapter.reply(response, responseBody, statusCode);
   }
 }

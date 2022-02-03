@@ -1,12 +1,11 @@
 import { Request } from 'express';
-import { UNKNOWN_REQUEST_ID } from '../services/request-id.service';
 
-export const REQUEST_IDS = Symbol('REQUEST_IDS');
+export const REQUEST_ID = Symbol('REQUEST_ID');
 
-type Extension = { [REQUEST_IDS]: string };
+type Extension = { [REQUEST_ID]: number };
 
 export type RequestExtension = Request & Extension & { raw: Extension };
 
-export function getIds(request: RequestExtension): string {
-  return request[REQUEST_IDS] ?? (request.raw && request.raw[REQUEST_IDS]) ?? UNKNOWN_REQUEST_ID;
+export function getRequestId(request: RequestExtension): number {
+  return request[REQUEST_ID] ?? (request.raw && request.raw[REQUEST_ID]) ?? Number.MAX_SAFE_INTEGER;
 }
