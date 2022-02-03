@@ -1,4 +1,5 @@
 import { Inject, Injectable, LoggerService, LogLevel, Scope } from '@nestjs/common';
+import chalk from 'chalk';
 import { Logger } from 'winston';
 import { WINSTON_LOGGER_PROVIDER } from './logger.constants';
 
@@ -9,7 +10,9 @@ type WinstonLogOutput = { message: string; meta?: WinstonLogMeta };
 
 type Constructor = new (...args: never[]) => unknown;
 
-const REPEAT_FRAGMENT = 20;
+const HTTP_PREFIX = chalk.bgGreen.whiteBright('  HTTP  ');
+const HTTP_REQ = `${HTTP_PREFIX}${chalk.bgCyan.blue(' ▶ ▶ ▶ REQUEST ▶ ▶ ▶ ')}`;
+const HTTP_RES = `${HTTP_PREFIX}${chalk.bgBlue.cyan(' ◀ ◀ ◀ RESPONSE ◀ ◀ ◀ ')}`;
 
 @Injectable({ scope: Scope.TRANSIENT })
 export class WinstonLogger implements LoggerService {
@@ -61,11 +64,11 @@ export class WinstonLogger implements LoggerService {
   }
 
   httpRequest(requestId: number, request: unknown, context?: string) {
-    this.log({ message: WinstonLogger.HTTP_REQ, requestId, request }, context);
+    this.log({ message: HTTP_REQ, requestId, request }, context);
   }
 
   httpResponse(requestId: number, response: unknown, context?: string) {
-    this.log({ message: WinstonLogger.HTTP_RES, requestId, response }, context);
+    this.log({ message: HTTP_RES, requestId, response }, context);
   }
 
   httpError(requestId: number, error: unknown, context?: string) {
@@ -76,7 +79,4 @@ export class WinstonLogger implements LoggerService {
       this.verbose({ message: `ERROR STACK TRACE\n\n${stack}`, requestId }, context);
     }
   }
-
-  static readonly HTTP_REQ = '▶▷▶ '.repeat(REPEAT_FRAGMENT);
-  static readonly HTTP_RES = '◀◁◀ '.repeat(REPEAT_FRAGMENT);
 }
