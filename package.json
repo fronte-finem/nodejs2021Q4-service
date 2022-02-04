@@ -7,7 +7,7 @@
   },
   "scripts": {
     "prebuild": "rimraf dist",
-    "prisma:build": "prisma migrate dev && prisma generate",
+    "prisma:build": "prisma migrate dev",
     "build": "npm run prisma:build && nest build",
     "start": "npm run prisma:build && nest start",
     "start:dev": "npm run prisma:build && nest start --watch",
@@ -96,6 +96,7 @@
     ]
   },
   "prisma": {
-    "schema": "db/schema.prisma"
+    "schema": "db/schema.prisma",
+    "seed": "ts-node db/seed/admin.ts"
   }
 }

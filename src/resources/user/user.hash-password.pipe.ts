@@ -8,6 +8,8 @@ type UserDto = UserCreateDto | UserUpdateDto;
 
 @Injectable()
 export class UserHashPasswordPipe implements PipeTransform {
+  async transform(userDto: UserCreateDto): Promise<UserCreateDto>;
+  async transform(userDto: UserUpdateDto): Promise<UserUpdateDto>;
   async transform(userDto: UserDto): Promise<UserDto> {
     if (!userDto.password) return userDto;
     const password = await hash(userDto.password, EnvConfig.bcryptHashRounds);
