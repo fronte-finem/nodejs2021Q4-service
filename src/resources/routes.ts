@@ -1,10 +1,11 @@
 import { Param, ParseUUIDPipe } from '@nestjs/common';
+import { BoardPipe } from './board/board.pipe';
 
 const ID = 'id';
 export const Id = Param(ID, ParseUUIDPipe);
 
 const BOARD_ID = 'boardId';
-export const BoardId = Param(BOARD_ID, ParseUUIDPipe);
+export const BoardId = Param(BOARD_ID, ParseUUIDPipe, BoardPipe);
 
 export const BY_ID = `:${ID}`;
 

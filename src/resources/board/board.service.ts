@@ -8,6 +8,9 @@ import { BoardCreateDto } from './dto/board-create.dto';
 import { BoardResponseDto } from './dto/board-response.dto';
 import { BoardUpdateDto } from './dto/board-update.dto';
 
+const throwBoardNotFound = (id: string) =>
+  throwExpression(new NotFoundException(`Board [${id}] not found!`));
+
 @Injectable()
 export class BoardService {
   constructor(private readonly prisma: PrismaService) {}
@@ -28,13 +31,22 @@ export class BoardService {
       where: { id },
       include: { columns: true },
     });
-    return result ?? throwExpression(new NotFoundException(`Board record #${id} not found!`));
+    return result ?? throwBoardNotFound(id);
+  }
+
+  async exists(id: string): Promise<{ id: string }> {
+    const result = await this.prisma.board.findUnique({
+      where: { id },
+      select: { id: true },
+    });
+    return result ?? throwBoardNotFound(id);
   }
 
   async update(
     id: string,
     { columns: inputColumns, ...inputBoard }: BoardUpdateDto
   ): Promise<BoardResponseDto> {
+    await this.exists(id);
     if (!inputColumns) {
       return this.updateBoard(id, inputBoard, true);
     }
@@ -45,6 +57,7 @@ export class BoardService {
   }
 
   async remove(id: string): Promise<void> {
+    await this.exists(id);
     await this.prisma.board.delete({ where: { id } });
   }
 
