@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Put, Delete, Body, HttpCode, HttpStatus } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ApiResponse } from '../../common/decorators';
 import { RoutePrefix, BY_ID, Id } from '../routes';
 import { BoardService } from './board.service';
@@ -8,7 +8,8 @@ import { BoardResponseDto } from './dto/board-response.dto';
 import { BoardUpdateDto } from './dto/board-update.dto';
 
 @ApiTags('Boards')
-@ApiResponse.Forbidden
+@ApiBearerAuth()
+@ApiResponse.Unauthorized
 @Controller(RoutePrefix.BOARDS)
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}

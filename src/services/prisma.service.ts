@@ -1,4 +1,4 @@
-import { INestApplication, Injectable, OnModuleInit } from '@nestjs/common';
+import { Global, INestApplication, Injectable, OnModuleInit } from '@nestjs/common';
 import { Prisma, PrismaClient } from '@prisma/client';
 import { pd } from 'pretty-data';
 import chalk from 'chalk';
@@ -7,6 +7,7 @@ import { EnvConfig } from '../common/config';
 import { isNotEmpty } from '../common/data-helpers';
 import { WinstonLogger } from '../logger/logger.service';
 
+@Global()
 @Injectable()
 export class PrismaService
   extends PrismaClient<Prisma.PrismaClientOptions, Prisma.LogLevel | Prisma.LogDefinition>

@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Put, Delete, Body, HttpCode, HttpStatus } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ApiResponse } from '../../common/decorators';
 import { RoutePrefix, BY_ID, BoardId, Id } from '../routes';
 import { ColumnService } from './column.service';
@@ -8,7 +8,8 @@ import { ColumnResponseDto } from './dto/column-response.dto';
 import { ColumnUpdateDto } from './dto/column-update.dto';
 
 @ApiTags('Columns')
-@ApiResponse.Forbidden
+@ApiBearerAuth()
+@ApiResponse.Unauthorized
 @ApiResponse.BadRequest
 @ApiResponse.NotFound
 @Controller(RoutePrefix.COLUMNS)

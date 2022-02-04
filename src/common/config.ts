@@ -13,6 +13,7 @@ export const EnvConfig = {
   isFastify: process.env.APP_IS_FASTIFY === String(true),
   openApiRoute: process.env.OPEN_API_ROUTE ?? 'doc',
   bcryptHashRounds: Number(process.env.BCRYPT_HASH_ROUNDS) || 10,
+  jwtKey: process.env.APP_JWT_KEY ?? 'app_jwt_key',
 };
 
 export const nestAppConfig: NestApplicationOptions = {

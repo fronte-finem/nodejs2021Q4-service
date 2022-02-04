@@ -8,6 +8,7 @@ const openApiConfig = new DocumentBuilder()
   .setTitle('Trello Service')
   .setDescription("Let's try to create a competitor for Trello!")
   .setVersion('1.0.0')
+  .addBearerAuth()
   .build();
 
 export function setupOpenApi(app: INestApplication): void {

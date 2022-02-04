@@ -13,9 +13,17 @@ import { TaskModule } from './resources/task/task.module';
 import { UserModule } from './resources/user/user.module';
 import { PrismaService } from './services/prisma.service';
 import { RequestIdService } from './services/request-id.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [LoggerModule.forRoot(loggerConfig), UserModule, BoardModule, ColumnModule, TaskModule],
+  imports: [
+    LoggerModule.forRoot(loggerConfig),
+    AuthModule,
+    UserModule,
+    BoardModule,
+    ColumnModule,
+    TaskModule,
+  ],
   controllers: [AppController],
   providers: [
     AppService,

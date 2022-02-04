@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Put, Delete, Body, HttpCode, HttpStatus } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ApiResponse } from '../../common/decorators';
 import { RoutePrefix, BY_ID, Id } from '../routes';
 import { UserCreateDto } from './dto/user-create.dto';
@@ -9,7 +9,8 @@ import { UserHashPasswordPipe } from './user.hash-password.pipe';
 import { UserService } from './user.service';
 
 @ApiTags('Users')
-@ApiResponse.Forbidden
+@ApiBearerAuth()
+@ApiResponse.Unauthorized
 @Controller(RoutePrefix.USERS)
 export class UserController {
   constructor(private readonly userService: UserService) {}
