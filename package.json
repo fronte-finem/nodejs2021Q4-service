@@ -96,7 +96,7 @@
     ]
   },
   "prisma": {
-    "schema": "db/schema.prisma",
-    "seed": "ts-node db/seed/admin.ts"
+    "schema": "prisma/schema.prisma",
+    "seed": "ts-node prisma/seed.ts"
   }
 }

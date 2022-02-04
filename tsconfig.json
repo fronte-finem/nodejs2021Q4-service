@@ -1,5 +1,5 @@
 {
-  "include": ["src", "db"],
+  "include": ["src", "prisma"],
   "exclude": ["dist"],
   "compilerOptions": {
     /* Language and Environment */
