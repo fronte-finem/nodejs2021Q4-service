@@ -3,6 +3,7 @@ import { Prisma, PrismaClient } from '@prisma/client';
 import { pd } from 'pretty-data';
 import chalk from 'chalk';
 import { highlight, HighlightOptions } from 'cli-highlight';
+import { nestServerConfig } from '../common/config';
 import { isNotEmpty } from '../common/data-helpers';
 import { WinstonLogger } from '../logger/logger.service';
 
@@ -19,7 +20,7 @@ export class PrismaService
         { level: 'info', emit: 'event' },
         { level: 'query', emit: 'event' },
       ],
-      errorFormat: 'pretty',
+      errorFormat: nestServerConfig.isProd ? 'minimal' : 'pretty',
     });
     logger.setContext(PrismaService);
     this.bindLogger();
@@ -29,7 +30,12 @@ export class PrismaService
     this.$on('error', (event) => this.logger.error(event));
     this.$on('warn', (event) => this.logger.warn(event));
     this.$on('info', (event) => this.logger.log(event));
-    this.$on('query', (event) => this.logger.debug(prepareInfo(event)));
+    this.$on(
+      'query',
+      nestServerConfig.isProd
+        ? (event) => this.logger.debug(event)
+        : (event) => this.logger.debug(prettyQuery(event))
+    );
   }
 
   async onModuleInit(): Promise<void> {
@@ -65,7 +71,7 @@ const sqlHighlightOptions: HighlightOptions = {
   },
 };
 
-function prepareInfo({ query, params, duration }: Prisma.QueryEvent): Record<string, unknown> {
+function prettyQuery({ query, params, duration }: Prisma.QueryEvent): Record<string, unknown> {
   const info: Record<string, unknown> = {};
   let parsedParams: unknown;
   try {
