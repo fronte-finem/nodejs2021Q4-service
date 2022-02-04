@@ -5,6 +5,9 @@ import { TaskCreateDto } from './dto/task-create.dto';
 import { TaskResponseDto } from './dto/task-response.dto';
 import { TaskUpdateDto } from './dto/task-update.dto';
 
+const throwTaskNotFound = (id: string, boardId: string) =>
+  throwExpression(new NotFoundException(`Task [${id}] for board [${boardId}] not found!`));
+
 @Injectable()
 export class TaskService {
   constructor(private readonly prisma: PrismaService) {}
@@ -18,8 +21,16 @@ export class TaskService {
   }
 
   async findOne(boardId: string, id: string): Promise<TaskResponseDto> {
-    const result = await this.prisma.task.findUnique({ where: { id } });
-    return result ?? throwExpression(new NotFoundException(`Task record #${id} not found!`));
+    const result = await this.prisma.task.findFirst({ where: { id, boardId } });
+    return result ?? throwTaskNotFound(id, boardId);
+  }
+
+  async exists(boardId: string, id: string): Promise<{ id: string }> {
+    const result = await this.prisma.task.findFirst({
+      where: { id, boardId },
+      select: { id: true },
+    });
+    return result ?? throwTaskNotFound(id, boardId);
   }
 
   async update(
@@ -27,10 +38,12 @@ export class TaskService {
     id: string,
     taskUpdateDto: TaskUpdateDto
   ): Promise<TaskResponseDto> {
+    await this.exists(boardId, id);
     return this.prisma.task.update({ where: { id }, data: taskUpdateDto });
   }
 
   async remove(boardId: string, id: string): Promise<void> {
+    await this.exists(boardId, id);
     await this.prisma.task.delete({ where: { id } });
   }
 }

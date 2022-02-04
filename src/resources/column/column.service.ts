@@ -5,6 +5,9 @@ import { ColumnCreateDto } from './dto/column-create.dto';
 import { ColumnResponseDto } from './dto/column-response.dto';
 import { ColumnUpdateDto } from './dto/column-update.dto';
 
+const throwColumnNotFound = (id: string, boardId: string) =>
+  throwExpression(new NotFoundException(`Column [${id}] for board [${boardId}] not found!`));
+
 @Injectable()
 export class ColumnService {
   constructor(private readonly prisma: PrismaService) {}
@@ -18,8 +21,16 @@ export class ColumnService {
   }
 
   async findOne(boardId: string, id: string): Promise<ColumnResponseDto> {
-    const result = await this.prisma.column.findUnique({ where: { id } });
-    return result ?? throwExpression(new NotFoundException(`Column record #${id} not found!`));
+    const result = await this.prisma.column.findFirst({ where: { id, boardId } });
+    return result ?? throwColumnNotFound(id, boardId);
+  }
+
+  async exists(boardId: string, id: string): Promise<{ id: string }> {
+    const result = await this.prisma.column.findFirst({
+      where: { id, boardId },
+      select: { id: true },
+    });
+    return result ?? throwColumnNotFound(id, boardId);
   }
 
   async update(
@@ -27,10 +38,12 @@ export class ColumnService {
     id: string,
     columnUpdateDto: ColumnUpdateDto
   ): Promise<ColumnResponseDto> {
+    await this.exists(boardId, id);
     return this.prisma.column.update({ where: { id }, data: columnUpdateDto });
   }
 
   async remove(boardId: string, id: string): Promise<void> {
+    await this.exists(boardId, id);
     await this.prisma.column.delete({ where: { id } });
   }
 }
