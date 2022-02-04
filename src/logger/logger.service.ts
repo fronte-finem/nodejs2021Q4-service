@@ -1,4 +1,4 @@
-import { Inject, Injectable, LoggerService, Scope } from '@nestjs/common';
+import { HttpException, Inject, Injectable, LoggerService, Scope } from '@nestjs/common';
 import chalk from 'chalk';
 import { Logger } from 'winston';
 import { Constructor } from '../common/types';
@@ -9,9 +9,10 @@ import {
   WinstonLogOutput,
 } from './logger.types';
 
-const HTTP_PREFIX = chalk.bgGreen.whiteBright('  HTTP  ');
+const HTTP_PREFIX = chalk.bgGreen.greenBright('  HTTP  ');
 const HTTP_REQ = `${HTTP_PREFIX}${chalk.bgCyan.blue(' ▶ ▶ ▶ REQUEST ▶ ▶ ▶ ')}`;
 const HTTP_RES = `${HTTP_PREFIX}${chalk.bgBlue.cyan(' ◀ ◀ ◀ RESPONSE ◀ ◀ ◀ ')}`;
+const errorTitle = (title: string) => chalk.bgRed.redBright(`  ${title}  `);
 
 @Injectable({ scope: Scope.TRANSIENT })
 export class WinstonLogger implements LoggerService {
@@ -63,19 +64,20 @@ export class WinstonLogger implements LoggerService {
   }
 
   httpRequest(requestId: number, request: unknown, context?: string) {
-    this.log({ message: HTTP_REQ, requestId, request }, context);
+    this.log({ title: HTTP_REQ, requestId, request }, context);
   }
 
   httpResponse(requestId: number, response: unknown, context?: string) {
-    this.log({ message: HTTP_RES, requestId, response }, context);
+    this.log({ title: HTTP_RES, requestId, response }, context);
   }
 
   httpError(requestId: number, error: unknown, context?: string) {
     const stack = (error as Error)?.stack;
     delete (error as Error)?.stack;
-    this.error({ message: '', requestId, error }, context);
+    const title = errorTitle(error instanceof HttpException ? 'HTTP EXCEPTION' : 'ORIGINAL ERROR');
+    this.error({ title, requestId, error }, context);
     if (stack) {
-      this.verbose({ message: `ERROR STACK TRACE\n\n${stack}`, requestId }, context);
+      this.verbose({ title: errorTitle('ERROR STACK TRACE'), message: stack, requestId }, context);
     }
   }
 }

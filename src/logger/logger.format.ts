@@ -1,8 +1,7 @@
-import { LogLevel } from '@nestjs/common';
-import { inspect } from 'util';
-import { Logform, format } from 'winston';
 import chalk, { Chalk } from 'chalk';
 import { configure as createStringify } from 'safe-stable-stringify';
+import { inspect } from 'util';
+import { format, Logform } from 'winston';
 import { isEmpty } from '../common/data-helpers';
 import { ObjectLike } from '../common/types';
 import { WinstonLogLevel } from './logger.types';
@@ -23,29 +22,30 @@ export function getConsoleFormat(
   appName = 'App',
   options: ConsoleFormatOptions = {}
 ): Logform.Format {
-  return format.printf(({ level, message, context, timestamp, ms, requestId, ...meta }) => {
-    const colorize = ColorScheme[level] ?? ColorScheme.verbose;
+  return format.printf(({ level, message, context, title, timestamp, ms, requestId, ...meta }) => {
+    const colorize = ColorScheme[level as WinstonLogLevel] ?? ColorScheme.verbose;
 
-    const formattedContext = colorize.bold(`  [${appName}::${context}]`);
-    const formattedLevel = colorize.bold.inverse(`  ${level.toUpperCase()}  `);
+    const formattedContext = colorize(`  [${appName}::${context}]`);
+    const formattedLevel = colorize.inverse(`  ${level.toUpperCase()}  `);
     const formattedMs = ms ?? '';
     let formattedTime = timestamp ? `${timestamp} ${formattedMs}` : formattedMs;
     formattedTime = colorize(formattedTime ? `  ${formattedTime}  ` : '  ');
     const formattedId =
-      requestId !== undefined ? colorize.bold.inverse(` Request ID: ${requestId} `) : '';
+      requestId !== undefined ? colorize.inverse(` Request ID: ${requestId} `) : '';
     const underlined = chalk.underline(`${formattedContext}${formattedTime}`);
     const firstLine = `${formattedLevel}${underlined}${formattedId}`;
-    const formattedMessage = message;
+    const formattedTitle = title ? `${title}\n` : '';
+    const formattedMessage = message ? `${message}\n` : '';
     const formattedMeta = formatMeta(meta as ObjectLike, options);
 
-    return `${firstLine}\n${formattedMessage}\n${formattedMeta}\n`;
+    return `${firstLine}\n${formattedTitle}${formattedMessage}${formattedMeta}\n`;
   });
 }
 
 const stringify = createStringify({ circularValue: undefined });
 
 function formatMeta(meta?: ObjectLike, { prettyPrint = false }: ConsoleFormatOptions = {}): string {
-  if (meta === undefined || meta === null) return '';
+  if (!meta) return '';
   const formattedMeta = { ...meta };
   delete formattedMeta[Symbol.for('level')];
   delete formattedMeta[Symbol.for('splat')];
