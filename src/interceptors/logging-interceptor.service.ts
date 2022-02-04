@@ -1,9 +1,12 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { Observable, tap } from 'rxjs';
+import fastRedact from 'fast-redact';
 import { isNotEmpty } from '../common/data-helpers';
 import { getRequestId, RequestExtension } from '../common/http-helpers';
 import { ObjectLike } from '../common/types';
 import { WinstonLogger } from '../logger/logger.service';
+
+const redact = fastRedact({ paths: ['password'], serialize: false });
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
@@ -18,7 +21,7 @@ export class LoggingInterceptor implements NestInterceptor {
     const meta: ObjectLike = {};
     if (isNotEmpty(params)) meta.params = params;
     if (isNotEmpty(query)) meta.query = query;
-    if (isNotEmpty(body)) meta.body = body;
+    if (isNotEmpty(body)) meta.body = redact({ ...body });
     if (isNotEmpty(meta)) this.logger.httpRequest(id, meta);
 
     return next.handle().pipe(
