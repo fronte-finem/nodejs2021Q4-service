@@ -4,13 +4,13 @@ import { Logform, format } from 'winston';
 import chalk, { Chalk } from 'chalk';
 import { configure as createStringify } from 'safe-stable-stringify';
 import { isEmpty } from '../common/data-helpers';
+import { ObjectLike } from '../common/types';
+import { WinstonLogLevel } from './logger.types';
 
-type ObjectLike = Record<number | string | symbol, unknown>;
-
-const ColorScheme: Record<LogLevel | string, Chalk> = {
-  info: chalk.green,
+const ColorScheme: Record<WinstonLogLevel, Chalk> = {
   error: chalk.red,
   warn: chalk.rgb(255, 127, 0),
+  info: chalk.green,
   debug: chalk.blueBright,
   verbose: chalk.gray,
 };
