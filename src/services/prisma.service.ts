@@ -3,7 +3,7 @@ import { Prisma, PrismaClient } from '@prisma/client';
 import { pd } from 'pretty-data';
 import chalk from 'chalk';
 import { highlight, HighlightOptions } from 'cli-highlight';
-import { nestServerConfig } from '../common/config';
+import { EnvConfig } from '../common/config';
 import { isNotEmpty } from '../common/data-helpers';
 import { WinstonLogger } from '../logger/logger.service';
 
@@ -20,7 +20,7 @@ export class PrismaService
         { level: 'info', emit: 'event' },
         { level: 'query', emit: 'event' },
       ],
-      errorFormat: nestServerConfig.isProd ? 'minimal' : 'pretty',
+      errorFormat: EnvConfig.isProd ? 'minimal' : 'pretty',
     });
     logger.setContext(PrismaService);
     this.bindLogger();
@@ -32,7 +32,7 @@ export class PrismaService
     this.$on('info', (event) => this.logger.log(event));
     this.$on(
       'query',
-      nestServerConfig.isProd
+      EnvConfig.isProd
         ? (event) => this.logger.debug(event)
         : (event) => this.logger.debug(prettyQuery(event))
     );

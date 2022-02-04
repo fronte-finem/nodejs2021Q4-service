@@ -1,9 +1,9 @@
 import { LoggerOptions, format, transports } from 'winston';
-import { nestServerConfig } from '../common/config';
+import { EnvConfig } from '../common/config';
 import { getConsoleFormat } from './logger.format';
 import { WinstonLogLevel } from './logger.types';
 
-const { logLevel, isProd } = nestServerConfig;
+const { logLevel, isProd } = EnvConfig;
 
 const LOG_LEVELS: Record<WinstonLogLevel, number> = {
   error: 0,

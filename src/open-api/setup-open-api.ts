@@ -1,8 +1,8 @@
 import { INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { nestServerConfig } from '../common/config';
+import { EnvConfig } from '../common/config';
 
-const { openApiRoute } = nestServerConfig;
+const { openApiRoute } = EnvConfig;
 
 const openApiConfig = new DocumentBuilder()
   .setTitle('Trello Service')
