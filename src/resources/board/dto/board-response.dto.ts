@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsNumber, IsUUID } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsArray, IsNumber, IsUUID, ValidateNested } from 'class-validator';
 import { ColumnResponseDto } from '../../column/dto/column-response.dto';
 
 export class BoardResponseDto {
@@ -11,5 +12,7 @@ export class BoardResponseDto {
   title!: string;
 
   @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ColumnResponseDto)
   columns!: ColumnResponseDto[];
 }

@@ -1,4 +1,5 @@
-import { IsArray, IsNotEmpty, IsOptional } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsArray, IsNotEmpty, IsOptional, ValidateNested } from 'class-validator';
 import { ColumnUpdateDto } from '../../column/dto/column-update.dto';
 
 export class BoardUpdateDto {
@@ -8,5 +9,7 @@ export class BoardUpdateDto {
 
   @IsOptional()
   @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ColumnUpdateDto)
   columns?: ColumnUpdateDto[] = [];
 }
