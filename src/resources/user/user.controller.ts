@@ -5,6 +5,7 @@ import { RoutePrefix, BY_ID, Id } from '../routes';
 import { UserCreateDto } from './dto/user-create.dto';
 import { UserResponseDto } from './dto/user-response.dto';
 import { UserUpdateDto } from './dto/user-update.dto';
+import { UserHashPasswordPipe } from './user.hash-password.pipe';
 import { UserService } from './user.service';
 
 @ApiTags('Users')
@@ -15,7 +16,7 @@ export class UserController {
 
   @Post()
   @ApiResponse.BadRequest
-  async create(@Body() userCreateDto: UserCreateDto): Promise<UserResponseDto> {
+  async create(@Body(UserHashPasswordPipe) userCreateDto: UserCreateDto): Promise<UserResponseDto> {
     return this.userService.create(userCreateDto);
   }
 
@@ -34,7 +35,10 @@ export class UserController {
   @Put(BY_ID)
   @ApiResponse.BadRequest
   @ApiResponse.NotFound
-  async update(@Id id: string, @Body() userUpdateDto: UserUpdateDto): Promise<UserResponseDto> {
+  async update(
+    @Id id: string,
+    @Body(UserHashPasswordPipe) userUpdateDto: UserUpdateDto
+  ): Promise<UserResponseDto> {
     return this.userService.update(id, userUpdateDto);
   }
 
