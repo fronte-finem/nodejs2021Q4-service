@@ -1,4 +1,10 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
+import {
+  CallHandler,
+  ExecutionContext,
+  Injectable,
+  NestInterceptor,
+  StreamableFile,
+} from '@nestjs/common';
 import { Observable, tap } from 'rxjs';
 import fastRedact from 'fast-redact';
 import { isNotEmpty } from '../common/utils/data-helpers';
@@ -26,7 +32,10 @@ export class LoggingInterceptor implements NestInterceptor {
 
     return next.handle().pipe(
       tap({
-        next: (payload) => payload && this.logger.httpResponse(id, { payload }),
+        next: (payload) =>
+          payload &&
+          !(payload instanceof StreamableFile) &&
+          this.logger.httpResponse(id, { payload }),
         // error: (error) => this.logger.httpError(id, error),
       })
     );

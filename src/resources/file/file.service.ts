@@ -18,7 +18,7 @@ export class FileService {
   }
 
   async streamFile(filename: string): Promise<StreamableFile> {
-    this.logger.debug(filename);
+    this.logger.debug(`Trying stream file [${filename}]`);
     try {
       const fd = await open(resolve(EnvConfig.uploadDest, filename), 'r');
       return new StreamableFile(fd.createReadStream());
