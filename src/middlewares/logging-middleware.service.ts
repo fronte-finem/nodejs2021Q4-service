@@ -3,7 +3,7 @@ import { NextFunction, Response } from 'express';
 import { isEmpty } from '../common/utils/data-helpers';
 import { REQUEST_ID, RequestExtension } from '../common/utils/http-helpers';
 import { WinstonLogger } from '../logger/logger.service';
-import { RequestIdService } from '../services/request-id.service';
+import { RequestIdService } from '../utils/request-id.service';
 
 type ObjectLike = Record<string, unknown>;
 

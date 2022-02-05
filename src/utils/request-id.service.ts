@@ -1,7 +1,5 @@
 import { Injectable } from '@nestjs/common';
 
-export const UNKNOWN_REQUEST_ID = Number.MAX_SAFE_INTEGER;
-
 @Injectable()
 export class RequestIdService {
   private _id = 0;
