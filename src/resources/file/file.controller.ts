@@ -1,9 +1,18 @@
-import { Body, Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  StreamableFile,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { FileInterceptor as ExpressFileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { Express } from 'express';
 import { EnvConfig } from '../../common/config';
-import { ApiResponse } from '../../common/decorators';
+import { ApiResponse, Public } from '../../common/decorators';
 import { OpenApiTag } from '../../open-api/setup-open-api';
 import { RoutePrefix } from '../routes';
 import { FileUploadRequestDto } from './dto/file-upload-request.dto';
@@ -17,6 +26,13 @@ const FileInterceptor = EnvConfig.useFastify ? FastifyFileInterceptor : ExpressF
 @Controller(RoutePrefix.FILE)
 export class FileController {
   constructor(private readonly fileService: FileService) {}
+
+  @Public()
+  @ApiResponse.NotFound
+  @Get(':filename')
+  async streamFile(@Param('filename') filename: string): Promise<StreamableFile> {
+    return this.fileService.streamFile(filename);
+  }
 
   @ApiBearerAuth()
   @ApiConsumes('multipart/form-data')
