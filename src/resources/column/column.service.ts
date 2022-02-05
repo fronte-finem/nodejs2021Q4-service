@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { throwExpression } from '../../errors';
-import { PrismaService } from '../../services/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { ColumnCreateDto } from './dto/column-create.dto';
 import { ColumnResponseDto } from './dto/column-response.dto';
 import { ColumnUpdateDto } from './dto/column-update.dto';

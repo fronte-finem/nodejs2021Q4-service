@@ -4,7 +4,7 @@ import { pd } from 'pretty-data';
 import chalk from 'chalk';
 import { highlight, HighlightOptions } from 'cli-highlight';
 import { EnvConfig } from '../common/config';
-import { isNotEmpty } from '../common/data-helpers';
+import { isNotEmpty } from '../common/utils/data-helpers';
 import { WinstonLogger } from '../logger/logger.service';
 
 @Global()

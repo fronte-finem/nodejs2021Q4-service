@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { throwExpression } from '../../errors';
-import { PrismaService } from '../../services/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { ColumnResponseDto } from '../column/dto/column-response.dto';
 import { ColumnUpdateDto } from '../column/dto/column-update.dto';
 import { BoardCreateDto } from './dto/board-create.dto';

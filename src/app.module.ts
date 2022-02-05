@@ -19,22 +19,20 @@ import { FileModule } from './resources/file/file.module';
 @Module({
   imports: [
     LoggerModule.forRoot(loggerConfig),
+    PrismaModule,
     AuthModule,
     UserModule,
     BoardModule,
     ColumnModule,
     TaskModule,
-    FileModule,
+    UtilsModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
-    PrismaService,
-    RequestIdService,
     { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
     { provide: APP_FILTER, useClass: AllExceptionsFilter },
   ],
-  exports: [PrismaService, RequestIdService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {
