@@ -1,18 +1,19 @@
-import { Controller, HttpCode, HttpStatus, Post, Request, UseGuards } from '@nestjs/common';
+import { Controller, Post, UseGuards, HttpCode, HttpStatus, Request } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
-import { ApiResponse, Public } from '../common/decorators';
-import { RequestExtension } from '../common/http-helpers';
-import { OpenApiTag } from '../open-api/setup-open-api';
-import { AuthService } from './auth.service';
+import { AuthService } from '../../auth/auth.service';
+import { LocalAuthGuard } from '../../auth/guards/local-auth.guard';
+import { ApiResponse, Public } from '../../common/decorators';
+import { RequestExtension } from '../../common/utils/http-helpers';
+import { OpenApiTag } from '../../open-api/setup-open-api';
+import { RoutePrefix } from '../routes';
 import { LoginRequestDto } from './dto/login-request.dto';
 import { LoginResponseDto } from './dto/login-response.dto';
-import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @ApiTags(OpenApiTag.LOGIN)
-@Controller(OpenApiTag.LOGIN)
+@Controller(RoutePrefix.LOGIN)
 export class LoginController {
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Public()
   @Post()

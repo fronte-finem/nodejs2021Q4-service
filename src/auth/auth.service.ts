@@ -4,7 +4,7 @@ import { User } from '@prisma/client';
 import { compare } from 'bcrypt';
 import { UserService } from '../resources/user/user.service';
 import { TokenDto } from './dto/token.dto';
-import { LoginResponseDto } from './dto/login-response.dto';
+import { LoginResponseDto } from '../resources/login/dto/login-response.dto';
 
 @Injectable()
 export class AuthService {
