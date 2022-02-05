@@ -1,6 +1,14 @@
-import { HttpException, Inject, Injectable, LoggerService, Scope } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  LoggerService,
+  Scope,
+} from '@nestjs/common';
 import chalk from 'chalk';
 import { Logger } from 'winston';
+import { EnvConfig } from '../common/config';
 import { Constructor } from '../common/types';
 import {
   WINSTON_LOGGER_PROVIDER,
@@ -75,8 +83,12 @@ export class WinstonLogger implements LoggerService {
     const stack = (error as Error)?.stack;
     delete (error as Error)?.stack;
     const title = errorTitle(error instanceof HttpException ? 'HTTP EXCEPTION' : 'ORIGINAL ERROR');
-    this.error({ title, requestId, error }, context);
-    if (stack) {
+    if (error instanceof HttpException && error.getStatus() === HttpStatus.NOT_FOUND) {
+      this.warn({ title, requestId, error }, context);
+    } else {
+      this.error({ title, requestId, error }, context);
+    }
+    if (EnvConfig.logLevel === 'verbose' && stack) {
       this.verbose({ title: errorTitle('ERROR STACK TRACE'), message: stack, requestId }, context);
     }
   }

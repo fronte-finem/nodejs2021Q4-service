@@ -1,6 +1,7 @@
-import { Catch, ArgumentsHost, ExceptionFilter, HttpException } from '@nestjs/common';
+import { Catch, ArgumentsHost, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 import { Response } from 'express';
+import { EnvConfig } from '../common/config';
 import { getRequestId, RequestExtension } from '../common/utils/http-helpers';
 import { mapAllErrors, mapPrismaErrors } from '../errors';
 import { WinstonLogger } from '../logger/logger.service';
@@ -27,7 +28,9 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const httpException = isHttpException ? error : mapAllErrors(mapPrismaErrors(error));
     const responseBody = httpException.getResponse();
     const statusCode = httpException.getStatus();
-    this.logger.httpError(id, httpException);
+    if (statusCode === HttpStatus.NOT_FOUND && EnvConfig.logLevel !== 'error') {
+      this.logger.httpError(id, httpException);
+    }
     httpAdapter.reply(response, responseBody, statusCode);
   }
 }
