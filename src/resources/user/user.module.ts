@@ -1,11 +1,11 @@
-import { Module } from '@nestjs/common';
-import { UserHashPasswordPipe } from './user.hash-password.pipe';
+import { Global, Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 
+@Global()
 @Module({
   controllers: [UserController],
-  providers: [UserService, UserHashPasswordPipe],
+  providers: [UserService],
   exports: [UserService],
 })
 export class UserModule {}
