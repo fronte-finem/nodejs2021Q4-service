@@ -1,7 +1,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Response } from 'express';
-import { isEmpty } from '../common/data-helpers';
-import { REQUEST_ID, RequestExtension } from '../common/http-helpers';
+import { isEmpty } from '../common/utils/data-helpers';
+import { REQUEST_ID, RequestExtension } from '../common/utils/http-helpers';
 import { WinstonLogger } from '../logger/logger.service';
 import { RequestIdService } from '../services/request-id.service';
 

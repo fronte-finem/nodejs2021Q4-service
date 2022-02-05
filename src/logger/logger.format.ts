@@ -2,7 +2,7 @@ import chalk, { Chalk } from 'chalk';
 import { configure as createStringify } from 'safe-stable-stringify';
 import { inspect } from 'util';
 import { format, Logform } from 'winston';
-import { isEmpty } from '../common/data-helpers';
+import { isEmpty } from '../common/utils/data-helpers';
 import { ObjectLike } from '../common/types';
 import { WinstonLogLevel } from './logger.types';
 

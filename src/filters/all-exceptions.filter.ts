@@ -1,7 +1,7 @@
 import { Catch, ArgumentsHost, ExceptionFilter, HttpException } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 import { Response } from 'express';
-import { getRequestId, RequestExtension } from '../common/http-helpers';
+import { getRequestId, RequestExtension } from '../common/utils/http-helpers';
 import { mapAllErrors, mapPrismaErrors } from '../errors';
 import { WinstonLogger } from '../logger/logger.service';
 
