@@ -6,6 +6,6 @@ export async function seedAdmin(prisma: PrismaClient): Promise<void> {
   const pipe = new UserHashPasswordPipe();
   const login = 'admin';
   const dto: UserCreateDto = await pipe.transform({ name: login, login, password: login });
-  const admin = await prisma.user.upsert({ where: { login }, update: {}, create: dto });
-  console.log('Seeding <admin> completed!\n', admin);
+  await prisma.user.upsert({ where: { login }, update: {}, create: dto });
+  process.stdout.write('Seeding "admin" successfully completed!\n');
 }
