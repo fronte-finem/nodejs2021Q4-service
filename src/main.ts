@@ -3,22 +3,18 @@ import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { contentParser } from 'fastify-multer';
 import { AppModule } from './app.module';
-import { nestAppConfig, EnvConfig } from './common/config';
+import { EnvConfig, nestAppConfig } from './common/config';
+import { AppBootstrapLog } from './common/utils/app-bootstrap-log';
 import { WINSTON_LOGGER_SERVICE_PROVIDER } from './logger/logger.types';
 import { setupOpenApi } from './open-api/setup-open-api';
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
+  const appBootstrapLog = new AppBootstrapLog();
+  appBootstrapLog.begin(EnvConfig);
+
   const { useFastify, host, port } = EnvConfig;
 
-  let app!: INestApplication;
-
-  if (useFastify) {
-    const adapter = new FastifyAdapter();
-    await adapter.register(contentParser);
-    app = await NestFactory.create<NestFastifyApplication>(AppModule, adapter, nestAppConfig);
-  } else {
-    app = await NestFactory.create(AppModule, nestAppConfig);
-  }
+  const app = await NestEngine(useFastify);
 
   const logger = await app.resolve(WINSTON_LOGGER_SERVICE_PROVIDER);
   app.useLogger(logger);
@@ -28,9 +24,17 @@ async function bootstrap() {
   setupOpenApi(app);
 
   await app.listen(port, host);
-
-  logger.warn(`\n\tStarted on http://${host}:${port}`, 'Bootstrap');
+  appBootstrapLog.end(EnvConfig);
 }
 
 // noinspection JSIgnoredPromiseFromCall
 bootstrap();
+
+async function NestEngine(useFastify: boolean): Promise<INestApplication> {
+  if (useFastify) {
+    const adapter = new FastifyAdapter();
+    await adapter.register(contentParser);
+    return NestFactory.create<NestFastifyApplication>(AppModule, adapter, nestAppConfig);
+  }
+  return NestFactory.create(AppModule, nestAppConfig);
+}
