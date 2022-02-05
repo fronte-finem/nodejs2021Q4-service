@@ -7,7 +7,7 @@ import { WINSTON_LOGGER_SERVICE_PROVIDER } from './logger/logger.types';
 import { setupOpenApi } from './open-api/setup-open-api';
 
 async function bootstrap() {
-  const { host, port, isFastify } = EnvConfig;
+  const { useFastify, host, port } = EnvConfig;
 
   const app = await (isFastify
     ? NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), nestAppConfig)
@@ -21,6 +21,8 @@ async function bootstrap() {
   setupOpenApi(app);
 
   await app.listen(port, host);
+
+  logger.warn(`\n\tStarted on http://${host}:${port}`, 'Bootstrap');
 }
 
 // noinspection JSIgnoredPromiseFromCall
