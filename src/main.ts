@@ -1,6 +1,7 @@
-import { ValidationPipe } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import { contentParser } from 'fastify-multer';
 import { AppModule } from './app.module';
 import { nestAppConfig, EnvConfig } from './common/config';
 import { WINSTON_LOGGER_SERVICE_PROVIDER } from './logger/logger.types';
@@ -9,9 +10,15 @@ import { setupOpenApi } from './open-api/setup-open-api';
 async function bootstrap() {
   const { useFastify, host, port } = EnvConfig;
 
-  const app = await (isFastify
-    ? NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), nestAppConfig)
-    : NestFactory.create(AppModule, nestAppConfig));
+  let app!: INestApplication;
+
+  if (useFastify) {
+    const adapter = new FastifyAdapter();
+    await adapter.register(contentParser);
+    app = await NestFactory.create<NestFastifyApplication>(AppModule, adapter, nestAppConfig);
+  } else {
+    app = await NestFactory.create(AppModule, nestAppConfig);
+  }
 
   const logger = await app.resolve(WINSTON_LOGGER_SERVICE_PROVIDER);
   app.useLogger(logger);

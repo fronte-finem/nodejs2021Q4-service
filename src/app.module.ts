@@ -14,6 +14,7 @@ import { UserModule } from './resources/user/user.module';
 import { PrismaService } from './services/prisma.service';
 import { RequestIdService } from './services/request-id.service';
 import { AuthModule } from './auth/auth.module';
+import { FileModule } from './resources/file/file.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { AuthModule } from './auth/auth.module';
     BoardModule,
     ColumnModule,
     TaskModule,
+    FileModule,
   ],
   controllers: [AppController],
   providers: [

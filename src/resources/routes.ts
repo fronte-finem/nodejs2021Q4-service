@@ -14,4 +14,5 @@ export const RoutePrefix = {
   BOARDS: 'boards',
   COLUMNS: `boards/:${BOARD_ID}/columns`,
   TASKS: `boards/:${BOARD_ID}/tasks`,
+  FILE: 'file',
 };
