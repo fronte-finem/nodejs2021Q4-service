@@ -1,13 +1,14 @@
 import { Controller, Get, Post, Put, Delete, Body, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ApiResponse } from '../../common/decorators';
+import { OpenApiTag } from '../../open-api/setup-open-api';
 import { RoutePrefix, BY_ID, Id } from '../routes';
 import { BoardService } from './board.service';
 import { BoardCreateDto } from './dto/board-create.dto';
 import { BoardResponseDto } from './dto/board-response.dto';
 import { BoardUpdateDto } from './dto/board-update.dto';
 
-@ApiTags('Boards')
+@ApiTags(OpenApiTag.BOARDS)
 @ApiBearerAuth()
 @ApiResponse.Unauthorized
 @Controller(RoutePrefix.BOARDS)

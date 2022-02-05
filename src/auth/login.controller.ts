@@ -3,13 +3,14 @@ import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 import { ApiResponse, Public } from '../common/decorators';
 import { RequestExtension } from '../common/http-helpers';
+import { OpenApiTag } from '../open-api/setup-open-api';
 import { AuthService } from './auth.service';
 import { LoginRequestDto } from './dto/login-request.dto';
 import { LoginResponseDto } from './dto/login-response.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 
-@ApiTags('Login')
-@Controller('login')
+@ApiTags(OpenApiTag.LOGIN)
+@Controller(OpenApiTag.LOGIN)
 export class LoginController {
   constructor(private authService: AuthService) {}
 

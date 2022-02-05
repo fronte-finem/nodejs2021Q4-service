@@ -1,13 +1,14 @@
 import { Controller, Get, Post, Put, Delete, Body, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ApiResponse } from '../../common/decorators';
+import { OpenApiTag } from '../../open-api/setup-open-api';
 import { RoutePrefix, BY_ID, BoardId, Id } from '../routes';
 import { ColumnService } from './column.service';
 import { ColumnCreateDto } from './dto/column-create.dto';
 import { ColumnResponseDto } from './dto/column-response.dto';
 import { ColumnUpdateDto } from './dto/column-update.dto';
 
-@ApiTags('Columns')
+@ApiTags(OpenApiTag.COLUMNS)
 @ApiBearerAuth()
 @ApiResponse.Unauthorized
 @ApiResponse.BadRequest

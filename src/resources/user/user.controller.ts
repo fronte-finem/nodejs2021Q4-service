@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Put, Delete, Body, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ApiResponse } from '../../common/decorators';
+import { OpenApiTag } from '../../open-api/setup-open-api';
 import { RoutePrefix, BY_ID, Id } from '../routes';
 import { UserCreateDto } from './dto/user-create.dto';
 import { UserResponseDto } from './dto/user-response.dto';
@@ -8,7 +9,7 @@ import { UserUpdateDto } from './dto/user-update.dto';
 import { UserHashPasswordPipe } from './user.hash-password.pipe';
 import { UserService } from './user.service';
 
-@ApiTags('Users')
+@ApiTags(OpenApiTag.USERS)
 @ApiBearerAuth()
 @ApiResponse.Unauthorized
 @Controller(RoutePrefix.USERS)

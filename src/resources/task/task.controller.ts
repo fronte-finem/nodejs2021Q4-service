@@ -1,12 +1,13 @@
 import { Controller, Get, Post, Put, Delete, Body, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ApiResponse } from '../../common/decorators';
+import { OpenApiTag } from '../../open-api/setup-open-api';
 import { RoutePrefix, BY_ID, BoardId, Id } from '../routes';
 import { TaskCreateDto } from './dto/task-create.dto';
 import { TaskUpdateDto } from './dto/task-update.dto';
 import { TaskService } from './task.service';
 
-@ApiTags('Tasks')
+@ApiTags(OpenApiTag.TASKS)
 @ApiBearerAuth()
 @ApiResponse.Unauthorized
 @ApiResponse.BadRequest
