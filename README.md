@@ -94,10 +94,13 @@ $ npm run test:auth
 $ npm run test:load
 ```
 
-### [Artillery](https://artillery.io/) report
+### [Artillery](https://artillery.io/) reports for nest engines
 - Endpoint: `users`
 - Mode: `production`
 - Log level: `ERROR`
+- Test config: [users.test.yaml](./test/artillery/users.test.yaml)
+- [Generated](./test/artillery/generate-users-csv.mjs) users records to [users.csv](./test/artillery/users.csv): 10000
+- before each engine test DB cleared with `npx prisma migrate reset`
 
 <table>
   <tr>
@@ -111,60 +114,58 @@ $ npm run test:load
   <tr>
     <td>
 <pre>
-errors.ETIMEDOUT: .................... 4046
-http.codes.200: ...................... 20570
-http.codes.201: ...................... 4928
-http.codes.204: ...................... 3678
-http.codes.404: ...................... 3678
-http.codes.409: ...................... 562
-http.request_rate: ................... 146/sec
-http.requests: ....................... 37462
+errors.ETIMEDOUT: ..... 4046
+http.codes.200: ....... 20570
+http.codes.201: ....... 4928
+http.codes.204: ....... 3678
+http.codes.404: ....... 3678
+http.codes.409: ....... 562
+http.request_rate: .... 146/sec
+http.requests: ........ 37462
 http.response_time:
-  min: ............................... 0
-  max: ............................... 9996
-  median: ............................ 7
-  p95: ............................... 8520.7
-  p99: ............................... 9607.1
-http.responses: ...................... 33416
-vusers.completed: .................... 3678
-vusers.created: ...................... 8286
-vusers.created_by_name.CRUD cycle: ... 8286
-vusers.failed: ....................... 4608
+  min: ................ 0
+  max: ................ 9996
+  median: ............. 7
+  p95: ................ 8520.7
+  p99: ................ 9607.1
+http.responses: ....... 33416
+vusers.completed: ..... 3678
+vusers.created: ....... 8286
+vusers.failed: ........ 4608
 vusers.session_length:
-  min: ............................... 3153.1
-  max: ............................... 23808.1
-  median: ............................ 5826.9
-  p95: ............................... 20958.1
-  p99: ............................... 22703.7
+  min: ................ 3153.1
+  max: ................ 23808.1
+  median: ............. 5826.9
+  p95: ................ 20958.1
+  p99: ................ 22703.7
 </pre>
     </td>
     <td>
 <pre>
-errors.ETIMEDOUT: .................... 4326
-http.codes.200: ...................... 19272
-http.codes.201: ...................... 4518
-http.codes.204: ...................... 3266
-http.codes.404: ...................... 3275
-http.codes.409: ...................... 491
-http.request_rate: ................... 139/sec
-http.requests: ....................... 35360
+errors.ETIMEDOUT: ..... 4326
+http.codes.200: ....... 19272
+http.codes.201: ....... 4518
+http.codes.204: ....... 3266
+http.codes.404: ....... 3275
+http.codes.409: ....... 491
+http.request_rate: .... 139/sec
+http.requests: ........ 35360
 http.response_time:
-  min: ............................... 0
-  max: ............................... 9999
-  median: ............................ 7
-  p95: ............................... 8520.7
-  p99: ............................... 9801.2
-http.responses: ...................... 30822
-vusers.completed: .................... 3275
-vusers.created: ...................... 8303
-vusers.created_by_name.CRUD cycle: ... 8303
-vusers.failed: ....................... 4817
+  min: ................ 0
+  max: ................ 9999
+  median: ............. 7
+  p95: ................ 8520.7
+  p99: ................ 9801.2
+http.responses: ....... 30822
+vusers.completed: ..... 3275
+vusers.created: ....... 8303
+vusers.failed: ........ 4817
 vusers.session_length:
-  min: ............................... 3148.8
-  max: ............................... 23354
-  median: ............................ 4492.8
-  p95: ............................... 21813.5
-  p99: ............................... 22703.7
+  min: ................ 3148.8
+  max: ................ 23354
+  median: ............. 4492.8
+  p95: ................ 21813.5
+  p99: ................ 22703.7
 </pre>
     </td>
   </tr>
