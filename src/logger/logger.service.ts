@@ -6,21 +6,16 @@ import {
   LoggerService,
   Scope,
 } from '@nestjs/common';
-import chalk from 'chalk';
 import { Logger } from 'winston';
 import { EnvConfig } from '../common/config';
 import { Constructor } from '../common/types';
+import { Title } from './logger.format';
 import {
   WINSTON_LOGGER_PROVIDER,
   WinstonLogInput,
   WinstonLogLevel,
   WinstonLogOutput,
 } from './logger.types';
-
-const HTTP_PREFIX = chalk.bgGreen.greenBright('  HTTP  ');
-const HTTP_REQ = `${HTTP_PREFIX}${chalk.bgCyan.blue(' ▶ ▶ ▶ REQUEST ▶ ▶ ▶ ')}`;
-const HTTP_RES = `${HTTP_PREFIX}${chalk.bgBlue.cyan(' ◀ ◀ ◀ RESPONSE ◀ ◀ ◀ ')}`;
-const errorTitle = (title: string) => chalk.bgRed.redBright(`  ${title}  `);
 
 @Injectable({ scope: Scope.TRANSIENT })
 export class WinstonLogger implements LoggerService {
@@ -72,24 +67,27 @@ export class WinstonLogger implements LoggerService {
   }
 
   httpRequest(requestId: number, request: unknown, context?: string) {
-    this.log({ title: HTTP_REQ, requestId, request }, context);
+    this.log({ title: Title.HTTP_REQ, requestId, request }, context);
   }
 
   httpResponse(requestId: number, response: unknown, context?: string) {
-    this.log({ title: HTTP_RES, requestId, response }, context);
+    this.log({ title: Title.HTTP_RES, requestId, response }, context);
   }
 
   httpError(requestId: number, error: unknown, context?: string) {
     const stack = (error as Error)?.stack;
     delete (error as Error)?.stack;
-    const title = errorTitle(error instanceof HttpException ? 'HTTP EXCEPTION' : 'ORIGINAL ERROR');
-    if (error instanceof HttpException && error.getStatus() === HttpStatus.NOT_FOUND) {
-      this.warn({ title, requestId, error }, context);
+    const isHttpException = error instanceof HttpException;
+    if (isHttpException && error.getStatus() === HttpStatus.NOT_FOUND) {
+      this.warn({ title: Title.HTTP_EXCEPTION_404, requestId, error }, context);
     } else {
-      this.error({ title, requestId, error }, context);
+      this.error(
+        { title: isHttpException ? Title.HTTP_EXCEPTION : Title.ORIGINAL_ERROR, requestId, error },
+        context
+      );
     }
     if (EnvConfig.logLevel === 'verbose' && stack) {
-      this.verbose({ title: errorTitle('ERROR STACK TRACE'), message: stack, requestId }, context);
+      this.verbose({ title: Title.STACK_TRACE, message: stack, requestId }, context);
     }
   }
 }

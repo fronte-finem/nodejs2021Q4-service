@@ -2,13 +2,13 @@ import chalk, { Chalk } from 'chalk';
 import { configure as createStringify } from 'safe-stable-stringify';
 import { inspect } from 'util';
 import { format, Logform } from 'winston';
-import { isEmpty } from '../common/utils/data-helpers';
 import { ObjectLike } from '../common/types';
+import { isEmpty } from '../common/utils/data-helpers';
 import { WinstonLogLevel } from './logger.types';
 
 const ColorScheme: Record<WinstonLogLevel, Chalk> = {
   error: chalk.red,
-  warn: chalk.rgb(255, 127, 0),
+  warn: chalk.rgb(200, 100, 0),
   info: chalk.green,
   debug: chalk.blueBright,
   verbose: chalk.gray,
@@ -56,3 +56,23 @@ function formatMeta(meta?: ObjectLike, { prettyPrint = false }: ConsoleFormatOpt
     ? inspect(formattedMeta, { colors: true, depth: null })
     : stringify(formattedMeta);
 }
+
+const TitleColorScheme = {
+  http: chalk.bgGreen.yellowBright,
+  req: chalk.bgCyan.blue,
+  res: chalk.bgBlue.cyan,
+  error: chalk.bgRed.rgb(255, 127, 0),
+  warn: chalk.bgRgb(200, 100, 0).yellowBright,
+  stack: chalk.bgGray.white,
+};
+
+const HTTP_PREFIX = TitleColorScheme.http('  HTTP  ');
+
+export const Title = {
+  HTTP_REQ: `${HTTP_PREFIX}${TitleColorScheme.req(' ▶ ▶ ▶ REQUEST ▶ ▶ ▶ ')}`,
+  HTTP_RES: `${HTTP_PREFIX}${TitleColorScheme.res(' ◀ ◀ ◀ RESPONSE ◀ ◀ ◀ ')}`,
+  ORIGINAL_ERROR: TitleColorScheme.error('  ORIGINAL ERROR  '),
+  HTTP_EXCEPTION: TitleColorScheme.error('  HTTP EXCEPTION  '),
+  HTTP_EXCEPTION_404: TitleColorScheme.warn('  HTTP EXCEPTION  '),
+  STACK_TRACE: TitleColorScheme.stack('  ERROR STACK TRACE  '),
+};

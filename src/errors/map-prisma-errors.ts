@@ -1,6 +1,7 @@
 import { Prisma } from '@prisma/client';
 import {
   BadRequestException,
+  ConflictException,
   HttpException,
   InternalServerErrorException,
   NotFoundException,
@@ -44,7 +45,7 @@ function mapPrismaClientKnownRequestError(
   const { code, message, meta } = error as PrismaClientKnownRequestError;
   switch (code) {
     case PrismaErrorCode.UNIQUE_CONSTRAINT:
-      return new BadRequestException(`Unique constraint failed on the fields: (${meta?.target})`);
+      return new ConflictException(`Unique constraint failed on the fields: (${meta?.target})`);
     case PrismaErrorCode.NOT_FOUND:
       return new NotFoundException(message);
     default:

@@ -16,14 +16,14 @@ export const loggerConfig: LoggerOptions = {
     new transports.Console({
       format: isProd ? undefined : getConsoleFormat('App', { prettyPrint: true }),
     }),
-    // new transports.File({
-    //   dirname: 'logs',
-    //   filename: 'all.log',
-    // }),
-    // new transports.File({
-    //   dirname: 'logs',
-    //   filename: 'error.log',
-    //   level: 'error',
-    // }),
+    new transports.File({
+      dirname: 'logs',
+      filename: 'all.log',
+    }),
+    new transports.File({
+      dirname: 'logs',
+      filename: 'error.log',
+      level: 'error',
+    }),
   ],
 };

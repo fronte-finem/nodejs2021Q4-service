@@ -28,7 +28,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const httpException = isHttpException ? error : mapAllErrors(mapPrismaErrors(error));
     const responseBody = httpException.getResponse();
     const statusCode = httpException.getStatus();
-    if (statusCode === HttpStatus.NOT_FOUND && EnvConfig.logLevel !== 'error') {
+    if (EnvConfig.logLevel !== 'error' || statusCode !== HttpStatus.NOT_FOUND) {
       this.logger.httpError(id, httpException);
     }
     httpAdapter.reply(response, responseBody, statusCode);
