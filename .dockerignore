@@ -7,5 +7,6 @@ docker
 node_modules
 dist
 logs
+.env
 .editorconfig
 README.md

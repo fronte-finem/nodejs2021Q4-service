@@ -22,7 +22,6 @@ seed()
       process.stderr.write(inspect(error, false, null, true));
       process.stderr.write('\n\n');
     }
-    process.exit(1);
   })
   .finally(async () => {
     await prisma.$disconnect();
