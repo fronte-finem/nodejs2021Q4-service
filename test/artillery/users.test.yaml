@@ -1,18 +1,18 @@
 config:
   target: "http://localhost:4000"
   phases:
-    - duration: 60
-      arrivalRate: 5
+    - duration: 30
+      arrivalRate: 10
       name: "Warm up"
-#    - duration: 120
-#      arrivalRate: 5
-#      rampTo: 50
-#      name: "Ramp up load"
-#    - duration: 600
-#      arrivalRate: 50
-#      name: "Sustained load"
+    - duration: 90
+      arrivalRate: 20
+      rampTo: 50
+      name: "Ramp up load"
+    - duration: 120
+      arrivalRate: 40
+      name: "Sustained load"
   payload:
-    path: "user.csv"
+    path: "users.csv"
     fields:
       - "name"
       - "login"
@@ -37,7 +37,7 @@ scenarios:
           url: "/users"
           headers:
             Authorization: "Bearer {{ jwtToken }}"
-      - think: 5
+      - think: 1
       - post:
           url: "/users"
           headers:
@@ -53,7 +53,7 @@ scenarios:
           url: "/users/{{ userId }}"
           headers:
             Authorization: "Bearer {{ jwtToken }}"
-      - think: 5
+      - think: 1
       - put:
           url: "/users/{{ userId }}"
           headers:
@@ -66,7 +66,7 @@ scenarios:
           url: "/users/{{ userId }}"
           headers:
             Authorization: "Bearer {{ jwtToken }}"
-      - think: 5
+      - think: 1
       - delete:
           url: "/users/{{ userId }}"
           headers:
