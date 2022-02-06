@@ -21,7 +21,7 @@ export const EnvConfig = {
   isProd: process.env.NODE_ENV === 'production',
   isDev: process.env.NODE_ENV !== 'production',
   logLevel,
-  useFastify: getEnvBoolean('APP_USE_FASTIFY'),
+  useFastify: getEnvBoolean('USE_FASTIFY'),
   host: getEnvString('APP_HOST', 'localhost'),
   port: getEnvNumber('APP_PORT', 3000),
   openApiRoute: getEnvString('OPEN_API_ROUTE', 'doc'),
