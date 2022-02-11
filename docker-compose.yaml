@@ -1,10 +1,10 @@
 version: '3.9'
 
 volumes:
-  db-volume:
+  db-volume: {}
 
 networks:
-  mynet:
+  app-db-network:
     driver: bridge
 
 # https://docs.docker.com/compose/compose-file/compose-file-v3/#extension-fields
@@ -26,17 +26,18 @@ services:
     environment:
       APP_HOST: *app
       DB_HOST: *db
-      DB_URL: postgresql://${DB_USER}:${DB_PASSWORD}@${COMPOSE_PROJECT_NAME}_db:${DB_PORT}/${DB_NAME}?schema=public
     networks:
-      - mynet
+      - app-db-network
     hostname: *app
     ports:
       - ${APP_PORT}:${APP_PORT}
     volumes:
       - ./src:/app/src
       - ./prisma:/app/prisma
+      - ./test:/app/test
       - ./logs:/app/logs
       - ./uploads:/app/uploads
+      - ./nest-cli.json:/app/nest-cli.json
       - ./tsconfig.json:/app/tsconfig.json
       - ./tsconfig.build.json:/app/tsconfig.build.json
     restart: on-failure
@@ -50,7 +51,7 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     networks:
-      - mynet
+      - app-db-network
     hostname: *db
     ports:
       - ${DB_PORT}:${DB_PORT}

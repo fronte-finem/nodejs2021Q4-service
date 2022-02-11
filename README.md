@@ -26,23 +26,32 @@ $ npm install
 
 ## Running the app
 
-```bash
-# development watch mode
-$ npm run start:dev
+- Local App + DB in docker container:
 
-# development watch + debug mode
-$ npm run start:debug
+   ```bash
+   # development watch mode
+   $ npm run start:dev
 
-# development static mode
-$ npm run start
+   # development watch + debug mode
+   $ npm run start:debug
 
-# production mode
-$ npm run start:prod
-```
+   # development static mode
+   $ npm run start
 
-After starting the app on port (`4000` as default) you can open
-in your browser OpenAPI documentation by typing [localhost:4000/doc](http://localhost:4000/doc).
-*For more information about OpenAPI/Swagger please visit [swagger.io](https://swagger.io/)*.
+   # production mode
+   $ npm run start:prod
+   ```
+
+- App & DB in docker containers:
+
+  ```bash
+  # development watch mode
+  $ docker-compose up --build
+  ```
+
+> After starting the app on port (`4000` as default) you can open
+> in your browser OpenAPI documentation by typing [localhost:4000/doc](http://localhost:4000/doc).
+> *For more information about OpenAPI/Swagger please visit [swagger.io](https://swagger.io/)*.
 
 ### Routes:
 
@@ -53,30 +62,30 @@ GET /doc
 POST /login
 
 POST /file
-GET /file/{filename}
+GET  /file/{filename}
 
-POST /users
-GET /users
-GET /users/{id}
-PUT /users/{id}
+POST   /users
+GET    /users
+GET    /users/{id}
+PUT    /users/{id}
 DELETE /users/{id}
 
-POST /boards
-GET /boards
-GET /boards/{id}
-PUT /boards/{id}
+POST   /boards
+GET    /boards
+GET    /boards/{id}
+PUT    /boards/{id}
 DELETE /boards/{id}
 
-POST /boards/{boardId}/columns
-GET /boards/{boardId}/columns
-GET /boards/{boardId}/columns/{id}
-PUT /boards/{boardId}/columns/{id}
+POST   /boards/{boardId}/columns
+GET    /boards/{boardId}/columns
+GET    /boards/{boardId}/columns/{id}
+PUT    /boards/{boardId}/columns/{id}
 DELETE /boards/{boardId}/columns/{id}
 
-POST /boards/{boardId}/tasks
-GET /boards/{boardId}/tasks
-GET /boards/{boardId}/tasks/{id}
-PUT /boards/{boardId}/tasks/{id}
+POST   /boards/{boardId}/tasks
+GET    /boards/{boardId}/tasks
+GET    /boards/{boardId}/tasks/{id}
+PUT    /boards/{boardId}/tasks/{id}
 DELETE /boards/{boardId}/tasks/{id}
 ```
 

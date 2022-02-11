@@ -1,3 +1,4 @@
 dist/
 test/
 .eslintrc.js
+subset.config.js
