@@ -24,13 +24,13 @@ services:
     env_file:
       - .env
     environment:
-      APP_HOST: *app
+      HOST: *app
       DB_HOST: *db
     networks:
       - app-db-network
     hostname: *app
     ports:
-      - ${APP_PORT}:${APP_PORT}
+      - ${PORT}:${PORT}
     volumes:
       - ./src:/app/src
       - ./prisma:/app/prisma

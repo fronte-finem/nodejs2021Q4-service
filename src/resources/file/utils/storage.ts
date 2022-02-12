@@ -1,9 +1,9 @@
-import { Express, Request } from 'express';
+import { Request } from 'express';
 import { diskStorage, StorageEngine } from 'multer';
-import { EnvConfig } from '../../../common/config';
+import { envVars } from '../../../config/env.validation';
 
 export const storage: StorageEngine = diskStorage({
-  destination: EnvConfig.uploadDest,
+  destination: envVars.UPLOAD_DEST,
   filename(
     req: Request,
     file: Express.Multer.File,

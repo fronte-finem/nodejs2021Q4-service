@@ -1,11 +1,13 @@
 import { Global, INestApplication, Injectable, OnModuleInit } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Prisma, PrismaClient } from '@prisma/client';
 import { pd } from 'pretty-data';
 import chalk from 'chalk';
 import { highlight, HighlightOptions } from 'cli-highlight';
-import { EnvConfig } from '../common/config';
 import { isNotEmpty } from '../common/utils/data-helpers';
+import { EnvironmentVariables } from '../config/env.validation';
 import { WinstonLogger } from '../logger/logger.service';
+import { WinstonLogLevel } from '../logger/logger.types';
 
 @Global()
 @Injectable()
@@ -13,27 +15,30 @@ export class PrismaService
   extends PrismaClient<Prisma.PrismaClientOptions, Prisma.LogLevel | Prisma.LogDefinition>
   implements OnModuleInit
 {
-  constructor(private readonly logger: WinstonLogger) {
+  constructor(
+    private configService: ConfigService<EnvironmentVariables, true>,
+    private readonly logger: WinstonLogger
+  ) {
+    const isProd = configService.get('isProd', { infer: true });
+    const loglevel = configService.get('LOG_LEVEL', { infer: true });
     super({
-      log: [
-        { level: 'error', emit: 'event' },
-        { level: 'warn', emit: 'event' },
-        { level: 'info', emit: 'event' },
-        { level: 'query', emit: 'event' },
-      ],
-      errorFormat: EnvConfig.isProd ? 'minimal' : 'pretty',
+      log: mapLogEvents(loglevel),
+      errorFormat: isProd ? 'minimal' : 'pretty',
     });
     logger.setContext(PrismaService);
-    this.bindLogger();
+    this.bindLogger(isProd, loglevel);
   }
 
-  private bindLogger(): void {
+  private bindLogger(isProd: boolean, loglevel: WinstonLogLevel): void {
     this.$on('error', (event) => this.logger.error(event));
+    if (loglevel === 'error') return;
     this.$on('warn', (event) => this.logger.warn(event));
+    if (loglevel === 'warn') return;
     this.$on('info', (event) => this.logger.log(event));
+    if (loglevel === 'info') return;
     this.$on(
       'query',
-      EnvConfig.isProd
+      isProd
         ? (event) => this.logger.debug(event)
         : (event) => this.logger.debug(prettyQuery(event))
     );
@@ -51,6 +56,27 @@ export class PrismaService
     this.$on('beforeExit', async () => {
       await app.close();
     });
+  }
+}
+
+function mapLogEvents(winstonLogLevel: WinstonLogLevel): Prisma.LogDefinition[] {
+  const defs = [logDef('query'), logDef('info'), logDef('warn'), logDef('error')];
+
+  switch (winstonLogLevel) {
+    case 'error':
+      return defs.slice(3);
+    case 'warn':
+      return defs.slice(2);
+    case 'info':
+      return defs.slice(1);
+    case 'debug':
+    case 'verbose':
+    default:
+      return defs;
+  }
+
+  function logDef(level: Prisma.LogLevel): Prisma.LogDefinition {
+    return { level, emit: 'event' };
   }
 }
 

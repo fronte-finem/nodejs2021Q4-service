@@ -1,6 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { EnvConfig } from '../common/config';
+import { EnvConfigService } from '../config/env.config.service';
 
 export enum OpenApiTag {
   APP = 'App',
@@ -21,5 +21,6 @@ Object.values(OpenApiTag).forEach((tag) => openApiDocument.addTag(tag));
 
 export function setupOpenApi(app: INestApplication): void {
   const document = SwaggerModule.createDocument(app, openApiDocument.build());
-  SwaggerModule.setup(EnvConfig.openApiRoute, app, document);
+  const configService = app.get(EnvConfigService);
+  SwaggerModule.setup(configService.get('OPEN_API_ROUTE'), app, document);
 }

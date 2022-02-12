@@ -1,14 +1,16 @@
 import { Injectable, NotFoundException, StreamableFile } from '@nestjs/common';
-import { Express } from 'express';
 import { resolve } from 'path';
 import { open } from 'fs/promises';
-import { EnvConfig } from '../../common/config';
+import { EnvConfigService } from '../../config/env.config.service';
 import { WinstonLogger } from '../../logger/logger.service';
 import { FileUploadResponseDto } from './dto/file-upload-response.dto';
 
 @Injectable()
 export class FileService {
-  constructor(private readonly logger: WinstonLogger) {
+  constructor(
+    private readonly configService: EnvConfigService,
+    private readonly logger: WinstonLogger
+  ) {
     this.logger.setContext(FileService);
   }
 
@@ -20,7 +22,8 @@ export class FileService {
   async streamFile(filename: string): Promise<StreamableFile> {
     this.logger.debug(`Trying stream file [${filename}]`);
     try {
-      const fd = await open(resolve(EnvConfig.uploadDest, filename), 'r');
+      const path = resolve(this.configService.get('UPLOAD_DEST'), filename);
+      const fd = await open(path, 'r');
       return new StreamableFile(fd.createReadStream());
     } catch (error) {
       this.logger.error({ error });

@@ -7,8 +7,8 @@ import {
   Scope,
 } from '@nestjs/common';
 import { Logger } from 'winston';
-import { EnvConfig } from '../common/config';
 import { Constructor } from '../common/types';
+import { EnvConfigService } from '../config/env.config.service';
 import { Title } from './logger.format';
 import {
   WINSTON_LOGGER_PROVIDER,
@@ -21,7 +21,10 @@ import {
 export class WinstonLogger implements LoggerService {
   private context: string = '🔰';
 
-  constructor(@Inject(WINSTON_LOGGER_PROVIDER) private readonly logger: Logger) {}
+  constructor(
+    private readonly configService: EnvConfigService,
+    @Inject(WINSTON_LOGGER_PROVIDER) private readonly logger: Logger
+  ) {}
 
   setContext(context: string | Constructor) {
     this.context = typeof context === 'string' ? context : context.name;
@@ -86,7 +89,7 @@ export class WinstonLogger implements LoggerService {
         context
       );
     }
-    if (EnvConfig.logLevel === 'verbose' && stack) {
+    if (this.configService.get('LOG_LEVEL') === 'verbose' && stack) {
       this.verbose({ title: Title.STACK_TRACE, message: stack, requestId }, context);
     }
   }

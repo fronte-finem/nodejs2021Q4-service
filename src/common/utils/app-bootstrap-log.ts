@@ -1,35 +1,37 @@
 import chalk from 'chalk';
-import { EnvConfig } from '../config';
+import { EnvironmentVariables } from '../../config/env.validation';
 
 export class AppBootstrapLog {
   private startTime!: Date;
 
-  begin(config: typeof EnvConfig) {
+  constructor(private readonly envVars: EnvironmentVariables) {}
+
+  begin() {
     this.startTime = new Date();
-    AppBootstrapLog.log(config, 'Starting Nest application...');
+    this.log('Starting Nest application...');
   }
 
-  end(config: typeof EnvConfig) {
+  end() {
     const timeDiff = new Date().getTime() - this.startTime.getTime();
-    AppBootstrapLog.log(config, 'Nest application successfully started!', timeDiff);
+    this.log('Nest application successfully started!', timeDiff);
   }
 
-  private static log(config: typeof EnvConfig, title: string, timeDiff?: number) {
-    const { isDev, useFastify, host, port, openApiRoute, logLevel } = config;
-    const address = `http://${host}:${port}`;
+  private log(title: string, timeDiff?: number) {
+    const { isDev, USE_FASTIFY, HOST, PORT, OPEN_API_ROUTE, LOG_LEVEL } = this.envVars;
+    const address = `http://${HOST}:${PORT}`;
 
     const info = Object.entries({
       Time: new Date().toLocaleTimeString(),
       Mode: isDev ? 'development' : 'production',
-      Engine: useFastify ? 'Fastify' : 'Express',
+      Engine: USE_FASTIFY ? 'Fastify' : 'Express',
       Address: address,
-      OpenAPI: `${address}/${openApiRoute}`,
-      'Max log level': logLevel.toUpperCase(),
+      OpenAPI: `${address}/${OPEN_API_ROUTE}`,
+      'Max log level': LOG_LEVEL.toUpperCase(),
     })
       .map(([key, value]) => `  ${key.padEnd(16)} -> ${value}\n`)
       .join('');
 
-    let colorize = useFastify ? chalk.blueBright : chalk.magentaBright;
+    let colorize = USE_FASTIFY ? chalk.blueBright : chalk.magentaBright;
     if (!timeDiff) colorize = colorize.dim;
     process.stdout.write(`  ${colorize.inverse(`  ${title}  `)}\n${colorize(info)}`);
     process.stdout.write(

@@ -7,3 +7,11 @@ export type WinstonLogOutput = { message: string; meta?: WinstonLogMeta };
 
 export const WINSTON_LOGGER_PROVIDER = Symbol('WINSTON_LOGGER_TOKEN');
 export const WINSTON_LOGGER_SERVICE_PROVIDER = Symbol('WINSTON_LOGGER_SERVICE_PROVIDER');
+
+export const LOG_LEVELS: Record<WinstonLogLevel, number> = {
+  error: 0,
+  warn: 1,
+  info: 2,
+  debug: 3,
+  verbose: 4,
+};
