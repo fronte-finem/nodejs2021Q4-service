@@ -31,6 +31,8 @@ module.exports = {
     'no-param-reassign': ['error', { props: false }],
     'import/extensions': 'off',
     'import/prefer-default-export': 'off',
+    'import/no-extraneous-dependencies': 'off',
+    'node/no-extraneous-import': 'off',
     'node/no-unsupported-features/es-syntax': 'off',
     'node/no-missing-import': 'off',
     'node/no-unpublished-import': 'off',
