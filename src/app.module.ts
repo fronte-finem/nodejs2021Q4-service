@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { EnvConfigModule } from './config/env.config.module';
-import { loggerConfig } from './logger/logger.config';
 import { LoggerModule } from './logger/logger.module';
 import { UtilsModule } from './utils/utils.module';
 import { PrismaModule } from './prisma/prisma.module';
@@ -17,7 +16,7 @@ import { TaskModule } from './resources/task/task.module';
 @Module({
   imports: [
     EnvConfigModule,
-    LoggerModule.forRoot(loggerConfig),
+    LoggerModule,
     UtilsModule,
     PrismaModule,
     AuthModule,

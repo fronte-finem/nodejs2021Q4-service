@@ -5,7 +5,7 @@ import { contentParser } from 'fastify-multer';
 import { AppModule } from './app.module';
 import { AppBootstrapLog } from './common/utils/app-bootstrap-log';
 import { envVars } from './config/env.validation';
-import { WINSTON_LOGGER_SERVICE_PROVIDER } from './logger/logger.types';
+import { WinstonLogger } from './logger/logger.service';
 import { setupOpenApi } from './open-api/setup-open-api';
 
 async function bootstrap(): Promise<void> {
@@ -14,7 +14,7 @@ async function bootstrap(): Promise<void> {
 
   const app = await NestEngine(envVars.USE_FASTIFY);
 
-  const logger = await app.resolve(WINSTON_LOGGER_SERVICE_PROVIDER);
+  const logger = await app.resolve(WinstonLogger);
   app.useLogger(logger);
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));

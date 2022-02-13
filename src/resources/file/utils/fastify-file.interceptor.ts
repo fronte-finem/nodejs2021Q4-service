@@ -31,6 +31,6 @@ export function FastifyFileInterceptor(
       return next.handle();
     }
   }
-  const Interceptor = mixin(MixinInterceptor);
-  return Interceptor as Type<NestInterceptor>;
+
+  return mixin(MixinInterceptor) as Type<NestInterceptor>;
 }
