@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+model User {
+  id String @id @default(uuid()) @db.Uuid
+
+  name     String @db.VarChar(255)
+  login    String @unique @db.VarChar(45)
+  password String @db.VarChar(255)
+
+  tasks Task[]
+}
+
+model Board {
+  id String @id @default(uuid()) @db.Uuid
+
+  title String @db.VarChar(255)
+
+  columns Column[]
+  tasks   Task[]
+}
+
+model Column {
+  id String @id @default(uuid()) @db.Uuid
+
+  title String @db.VarChar(255)
+  order Int
+
+  boardId String? @db.Uuid
+  board   Board?  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  tasks   Task[]
+}
+
+model Task {
+  id String @id @default(uuid()) @db.Uuid
+
+  title       String @db.VarChar(255)
+  order       Int
+  description String @db.Text
+
+  userId   String? @db.Uuid
+  user     User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+  boardId  String? @db.Uuid
+  board    Board?  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  columnId String? @db.Uuid
+  column   Column? @relation(fields: [columnId], references: [id], onDelete: Cascade)
+}

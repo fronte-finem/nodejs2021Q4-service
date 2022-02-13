@@ -1,11 +1,10 @@
-version: "3.9"
+version: '3.9'
 
 volumes:
-#  app-logs-vol:
-  database-vol:
+  db-volume: {}
 
 networks:
-  net[app+db]:
+  app-db-network:
     driver: bridge
 
 # https://docs.docker.com/compose/compose-file/compose-file-v3/#extension-fields
@@ -25,20 +24,23 @@ services:
     env_file:
       - .env
     environment:
-      APP_HOST: *app
+      HOST: *app
       DB_HOST: *db
-      FORCE_COLOR: 1  # force colorize output for pino-pretty in docker https://github.com/pinojs/pino-pretty/issues/220
     networks:
-      - net[app+db]
+      - app-db-network
     hostname: *app
     ports:
-      - ${APP_PORT}:${APP_PORT}
+      - ${PORT}:${PORT}
     volumes:
       - ./src:/app/src
+      - ./prisma:/app/prisma
+      - ./test:/app/test
       - ./logs:/app/logs
+      - ./uploads:/app/uploads
+      - ./nest-cli.json:/app/nest-cli.json
       - ./tsconfig.json:/app/tsconfig.json
-      # - app-logs-vol:/app/logs
-    restart: "no"
+      - ./tsconfig.build.json:/app/tsconfig.build.json
+    restart: on-failure
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Database ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   db:
     image: *db
@@ -49,10 +51,10 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     networks:
-      - net[app+db]
+      - app-db-network
     hostname: *db
     ports:
       - ${DB_PORT}:${DB_PORT}
     volumes:
-      - database-vol:/var/lib/postgresql/data
+      - db-volume:/var/lib/postgresql/data
     restart: on-failure

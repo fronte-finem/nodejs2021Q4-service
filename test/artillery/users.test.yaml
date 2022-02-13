@@ -1,0 +1,77 @@
+config:
+  target: "http://localhost:4000"
+  phases:
+    - duration: 30
+      arrivalRate: 10
+      name: "Warm up"
+    - duration: 90
+      arrivalRate: 20
+      rampTo: 50
+      name: "Ramp up load"
+    - duration: 120
+      arrivalRate: 40
+      name: "Sustained load"
+  payload:
+    path: "users.csv"
+    fields:
+      - "name"
+      - "login"
+      - "password"
+
+before:
+  flow:
+    - log: "Get auth token"
+    - post:
+        url: "/login"
+        json:
+          login: "admin"
+          password: "admin"
+        capture:
+          - json: "$.token"
+            as: "jwtToken"
+
+scenarios:
+  - name: "CRUD cycle"
+    flow:
+      - get:
+          url: "/users"
+          headers:
+            Authorization: "Bearer {{ jwtToken }}"
+      - think: 1
+      - post:
+          url: "/users"
+          headers:
+            Authorization: "Bearer {{ jwtToken }}"
+          json:
+            name: "{{ name }}"
+            login: "{{ login }}"
+            password: "{{ password }}"
+          capture:
+            - json: "$.id"
+              as: "userId"
+      - get:
+          url: "/users/{{ userId }}"
+          headers:
+            Authorization: "Bearer {{ jwtToken }}"
+      - think: 1
+      - put:
+          url: "/users/{{ userId }}"
+          headers:
+            Authorization: "Bearer {{ jwtToken }}"
+          json:
+            name: "{{ name }}"
+            login: "{{ login }}"
+            password: "{{ password }}"
+      - get:
+          url: "/users/{{ userId }}"
+          headers:
+            Authorization: "Bearer {{ jwtToken }}"
+      - think: 1
+      - delete:
+          url: "/users/{{ userId }}"
+          headers:
+            Authorization: "Bearer {{ jwtToken }}"
+      - get:
+          url: "/users/{{ userId }}"
+          headers:
+            Authorization: "Bearer {{ jwtToken }}"

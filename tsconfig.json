@@ -1,23 +1,27 @@
 {
-  "include": ["src/**/*"],
+  "include": ["src", "prisma"],
+  "exclude": ["dist"],
   "compilerOptions": {
     /* Language and Environment */
     "target": "ESNext",
     "lib": ["ESNext"],
 
-    /* Type Checking */
-    "strict": true,
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-
-    /* Emit */
-    "noEmit": false,
-    "outDir": "dist",
-
     /* Modules */
     "module": "CommonJS",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
+
+    /* Emit */
+    "noEmit": false,
+    "outDir": "dist",
+    "declaration": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "incremental": true,
+
+    /* Type Checking */
+    "strict": true,
+    "noImplicitReturns": true,
 
     /* Extensions */
     "emitDecoratorMetadata": true,
@@ -27,13 +31,10 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
 
     /* Completeness */
-    "skipLibCheck": true,
-
-    /* JavaScript Support */
-    "allowJs": true,
-    "checkJs": true
+    "skipLibCheck": true
   },
   "ts-node": {
     "transpileOnly": true
